@@ -1,21 +1,31 @@
-import PropTypes from 'prop-types' // impt to import prop types
+import React from 'react'
+import './Button.css'
 
-const Button = ({color,text,onClick}) => {
+const STYLES = [
+    'btn--primary',
+    'btn--outline'
+]
+
+const SIZES = [
+    'btn--medium',
+    'btn--large'
+]
+
+export const Button = ({
+    children,
+    type,
+    onClick,
+    buttonStyle,
+    buttonSize
+}) => {
+
+    const checkButtonStyle = STYLES.includes(buttonStyle) ? buttonStyle : STYLES[0]
+
+    const checkButtonSize = SIZES.includes(buttonSize) ? buttonSize : SIZES[0]
+
     return (
-        <div>
-            <button onClick = {onClick}  style = {{backgroundColor :color}}className = 'btn'>{text}</button>
-        </div>
+        <button className={`btn ${checkButtonStyle} ${checkButtonSize}`} onClick={onClick} type={type}>
+            {children}
+        </button>
     )
 }
-
-Button.defaultProps = {
-    color : 'steelblue',
-}
-
-Button.propTypes = {
-    text : PropTypes.string,
-    color : PropTypes.string,
-    onClick : PropTypes.func,
-}
-
-export default Button
