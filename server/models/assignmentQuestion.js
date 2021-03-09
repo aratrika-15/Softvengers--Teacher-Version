@@ -6,10 +6,6 @@ const MAX_SCORE=30;
 const MIN_SCORE=1;
 const WRONG_OPTIONS=3;
 
-//function for validating the length of the wrong options array
-function arrayLength(val){
-    return val==3;
-};
 
   //defining the schema of assignment questions
 const assignmentQnSchema = new Schema({
@@ -32,8 +28,8 @@ const assignmentQnSchema = new Schema({
     wrongOptions:{
         type: [String],
         required: true,
-        validate: arrayLength,
-        
+        validate: {validator: function (v) {
+            return v.length===WRONG_OPTIONS}} //validating array length
     },
     correctOption:{
         type: String,

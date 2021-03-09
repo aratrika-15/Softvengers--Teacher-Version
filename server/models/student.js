@@ -5,6 +5,10 @@ const Schema = mongoose.Schema;
 const MIN_SCORE=0;
 const MIN_VOL=0;
 const MAX_VOL=100;
+const MIN_PASS_LEN=10;
+const MAX_PASS_LEN=100;
+const MIN_TUT=2;
+const MAX_TUT=4;
 
 //defining the scoreHistory sub-schema
 const scoreHistory=new Schema({
@@ -30,10 +34,13 @@ const studentSchema= new Schema({
     password:{
         type: String,
         required: true,
+        min=MIN_PASS_LEN,
+        max=MAX_PASS_LEN,
     },
     matricNo:{
         type: String,
         required: true,
+        length:[9,"Matriculation number can have 9 characters only."]
     },
     firstName:{
         type: String,
@@ -46,7 +53,8 @@ const studentSchema= new Schema({
     tutGrp:{
         type: String,
         required: true,
-        
+        min:MIN_TUT,
+        max:MAX_TUT
     },
     volume:{
         type: Number,
