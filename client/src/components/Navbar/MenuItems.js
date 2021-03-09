@@ -1,4 +1,4 @@
-export const NavbarItems = [
+export const MenuItems = [
     {
         title: 'Statistics',
         url: '#',
@@ -10,7 +10,7 @@ export const NavbarItems = [
         cName: 'nav-links'
     },
     {
-        title: 'Questionbank',
+        title: 'QuestionBank',
         url: '#',
         cName: 'nav-links'
     },
@@ -22,7 +22,12 @@ export const NavbarItems = [
     {
         title: 'Create Student Account',
         url: '#',
-        cName: 'nav-links-mobile'
+        cName: 'nav-links'
+    },
+    {
+        title: 'Logout',
+        url: '#',
+        cName: 'nav-links'
     }
 
 ]
