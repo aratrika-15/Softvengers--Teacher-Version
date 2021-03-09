@@ -1,6 +1,8 @@
 //importing jwt
 const jwt = require("jsonwebtoken");
-const accessTokenSecret=process.env.TOKEN || "ssad_game_secret_Softvengers";
+const dotenv = require('dotenv');
+dotenv.config();
+const accessTokenSecret=process.env.TOKEN ;
 
 
 //middleware function for token authentication
