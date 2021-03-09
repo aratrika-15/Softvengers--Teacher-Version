@@ -1,11 +1,10 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-//defining the limiting constants
+//defining constants
 const MAX_SCORE=30;
 const MIN_SCORE=1;
 const WRONG_OPTIONS=3;
-
 
   //defining the schema of assignment questions
 const assignmentQnSchema = new Schema({
@@ -45,5 +44,6 @@ const assignmentQnSchema = new Schema({
     },
 });
 
+//making the mongoose model and exporting it
 const AssignmentQn= mongoose.model('AssignmentQuestion', assignmentQnSchema);
 module.exports=AssignmentQn;

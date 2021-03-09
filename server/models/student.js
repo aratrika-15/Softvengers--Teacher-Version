@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-//defining limiting constants
+//defining the limiting consts
 const MIN_SCORE=0;
 const MIN_VOL=0;
 const MAX_VOL=100;
@@ -75,7 +75,7 @@ const studentSchema= new Schema({
         min: MIN_SCORE,
     },
     scoreHistory:{
-        type: subSchema,
+        type: scoreHistory,
         required:true,
         default: {}
     }
