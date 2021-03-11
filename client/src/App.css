@@ -106,8 +106,20 @@ body {
   flex: 2;
   height: 20px;
 }
+/* rgb(24, 0, 88); */
+.table-conatiner{
+  background: rgb(237,236,253);
+  max-width: 1200px;
+  margin: 100px auto;
+  overflow: auto;
+  min-height: 300px;
+  border: 10px solid steelblue;
+  padding: 30px;
+  border-radius: 5px;
 
+}
 footer {
   margin-top: 30px;
   text-align: center;
 }
+
