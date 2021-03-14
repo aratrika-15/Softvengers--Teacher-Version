@@ -1,9 +1,10 @@
 import React from 'react'
-import Navbar from './components/Navbar/Navbar'
+// import Navbar from './components/Navbar/Navbar'
 import './App.css'
 import {useState} from 'react'
 import CreateStudentAccount from './components/Views/CreateStudentAccount'
 import ViewLeaderboard from './components/Views/ViewLeaderboard'
+import Login from './components/Views/LoginScreen';
 
 
 function App() {
@@ -35,9 +36,10 @@ function App() {
   
   return (
     <div className="App">
-      <Navbar />
+      <Login/>
+      {/* <Navbar />
       <CreateStudentAccount onCreation = {onCreation}/>
-      <ViewLeaderboard/>
+      <ViewLeaderboard/> */}
     </div>
   );
 }
