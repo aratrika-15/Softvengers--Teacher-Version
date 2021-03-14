@@ -106,8 +106,29 @@ body {
   flex: 2;
   height: 20px;
 }
+/* rgb(24, 0, 88); */
+.table-conatiner{
+  background: rgb(255, 255, 255);
+  max-width: 1200px;
+  margin: 100px auto;
+  overflow: auto;
+  min-height: 300px;
+  
+  padding: 30px;
+  
 
+}
+.assignment-container {
+  max-width: 1200px;
+  margin: 120px auto;
+  overflow: auto;
+  min-height: 300px;
+  border: 2px solid steelblue;
+  padding: 30px;
+  border-radius: 2.5px;
+}
 footer {
   margin-top: 30px;
   text-align: center;
 }
+
