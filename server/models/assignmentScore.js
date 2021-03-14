@@ -28,7 +28,7 @@ const assnmtScoreSchema=new Schema({
         min:1,
     },
     studentScoreDict:{
-        type:studentScores,
+        type:[studentScores],
         required:true,
         default:{},
     }

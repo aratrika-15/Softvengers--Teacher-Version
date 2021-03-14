@@ -75,7 +75,7 @@ const studentSchema= new Schema({
         min: MIN_SCORE,
     },
     scoreHistory:{
-        type: scoreHistory,
+        type: [scoreHistory],
         required:true,
         default: {}
     }
