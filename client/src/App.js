@@ -1,11 +1,16 @@
 import React from 'react'
-import Navbar from './components/Navbar/Navbar'
+// import Navbar from './components/Navbar/Navbar'
 import './App.css'
 import {useState} from 'react'
 import CreateStudentAccount from './components/Views/CreateStudentAccount'
 import ViewLeaderboard from './components/Views/ViewLeaderboard'
+<<<<<<< HEAD
 import ViewAssignments from './components/Views/ViewAssignments'
 import Students from './components/Views/Students'
+=======
+import Login from './components/Views/LoginScreen';
+>>>>>>> 95942e53606d703c9f1236c7b57ab5bff57f53da
+
 
 
 function App() {
@@ -37,10 +42,15 @@ function App() {
   
   return (
     <div className="App">
-      <Navbar />
+      <Login/>
+      {/* <Navbar />
       <CreateStudentAccount onCreation = {onCreation}/>
+<<<<<<< HEAD
       <ViewLeaderboard/>
       <ViewAssignments/>
+=======
+      <ViewLeaderboard/> */}
+>>>>>>> 95942e53606d703c9f1236c7b57ab5bff57f53da
     </div>
   );
 }
