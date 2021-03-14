@@ -12,7 +12,7 @@ import {useState,useEffect} from 'react'
 const ViewLeaderboard = ({students}) => {
   const StyledTableCell = withStyles((theme) => ({
     head: {
-      backgroundColor:theme.palette.primary.main,
+      backgroundColor:'#6f7bd9',
      color: theme.palette.common.black,
       fontSize: 24,
       
@@ -22,6 +22,11 @@ const ViewLeaderboard = ({students}) => {
       color: theme.palette.common.black,
     },
   }))(TableCell);
+  const ColorTableContainer= withStyles((theme) => ({
+    body:{
+      backgroundColor: '#ffffff',
+    }
+  }))(TableContainer); 
   
   const columns = [
         { id: 'rank', label: 'Rank', minWidth: 100},
@@ -97,7 +102,7 @@ const ViewLeaderboard = ({students}) => {
     return (
         <div className ='table-conatiner'>
           <h1 >LeaderBoard</h1>
-            <TableContainer >
+            <ColorTableContainer >
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>{columns.map((column)=>(
@@ -122,7 +127,7 @@ const ViewLeaderboard = ({students}) => {
             })}
                     </TableBody>
                 </Table>
-            </TableContainer>
+            </ColorTableContainer>
             <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"

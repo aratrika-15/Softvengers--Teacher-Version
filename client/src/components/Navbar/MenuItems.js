@@ -1,3 +1,4 @@
+import ViewLeaderboard from '../Views/ViewLeaderboard'
 export const MenuItems = [
     {
         title: 'Statistics',

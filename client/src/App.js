@@ -4,6 +4,8 @@ import './App.css'
 import {useState} from 'react'
 import CreateStudentAccount from './components/Views/CreateStudentAccount'
 import ViewLeaderboard from './components/Views/ViewLeaderboard'
+import ViewAssignments from './components/Views/ViewAssignments'
+import Students from './components/Views/Students'
 
 
 function App() {
@@ -38,6 +40,7 @@ function App() {
       <Navbar />
       <CreateStudentAccount onCreation = {onCreation}/>
       <ViewLeaderboard/>
+      <ViewAssignments/>
     </div>
   );
 }
