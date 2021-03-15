@@ -17,8 +17,8 @@ const teacherSchema= new Schema({
     password:{
         type: String,
         required: true,
-        min=MIN_PASS_LEN,
-        max=MAX_PASS_LEN
+        min:MIN_PASS_LEN,
+        max:MAX_PASS_LEN
     },
     firstName:{
         type: String,

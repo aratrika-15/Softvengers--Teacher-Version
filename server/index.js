@@ -4,7 +4,13 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const teacherRoutes=require('./teacherRoutes');
+const leaderboardRoutes=require('./routes/leaderboard');
+const loginRoutes=require('./routes/login');
+const studentCreationRoutes =require('./routes/studentcreation');
+const statsRoutes=require('./routes/statistics');
+const questionRoutes=require('./routes/question');
+const assignmentRoutes=require('./routes/assignment');
+
 
 dotenv.config();
 
@@ -28,7 +34,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 //setting up the routes
 //app.use('/student',studentRoutes);
-//app.use('/',teacherRoutes);
+app.use('/teacher/leaderboard',leaderboardRoutes);
+app.use('/teacher/statistics',statsRoutes);
+app.use('/teacher/question',questionRoutes);
+app.use('/teacher/assignment',assignmentRoutes);
+app.use('/teacher/createstudent',studentCreationRoutes);
+app.use('/teacher',loginRoutes);
 
 
 //handling 404
