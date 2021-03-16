@@ -1,33 +1,33 @@
-import ViewLeaderboard from '../Views/ViewLeaderboard'
+
 export const MenuItems = [
     {
         title: 'Statistics',
-        url: '#',
+        url: '/Statistics',
         cName: 'nav-links'
     },
     {
         title: 'Assignments',
-        url: '#',
+        url: '/ViewAssignments',
         cName: 'nav-links'
     },
     {
         title: 'QuestionBank',
-        url: '#',
+        url: '/QuestionBank',
         cName: 'nav-links'
     },
     {
         title: 'Leaderboard',
-        url: '#',
+        url: '/ViewLeaderboard',
         cName: 'nav-links'
     },
     {
         title: 'Create Student Account',
-        url: '#',
+        url: '/CreateStudentAccount',
         cName: 'nav-links'
     },
     {
         title: 'Logout',
-        url: '#',
+        url: '/Logout',
         cName: 'nav-links'
     }
 

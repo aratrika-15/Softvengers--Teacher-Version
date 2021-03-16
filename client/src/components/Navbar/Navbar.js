@@ -5,6 +5,7 @@ import logo from '../assets/imgs/Logo.png'
 import {Button} from '../CustomButtons/Button'
 
 
+
 const Navbar = () => {
     const [clicked, setclicked] = useState(false)
     const handleClick = () => setclicked(!clicked)
