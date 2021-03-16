@@ -2,9 +2,12 @@ import React from 'react'
 // import Navbar from './components/Navbar/Navbar'
 import './App.css'
 import {useState} from 'react'
+import Navbar from './components/Navbar/Navbar'
 import CreateStudentAccount from './components/Views/CreateStudentAccount'
 import ViewLeaderboard from './components/Views/ViewLeaderboard'
-import Login from './components/Views/LoginScreen';
+import Login from './components/Views/LoginScreen'
+import ViewAssignment from './components/Views/ViewAssignments'
+import { BrowserRouter,Route, Switch, Redirect } from 'react-router-dom';
 
 
 
@@ -37,10 +40,19 @@ function App() {
   
   return (
     <div className="App">
-      <Login/>
-      {/* <Navbar />
+      <Navbar />
+      <Switch>
+        <Route exact path="/CreateStudentAccount" component={CreateStudentAccount} />
+        <Route exact path="/">
+          <Redirect to="/Home" />
+        </Route>
+        <Route exact path="/ViewLeaderboard" component={ViewLeaderboard} />
+      </Switch>
+      {/* <Login/>
+      
       <CreateStudentAccount onCreation = {onCreation}/>
-      <ViewLeaderboard/> */}
+      <ViewLeaderboard/>
+      <ViewAssignment/> */}
     </div>
   );
 }
