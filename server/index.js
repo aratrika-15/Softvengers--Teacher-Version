@@ -30,6 +30,7 @@ mongoose.connect(dbConnection, {useNewUrlParser:true, useUnifiedTopology:true})
 
 //identifies incoming request as a json object
 app.use(express.json());
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 //setting up the routes
