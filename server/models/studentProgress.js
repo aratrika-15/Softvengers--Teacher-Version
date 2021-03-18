@@ -28,7 +28,7 @@ const studentProgress=new Schema({
         required:true
     },
     fullDict:{
-        universe: {
+       universe: {
             solarSystem: {
                 planet: {
                     planetName: {
@@ -56,7 +56,8 @@ const studentProgress=new Schema({
                     }
                 }
             }
-        }
+        },
+        default:{},
     },
     solarSystemDict:{
         universe: {
@@ -86,6 +87,8 @@ const studentProgress=new Schema({
                 }
             }
         }
+        ,
+        default:{},
     },
     universeDict:{
         universe: {
@@ -112,7 +115,8 @@ const studentProgress=new Schema({
                 max: 100,
                 required: true
             }
-        }
+        },
+        default:{},
     }
 });
 
