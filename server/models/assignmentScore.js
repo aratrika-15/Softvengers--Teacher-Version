@@ -11,6 +11,11 @@ const studentScores=new Schema({
         required: true,
         length:[9,"Matriculation number can have 9 characters only."]
     },
+    attemptStatus:{
+        type:Boolean,
+        required:true,
+        default:false,
+    },
     scores:{
         type: Number,
         required:true,

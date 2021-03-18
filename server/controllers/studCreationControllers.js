@@ -2,6 +2,7 @@
 * controller for student account creation
 */
 const Student=require('../models/student');
+const StudentProgress=require('../models/studentProgress');
 const bcrypt = require('bcrypt');
 const nodemailer=require('nodemailer');
 
@@ -24,6 +25,22 @@ const studentCreation= async (req,res)=>{
     catch(error){
         res.status(400).send(error); //error checking using try catch
     }
+
+    //creating StudentProgress
+    const studentProgress=new StudentProgress({
+            emailID:emailID,
+            conqueredUniverse:0,
+            conqueredSolarSystem:0,
+            conqueredPlanet:0,
+            //put in the 3 dictionaries
+
+    });
+    /*studentProgress.save().then((result)=>{
+        console.log(result);})
+         .catch((err)=>{
+             console.log(err);
+         res.status(400).send(err);});*/
+
 
     //hashing the password
     bcrypt.genSalt(saltRounds, function(error, salt) {
