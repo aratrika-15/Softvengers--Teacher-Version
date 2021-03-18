@@ -8,6 +8,7 @@ const loginControllers=require('../controllers/loginControllers');
 const router=express.Router();
 
 //routing
+router.post('/',loginControllers.teacherLogin);
 router.post('/login',loginControllers.teacherLogin);
 router.post('/register',loginControllers.teacherRegister);
 
