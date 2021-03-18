@@ -106,11 +106,69 @@ const newQuestion=async (req,res)=>{
 
 };
 
-
+//to update a question that already exists
 const updateQuestion=(req,res)=>{
+    const questionID=req.params.q_id;
+    
+    //first check if the question even exists in the database
+    PlanetQuestion.findOne({questionID:questionID})
+    .then((result)=>{
+        console.log(result);
+        if(result==null)
+        {
+            res.status(400).send('Resource not in the database');
+        }
+        else
+        {
+            const {universeName,solarSystemName,planetName,difficulty,body,wrongOptions,correctOption}=req.body;
+             //system assigning points based on difficulty level
+            if(difficulty==='Easy')
+            {
+                points=5;
+            }
+            else if (difficulty==='Medium')
+            {
+                points=10;
+            }
+            else
+            points=15;
+     
+            PlanetQuestion.findOneAndUpdate(
+                { questionID: questionID },
+                {
+                    $set: {
+                        universeName:universeName,
+                        solarSystemName:solarSystemName,
+                        planetName:planetName,
+                        difficulty:difficulty,
+                        questionID:questionID,
+                        body:body,
+                        wrongOptions:wrongOptions,
+                        correctOption:correctOption,
+                        points:points
+                    }
+                },
+                {
+                    upsert:true,
+                }
+              )
+                .then(result => {
+                    console.log(result);
+                    res.status(200).send(result);//result is the value before updation, that gets sent backs
+                })
+                .catch(error => console.error(error))
+        }
+    })
+    .catch((err)=>{
+        console.log(err);
+        res.status(400).send(err); 
+    });
+   
 
 };
 
+
+//to delete a question
 const deleteQuestion=(req,res)=>{
     const questionID=req.params.q_id;
     
