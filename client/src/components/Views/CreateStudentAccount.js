@@ -1,11 +1,39 @@
 import {useState} from 'react'
 
-const CreateStudentAccount = ({onCreation}) => {
+const CreateStudentAccount = () => {
+    const [students, setStudents] = useState([
+        {
+            id:1,
+            name: 'Saiteja',
+            password: '123456',
+            email: 'reddysaiteja5@gmail.com',
+            rank:1,
+            score:25
+        },
+        {
+            id:2,
+            name: 'Kondreddy',
+            password: '123456',
+            email: 'reddysaiteja5@gmail.com',
+            rank:3,
+            score:30
+        }
+    
+    ])
+
+    // const id =Math.floor(Math.random()*10000)+1
+      
     const [name, setName] = useState('')
     const [password, setPassword] = useState('')
     const [email, setEmail] = useState('')
+
+
+      
+      
     const onSubmit = (e)=>{
         e.preventDefault()
+
+
         if(!name){
             alert('please Enter Student Name')
             return
@@ -14,9 +42,20 @@ const CreateStudentAccount = ({onCreation}) => {
             alert('please Enter Password')
             return
         }
-        else{
+        else if(!email){
             alert('please Enter Email Id ')
+            return
         }
+        
+        else{
+            alert('Student Successfully Added')
+            
+        }
+        const onCreation = (student)=>{
+            const id =Math.floor(Math.random()*10000)+1
+            const newStudent = {id,...student}
+            setStudents([...students,newStudent])
+          }
         onCreation({name,password,email})
 
         setName('')
@@ -25,7 +64,8 @@ const CreateStudentAccount = ({onCreation}) => {
     }
     return (
         <div className='container'>
-        <form className = 'add-form' onSubmit ={onSubmit}>
+            <>{students.map((student)=> (<h3 key={student.id}>{student.name}</h3>))}</>
+        <form className = 'add-form' onSubmit ={onSubmit} >
             <div className = 'form-control'>
                 <label>Student Name:</label>
                 <input type='text' placeholder = 'Enter Student Name' value={name} onChange={(e)=> setName(e.target.value)}/>

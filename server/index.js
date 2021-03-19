@@ -11,11 +11,17 @@ const statsRoutes=require('./routes/statistics');
 const questionRoutes=require('./routes/question');
 const assignmentRoutes=require('./routes/assignment');
 
+// student routes
+const loginStudentRoutes = require ('./student_routes/login');
+const getProgressRoutes = require('./student_routes/progress');
+const gameRoutes = require('./student_routes/game')
+
 
 dotenv.config();
 
 //express app
 const app= express();
+
 
 //connecting to mongoDB and then listening for requests on port
 const dbConnection=process.env.DBURL;
@@ -34,7 +40,9 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 //setting up the routes
-//app.use('/student',studentRoutes);
+app.use('/student',loginStudentRoutes);
+app.use('/student/getProgress',getProgressRoutes);
+app.use('/student/game',gameRoutes);
 app.use('/teacher/leaderboard',leaderboardRoutes);
 app.use('/teacher/statistics',statsRoutes);
 app.use('/teacher/question',questionRoutes);

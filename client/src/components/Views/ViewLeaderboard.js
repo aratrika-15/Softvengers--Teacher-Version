@@ -88,7 +88,7 @@ const ViewLeaderboard = ({students}) => {
        
         
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [rowsPerPage, setRowsPerPage] = useState(10 );
 
   const handleChangePage = (e, newPage) => {
     setPage(newPage);
@@ -100,9 +100,9 @@ const ViewLeaderboard = ({students}) => {
   };
   
     return (
-        <div className ='table-conatiner'>
-          <h1 >LeaderBoard</h1>
-            <ColorTableContainer >
+        <div className ='table-container'>
+          <h1 className ='LeaderBoard'>LeaderBoard</h1>
+            <TableContainer >
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>{columns.map((column)=>(
@@ -127,7 +127,7 @@ const ViewLeaderboard = ({students}) => {
             })}
                     </TableBody>
                 </Table>
-            </ColorTableContainer>
+            </TableContainer>
             <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
