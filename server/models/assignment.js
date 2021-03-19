@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const MIN_TUT=2;
+const MAX_TUT=4;
+
   //defining the schema of assignments
 const assignmentSchema = new Schema({
     assignmentID:{
@@ -28,10 +31,12 @@ const assignmentSchema = new Schema({
         type: Date,
         required: true
     },
-    //did not keep required: True for studentIDs because initially no one has completed it
-    studentIDs:{
-        type: [String]
-    },
+    tutGrp:{
+        type: String,
+        required: true,
+        min:MIN_TUT,
+        max:MAX_TUT
+    }
 });
 
 //making the mongoose model and exporting it
