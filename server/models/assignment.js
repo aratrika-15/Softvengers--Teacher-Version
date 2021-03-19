@@ -9,6 +9,7 @@ const assignmentSchema = new Schema({
     assignmentID:{
         unique: true,
         type: Number,
+        index: true,
         required: true,
         min:1
     },
@@ -23,7 +24,7 @@ const assignmentSchema = new Schema({
         min:1
     },
     questionIDs:{
-        type: [String],
+        type: [Number],
         required: true,
         min:1
     },

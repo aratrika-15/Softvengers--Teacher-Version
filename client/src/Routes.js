@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react';
 import Navbar from './components/Navbar/Navbar'
 import CreateStudentAccount from './components/Views/CreateStudentAccount'
 import ViewLeaderboard from './components/Views/ViewLeaderboard'
@@ -10,28 +10,22 @@ import Login from './components/Views/LoginScreen'
 import { BrowserRouter,Route, Switch, Redirect } from 'react-router-dom'
 
 const Routes = () => {
+    // const [token, setToken] = useState();
+    // if(!token) {
+    //     return <Login setToken={setToken} />
+    //   }
     return (
         <BrowserRouter>
         <div>
             <Navbar />
             <Switch>
                 <Route exact path="/Statistics" component={Dashboard} />
-            </Switch>
-            <Switch>
-                <Route exact path="/ViewAssignments" component={ViewAssignment} />
-            </Switch>
-            <Switch>
+                <Route exact path="/Assignments" component={ViewAssignment} />
                 <Route exact path="/QuestionBank" component={Questionbank} />
-            </Switch>
-            <Switch>
-                <Route exact path="/ViewLeaderboard" component={ViewLeaderboard} />
-            </Switch>
-            <Switch>
+                <Route exact path="/Leaderboard" component={ViewLeaderboard} />
                 <Route exact path="/CreateStudentAccount" component={CreateStudentAccount} />
             </Switch>
-            {/* <Switch>
-                <Route exact path="/Logout" component={Login} />
-            </Switch> */}
+            <Route exact path="/Logout" component={Login} />
       </div>
         </BrowserRouter>
     )

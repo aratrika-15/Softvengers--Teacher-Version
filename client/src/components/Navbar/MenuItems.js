@@ -7,7 +7,7 @@ export const MenuItems = [
     },
     {
         title: 'Assignments',
-        url: '/ViewAssignments',
+        url: '/Assignments',
         cName: 'nav-links'
     },
     {
@@ -17,7 +17,7 @@ export const MenuItems = [
     },
     {
         title: 'Leaderboard',
-        url: '/ViewLeaderboard',
+        url: '/Leaderboard',
         cName: 'nav-links'
     },
     {

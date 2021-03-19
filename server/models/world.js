@@ -13,6 +13,7 @@ const worldSchema = new Schema({
             type: Number,
             required: true,
             unique: true,
+            index: true,
             default: 0,
             min: 0
         },
@@ -26,6 +27,7 @@ const worldSchema = new Schema({
                 type: Number,
                 required: true,
                 unique: true,
+                index: true,
                 default: 0, 
                 min: 0
             }

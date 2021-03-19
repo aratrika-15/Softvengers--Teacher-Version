@@ -29,13 +29,14 @@ const assnmtScoreSchema=new Schema({
     assignmentID:{
         unique: true,
         type: Number,
+        index: true,
         required: true,
         min:1,
     },
     studentScoreDict:{
         type:[studentScores],
         required:true,
-        default:{},
+        default:[],
     }
 });
 
