@@ -17,6 +17,7 @@ dotenv.config();
 //express app
 const app= express();
 
+
 //connecting to mongoDB and then listening for requests on port
 const dbConnection=process.env.DBURL;
 const port=process.env.PORT;
@@ -47,3 +48,4 @@ app.use((req,res)=>{
     console.log("User requested a resource which is unavailable");
     res.status(404).send('Resource not found');
 });
+

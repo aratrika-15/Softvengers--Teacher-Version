@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography'
 import {useState,useEffect} from 'react'
 import AddTwoToneIcon from '@material-ui/icons/AddTwoTone'
 import IconButton from '@material-ui/core/IconButton'
+import TablePagination from '@material-ui/core/TablePagination'
 
 const ViewAssignments = () => {
     const [assignments, setAssignments] = useState([
@@ -28,21 +29,21 @@ const ViewAssignments = () => {
             name: 'Assignment 3',
             date: 'Date Added : 18 Feb 2021'
         },
-        // {
-        //     id:4,
-        //     name: 'Assignment 4',
-        //     date: 'Date Added : 12 Feb 2021'
-        // },
-        // {
-        //     id:5,
-        //     name: 'Assignment 5',
-        //     date: 'Date Added : 2 Feb 2021'
-        // },
-        // {
-        //     id: 6,
-        //     name: 'Assignment 6',
-        //     date: 'Date Added : 25 Jan 2021'
-        // }
+        {
+            id:4,
+            name: 'Assignment 4',
+            date: 'Date Added : 12 Feb 2021'
+        },
+        {
+            id:5,
+            name: 'Assignment 5',
+            date: 'Date Added : 2 Feb 2021'
+        },
+        {
+            id: 6,
+            name: 'Assignment 6',
+            date: 'Date Added : 25 Jan 2021'
+        }
 
     
     ])
@@ -66,21 +67,40 @@ const ViewAssignments = () => {
             
           marginLeft:'49rem'
         }
-      }))(IconButton);        
+      }))(IconButton);  
+      const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(3);
+
+  const handleChangePage = (e, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (e) => {
+    setRowsPerPage(+e.target.value);
+    setPage(0);
+  };      
     return (
         <div className='assignment-container'>
             <h1>Assignments <IColourButton><AddTwoToneIcon/></IColourButton></h1>
-            <p></p>
-            {assignments.map((assignment)=>(
+            {assignments.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((assignment)=>(
             <Card>
                 <CardActionArea>
-                    <CardMedia title="Assigment"/>
+                    <CardMedia title="Assignment"/>
                     <CardContent><Typography gutterBottom variant="h5" component="h2">Assignment {assignment.id}</Typography>
                     <Typography>{assignment.date}</Typography>
                     </CardContent>
                 </CardActionArea>
                 <CardActions><ColorButton size="large" variant="outlined" >Statistics</ColorButton></CardActions>
             </Card>))}
+            <TablePagination
+        rowsPerPageOptions={[3,5,10,25,100]}
+        component="div"
+        count={assignments.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onChangePage={handleChangePage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+      />
       </div>
     )
 }
