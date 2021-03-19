@@ -36,7 +36,7 @@ const assnmtScoreSchema=new Schema({
     studentScoreDict:{
         type:[studentScores],
         required:true,
-        default:{},
+        default:[],
     }
 });
 
