@@ -12,6 +12,7 @@ const assignmentQnSchema = new Schema({
         unique: true,
         type: Number,
         required: true,
+        index: true,
         min:1,
     },
     questionID:{

@@ -6,6 +6,7 @@ const assignmentSchema = new Schema({
     assignmentID:{
         unique: true,
         type: Number,
+        index: true,
         required: true,
         min:1
     },
@@ -20,18 +21,14 @@ const assignmentSchema = new Schema({
         min:1
     },
     questionIDs:{
-        type: [String],
+        type: [Number],
         required: true,
         min:1
     },
     deadline:{
         type: Date,
         required: true
-    },
-    //did not keep required: True for studentIDs because initially no one has completed it
-    studentIDs:{
-        type: [String]
-    },
+    }
 });
 
 //making the mongoose model and exporting it

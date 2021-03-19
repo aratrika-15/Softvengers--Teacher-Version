@@ -29,13 +29,15 @@ const scoreHistory=new Schema({
 const studentSchema= new Schema({
     emailID:{
         type: String,
+        unique: true,
+        index: true,
         required: true,
     },
     password:{
         type: String,
         required: true,
-        min=MIN_PASS_LEN,
-        max=MAX_PASS_LEN,
+        min: MIN_PASS_LEN,
+        max: MAX_PASS_LEN,
     },
     matricNo:{
         type: String,

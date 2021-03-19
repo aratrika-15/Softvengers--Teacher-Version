@@ -11,7 +11,7 @@ const jwt = require('jsonwebtoken');
 const accessTokenSecret=process.env.TOKEN;
 const saltRounds=10;
 
-
+//logic for teacher login
 const teacherLogin=async(req,res)=>{
     console.log('teacher login in progress');
     const {emailID,password}=req.body;
@@ -41,10 +41,49 @@ const teacherLogin=async(req,res)=>{
 
 };
 
-const teacherRegister=(req,res)=>{
+
+//logic for teacher registration
+const teacherRegister=async (req,res)=>{
     console.log('teacher registration in progress');
+    const { emailID, password, firstName, lastName, tutGrp } = req.body;
+
+    //checking if teacher already exists
+    try{
+        const teacherExists = await Teacher.findOne({ emailID: emailID});
+        if(teacherExists) 
+        {
+            return res.status(409).send('This teacher already exists');
+        }
+
+    }
+    catch(error){
+        res.status(400).send(error); //error checking using try catch
+    }
+
+    //hashing the password
+    bcrypt.genSalt(saltRounds, function(error, salt) {
+        bcrypt.hash(password, salt, function(error, hash) {
+        // Store hash in database here
+        const teacher = new Teacher({
+            emailID:emailID,
+            password: hash,
+            firstName:firstName,
+            lastName:lastName,
+            tutGrp:tutGrp,
+        });
+        teacher.save().then((result)=>{
+            console.log(result);
+             res.status(200).send(result);})
+             .catch((err)=>{
+                 console.log(err);
+             res.status(400).send(err);});
+        });
+      });
+
+
 };
 
+//exporting the functions
 module.exports={
     teacherLogin,
     teacherRegister,
