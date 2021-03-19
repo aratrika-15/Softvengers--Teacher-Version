@@ -44,6 +44,7 @@ const challengeSchema=new Schema({
     challengeId:{
         unique: true,
         type: Number,
+        index: true,
         required: true,
         min:1,
     },

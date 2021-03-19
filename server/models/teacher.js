@@ -12,6 +12,7 @@ const teacherSchema= new Schema({
     emailID:{
         type: String,
         unique: true,
+        index: true,
         required: true
     },
     password:{

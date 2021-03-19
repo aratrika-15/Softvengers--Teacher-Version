@@ -29,6 +29,8 @@ const scoreHistory=new Schema({
 const studentSchema= new Schema({
     emailID:{
         type: String,
+        unique: true,
+        index: true,
         required: true,
     },
     password:{
