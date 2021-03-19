@@ -29,6 +29,7 @@ const planetQnSchema = new Schema({
     questionID:{
         unique: true,
         type: Number,
+        index: true,
         required: true,
         min:1,
     },

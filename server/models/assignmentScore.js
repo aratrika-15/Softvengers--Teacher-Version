@@ -29,6 +29,7 @@ const assnmtScoreSchema=new Schema({
     assignmentID:{
         unique: true,
         type: Number,
+        index: true,
         required: true,
         min:1,
     },
