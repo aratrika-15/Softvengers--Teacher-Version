@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const MIN_TUT=2;
+const MAX_TUT=4;
+
   //defining the schema of assignments
 const assignmentSchema = new Schema({
     assignmentID:{
@@ -28,6 +31,12 @@ const assignmentSchema = new Schema({
     deadline:{
         type: Date,
         required: true
+    },
+    tutGrp:{
+        type: String,
+        required: true,
+        min:MIN_TUT,
+        max:MAX_TUT
     }
 });
 
