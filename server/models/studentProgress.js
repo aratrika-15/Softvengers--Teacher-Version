@@ -24,10 +24,20 @@ const fullDict = new Schema({
         max: 100,
         required: true
     },
-    avgScore: {
+    totalScore: {
         type: Number,
         min: 0,
         max: 100,
+        required: true
+    },
+    attempts: {
+        type: Number,
+        required: true
+    },
+    maxCorrect:{
+        type: Number,
+        min: 0,
+        default:0,
         required: true
     }
 });
@@ -51,12 +61,17 @@ const solarSystemDict = new Schema({
         max: 100,
         required: true
     },
-    avgScore: {
+    totalScore: {
         type: Number,
         min: 0,
         max: 100,
         required: true
-    }
+    },
+    attempts: {
+        type: Number,
+        required: true
+    },
+
 });
 
 const universeDict = new Schema({
@@ -78,12 +93,17 @@ const universeDict = new Schema({
         max: 100,
         required: true
     },
-    avgScore: {
+    totalScore: {
         type: Number,
         min: 0,
         max: 100,
         required: true
-    }
+    },
+    attempts: {
+        type: Number,
+        required: true
+    },
+   
 });
 
 //creating the schema for Student Progress in the database
