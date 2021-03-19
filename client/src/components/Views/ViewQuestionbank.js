@@ -51,4 +51,3 @@ export default class ViewQuestionbank extends React.Component{
     }
 }
 
-

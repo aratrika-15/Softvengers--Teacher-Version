@@ -107,16 +107,24 @@ body {
   height: 20px;
 }
 /* rgb(24, 0, 88); */
-.table-conatiner{
-  background: rgb(255, 255, 255);
+.table-container{
+  background: rgb(196,210,244);
   max-width: 1200px;
   margin: 100px auto;
   overflow: auto;
   min-height: 300px;
   
   padding: 30px;
+  border-radius:10px;
   
 
+}
+.LeaderBoard{
+  margin-bottom:  25px
+}
+.error{
+  font-size: .7rem;
+  margin-left: 1rem;
 }
 .assignment-container {
   max-width: 1200px;
