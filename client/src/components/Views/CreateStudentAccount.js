@@ -4,7 +4,8 @@ const CreateStudentAccount = () => {
     const [students, setStudents] = useState([
         {
             id:1,
-            name: 'Saiteja',
+            firstname: 'Saiteja',
+            lastname:'reddy',
             password: '123456',
             email: 'reddysaiteja5@gmail.com',
             rank:1,
@@ -12,7 +13,8 @@ const CreateStudentAccount = () => {
         },
         {
             id:2,
-            name: 'Kondreddy',
+            firstname: 'Kondreddy',
+            lastname:'reddy',
             password: '123456',
             email: 'reddysaiteja5@gmail.com',
             rank:3,
@@ -23,9 +25,11 @@ const CreateStudentAccount = () => {
 
     // const id =Math.floor(Math.random()*10000)+1
       
-    const [name, setName] = useState('')
+    const [firstname, setFirstName] = useState('')
+    const [lastname, setLastName] = useState('')
     const [password, setPassword] = useState('')
     const [email, setEmail] = useState('')
+    const [tutGrp, setTutGrp] = useState('')
 
 
       
@@ -34,8 +38,12 @@ const CreateStudentAccount = () => {
         e.preventDefault()
 
 
-        if(!name){
-            alert('please Enter Student Name')
+        if(!firstname){
+            alert('please Enter Firstname')
+            return
+        }
+        else if(!lastname){
+            alert('please Enter Lastname')
             return
         }
         else if(!password){
@@ -44,6 +52,10 @@ const CreateStudentAccount = () => {
         }
         else if(!email){
             alert('please Enter Email Id ')
+            return
+        }
+        else if(!tutGrp){
+            alert('please Enter Tutorial Group')
             return
         }
         
@@ -56,19 +68,25 @@ const CreateStudentAccount = () => {
             const newStudent = {id,...student}
             setStudents([...students,newStudent])
           }
-        onCreation({name,password,email})
+        onCreation({firstname,lastname,password,email,tutGrp})
 
-        setName('')
+        setFirstName('')
+        setLastName('')
         setPassword('')
         setEmail('')
+        setTutGrp('')
     }
     return (
         <div className='container'>
-            <>{students.map((student)=> (<h3 key={student.id}>{student.name}</h3>))}</>
+            <>{students.map((student)=> (<h3 key={student.id}>{student.firstname}</h3>))}</>
         <form className = 'add-form' onSubmit ={onSubmit} >
             <div className = 'form-control'>
-                <label>Student Name:</label>
-                <input type='text' placeholder = 'Enter Student Name' value={name} onChange={(e)=> setName(e.target.value)}/>
+                <label>First Name:</label>
+                <input type='text' placeholder = 'Enter First Name' value={firstname} onChange={(e)=> setFirstName(e.target.value)}/>
+            </div>
+            <div className = 'form-control'>
+                <label>Last Name:</label>
+                <input type='text' placeholder = 'Enter Last Name' value={lastname} onChange={(e)=> setLastName(e.target.value)}/>
             </div>
             <div className = 'form-control'>
                 <label>Password:</label>
@@ -76,7 +94,11 @@ const CreateStudentAccount = () => {
             </div>
             <div className = 'form-control'>
                 <label>Email Address:</label>
-                <input type='text' placeholder = 'Enter Ntu Email adress' value={email} onChange={(e)=> setEmail(e.target.value)}/> 
+                <input type='text' placeholder = 'Enter Ntu Email address' value={email} onChange={(e)=> setEmail(e.target.value)}/> 
+            </div>
+            <div className = 'form-control'>
+                <label>Tutorial Group :</label>
+                <input type='text' placeholder = 'Enter Tutorial Group' value={tutGrp} onChange={(e)=> setTutGrp(e.target.value)}/> 
             </div>
             <input type = 'submit' value = 'Add Student'
             className ='btn2 btn2-block'/>
