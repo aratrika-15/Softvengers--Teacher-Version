@@ -1,6 +1,90 @@
+
+
+//creating the schema for Student Progress in the database
 const mongoose=require('mongoose');
 
 const Schema=mongoose.Schema;
+
+const fullDict = new Schema({
+    identifier:{
+    //"(0,0,0)"
+        type: String,
+        unique: true,
+        required:true
+    },
+    maxScore: {
+        type: Number,
+        min: 0,
+        max: 100,
+        required: true
+    },
+    minScore: {
+        type: Number,
+        min: 0,
+        max: 100,
+        required: true
+    },
+    avgScore: {
+        type: Number,
+        min: 0,
+        max: 100,
+        required: true
+    }
+});
+
+const solarSystemDict = new Schema({
+    identifier:{
+        //"(0,0)"
+        type: String,
+        unique: true,
+        required:true
+    },
+    maxScore: {
+        type: Number,
+        min: 0,
+        max: 100,
+        required: true
+    },
+    minScore: {
+        type: Number,
+        min: 0,
+        max: 100,
+        required: true
+    },
+    avgScore: {
+        type: Number,
+        min: 0,
+        max: 100,
+        required: true
+    }
+});
+
+const universeDict = new Schema({
+    identifier:{
+        //"0"
+        type: String,
+        unique: true,
+        required:true
+    },
+    maxScore: {
+        type: Number,
+        min: 0,
+        max: 100,
+        required: true
+    },
+    minScore: {
+        type: Number,
+        min: 0,
+        max: 100,
+        required: true
+    },
+    avgScore: {
+        type: Number,
+        min: 0,
+        max: 100,
+        required: true
+    }
+});
 
 //creating the schema for Student Progress in the database
 const studentProgress=new Schema({
@@ -27,93 +111,9 @@ const studentProgress=new Schema({
         min: 0,
         required:true
     },
-    fullDict:{
-        universe: {
-            solarSystem: {
-                planet: {
-                    planetName: {
-                        type: String,
-                        required: true,
-                        unique: true
-                    },
-                    maxScore: {
-                        type: Number,
-                        min: 0,
-                        max: 100,
-                        required: true
-                    },
-                    minScore: {
-                        type: Number,
-                        min: 0,
-                        max: 100,
-                        required: true
-                    },
-                    avgScore: {
-                        type: Number,
-                        min: 0,
-                        max: 100,
-                        required: true
-                    }
-                }
-            }
-        }
-    },
-    solarSystemDict:{
-        universe: {
-            solarSystem: {
-                solarSystemName: {
-                    type: String,
-                    required: true,
-                    unique: true
-                },
-                maxScore: {
-                    type: Number,
-                    min: 0,
-                    max: 100,
-                    required: true
-                },
-                minScore: {
-                    type: Number,
-                    min: 0,
-                    max: 100,
-                    required: true
-                },
-                avgScore: {
-                    type: Number,
-                    min: 0,
-                    max: 100,
-                    required: true
-                }
-            }
-        }
-    },
-    universeDict:{
-        universe: {
-            universeName: {
-                type: String,
-                required: true,
-                unique: true
-            },
-            maxScore: {
-                type: Number,
-                min: 0,
-                max: 100,
-                required: true
-            },
-            minScore: {
-                type: Number,
-                min: 0,
-                max: 100,
-                required: true
-            },
-            avgScore: {
-                type: Number,
-                min: 0,
-                max: 100,
-                required: true
-            }
-        }
-    }
+    fullDict:[fullDict],
+    solarSystemDict: [solarSystemDict],
+    universeDict:[universeDict],
 });
 
 //making the mongoose model and exporting it
