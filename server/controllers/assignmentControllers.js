@@ -4,6 +4,11 @@
 const Assignment=require('../models/assignment');
 const AssignmentScore = require('../models/assignmentScore');
 const AssignmentQn = require('../models/assignmentQuestion');
+const Student = require('../models/student');
+const schemas = require('../models/assignmentScore');
+const StudentScore = schemas.StudentScore;
+const AssignmentScore = schemas.AssignmentScore;
+
 
 //function to send back a list of assignments
 const assignmentList=(req,res)=>{
@@ -82,7 +87,7 @@ const assignmentDetails=(req,res)=>{
 
 const newAssignment=async(req,res)=>{
     const assignmentID = req.params.a_id;
-    const { assignmentName, timeLimit, questionIDs, deadline, studentIDs } = req.body[0];
+    const { assignmentName, timeLimit, questionIDs, deadline, studentIDs, tutGrp } = req.body[0];
     console.log(req.body[0]);
 
     //Loop 1 to check if there is any error in looping through
@@ -93,7 +98,8 @@ const newAssignment=async(req,res)=>{
             timeLimit:timeLimit,
             questionIDs: questionIDs,
             deadline:deadline,
-            studentIDs:studentIDs
+            studentIDs:studentIDs,
+            tutGrp:tutGrp
         });
         for (i = 0; i < questionIDs.length; i++) {
             console.log("i:",i);
@@ -108,6 +114,7 @@ const newAssignment=async(req,res)=>{
                 points:points,
             });
     
+        const students = await Student.find({tutGrp:tutGrp});
         }
     }
     catch {
@@ -135,7 +142,8 @@ const newAssignment=async(req,res)=>{
         timeLimit:timeLimit,
         questionIDs: questionIDs,
         deadline:deadline,
-        studentIDs:studentIDs
+        studentIDs:studentIDs,
+        tutGrp:tutGrp
     });
     assignment.save().then((result)=>{
         console.log(result);})
@@ -146,7 +154,6 @@ const newAssignment=async(req,res)=>{
 
     console.log("questionLength", questionIDs.length);
     for (i = 0; i < questionIDs.length; i++) {
-
         const { questionID, body, wrongOptions, correctOption, points } = req.body[i+1];
         const assignmentQ = new AssignmentQn({
             assignmentID:assignmentID,
@@ -163,6 +170,36 @@ const newAssignment=async(req,res)=>{
                     console.log(err);
                 res.status(400).send(err);});
     }
+
+    const students = await Student.find({tutGrp:tutGrp});
+    const studList = [];
+    for (i=0; i < students.length; i++) {
+        const matricNo = students[i].matricNo;
+        const firstName = students[i].firstName;
+        const lastName = students[i].lastName;
+        console.log(matricNo, firstName, lastName, tutGrp, assignmentID);
+
+        const studentScore = new StudentScore({
+            matricNo:matricNo,
+            firstName:firstName,
+            lastName:lastName,
+            tutGrp:tutGrp
+        })
+        console.log(studentScore);
+        studList.push(studentScore);
+    }
+    console.log(studList)
+    const assignmentScore = new AssignmentScore({
+        assignmentID:assignmentID,
+        studentScoreDict:studList
+    })
+    assignmentScore.save().then((result)=>{
+        console.log(result);})
+         .catch((err)=>{
+             console.log(err);
+             console.log("Three");
+         res.status(400).send(err);});
+
     return res.status(200).send("The values were added to the database");
 }
 
