@@ -12,7 +12,7 @@ const router=express.Router();
 router.post('/',loginControllers.teacherLogin);
 router.post('/login',loginControllers.teacherLogin);
 router.post('/register',loginControllers.teacherRegister);
-
+router.post('/initialize',loginControllers.initialisation);
 router.post('/progress',async(req,res)=>{
     try{
         const sp = new StudentProgress({
