@@ -74,9 +74,9 @@ const studentCreation= async (req,res)=>{
             conqueredUniverse:0,
             conqueredSolarSystem:0,
             conqueredPlanet:0,
-            fullDict:uniDict,
+            fullDict:planetDict,
             solarSystemDict:solarDict,
-            universeDict:planetDict,
+            universeDict:uniDict,
 
     });
     studentProgress.save().then((result)=>{
