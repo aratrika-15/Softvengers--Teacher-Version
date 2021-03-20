@@ -69,8 +69,37 @@ const scoresAchieved=(emailID)=>{
 };
 
 //individual stats func to show no. of easy/medium/hard questions attempted
-const attemptedDifficulties=(emailID)=>{
-    return 3;
+const attemptedDifficulties=async(emailID)=>{
+    const studentProgress=await StudentProgress.findOne({emailID:emailID});
+    let fullDict=studentProgress.fullDict;
+    let easy=0;
+    let medium=0;
+    let hard=0;
+    for (var key in fullDict) {
+        if (fullDict.hasOwnProperty(key)) {
+            planetStats=fullDict[key];
+            let level=planetStats.identifier.substring(5,6);
+            level=parseInt(level);
+            if(level===0)
+            {
+                easy=easy+planetStats.maxCorrect;
+            }
+            else if(level===1)
+            {
+                medium=medium+planetStats.maxCorrect;
+            }
+            else
+            {
+                hard=hard+planetStats.maxCorrect;
+            }
+        }
+    }
+    let questionsCorrect={
+        easyCorrect:easy,
+        mediumCorrect:medium,
+        hardCorrect:hard
+    }
+    return questionsCorrect;
 };
 
 
