@@ -11,28 +11,31 @@ import {useState,useEffect} from 'react'
 import AddTwoToneIcon from '@material-ui/icons/AddTwoTone'
 import IconButton from '@material-ui/core/IconButton'
 import TablePagination from '@material-ui/core/TablePagination'
+import Assignmentpage from '../Views/Assignmentpage'
+import Link from '@material-ui/core/Link'
 
 const ViewAssignments = () => {
     const [assignments, setAssignments] = useState([
         {
             id:1,
             name: 'Assignment 1',
-            date: 'Date Added : 25 Feb 2021'
+            date: 'Date Added : 25 Feb 2021',
+            deadline : '28 Feb 2021'
         },
         {
             id:2,
             name: 'Assignment 2',
-            date: 'Date Added : 20 Feb 2021'
+            date: 'Date Added : 20 Feb 2021',deadline : '25 Feb 2021'
         },
         {
             id:3,
             name: 'Assignment 3',
-            date: 'Date Added : 18 Feb 2021'
+            date: 'Date Added : 18 Feb 2021',deadline : '23 Feb 2021'
         },
         {
             id:4,
             name: 'Assignment 4',
-            date: 'Date Added : 12 Feb 2021'
+            date: 'Date Added : 12 Feb 2021',deadline : '17 Feb 2021'
         },
         {
             id:5,
@@ -87,10 +90,14 @@ const ViewAssignments = () => {
                 <CardActionArea>
                     <CardMedia title="Assignment"/>
                     <CardContent><Typography gutterBottom variant="h5" component="h2">Assignment {assignment.id}</Typography>
-                    <Typography>{assignment.date}</Typography>
+                    <Typography>{assignment.date} Due : {assignment.deadline}</Typography>
+                    <Typography>Timelimit: {assignment.deadline}</Typography>
                     </CardContent>
                 </CardActionArea>
-                <CardActions><ColorButton size="large" variant="outlined" >Statistics</ColorButton></CardActions>
+                <CardActions>
+                  <ColorButton size="large" variant="outlined" ><Link href="/Assignmentpage" >
+                  Statistics
+  </Link></ColorButton></CardActions>
             </Card>))}
             <TablePagination
         rowsPerPageOptions={[3,5,10,25,100]}

@@ -6,6 +6,7 @@ import ViewAssignment from './components/Views/ViewAssignments'
 import Dashboard from './components/Views/Dashboard'
 import Questionbank from './components/Views/ViewQuestionbank'
 import Login from './components/Views/LoginScreen'
+import Assignmentpage  from './components/Views/Assignmentpage'
 
 import { BrowserRouter,Route, Switch, Redirect } from 'react-router-dom'
 
@@ -21,6 +22,7 @@ const Routes = () => {
             <Switch>
                 <Route exact path="/Statistics" component={Dashboard} />
                 <Route exact path="/Assignments" component={ViewAssignment} />
+                <Route path="/Assignmentpage" component={Assignmentpage} />
                 <Route exact path="/QuestionBank" component={Questionbank} />
                 <Route exact path="/Leaderboard" component={ViewLeaderboard} />
                 <Route exact path="/CreateStudentAccount" component={CreateStudentAccount} />
