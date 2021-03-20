@@ -3,6 +3,7 @@
 */
 const Student=require('../models/student');
 const StudentProgress=require('../models/studentProgress');
+const UniSolarCount=require('../models/UniSolarCount');
 const bcrypt = require('bcrypt');
 const nodemailer=require('nodemailer');
 
@@ -28,13 +29,13 @@ const studentCreation= async (req,res)=>{
     let uniDict=[];
     let solarDict=[];
     let planetDict=[];
-    let noOfUniverse=6;
-    let noOfSolarSystem=3;
+    let noOfUniverse=await UniSolarCount.count();
     let noOfPlanet=3;
     for(let i=0;i<noOfUniverse;i++)
-    {
+    {   const universeID=await UniSolarCount.findOne({universeID:i});
+        let noOfSolarSystem=universeID.noOfSolar;
         for(let j=0;j<noOfSolarSystem;j++)
-        {
+        {   
             for(let k=0;k<noOfPlanet;k++)
             {   let pID="("+i.toString()+","+j.toString()+","+k.toString()+")";
                 let objP={
