@@ -8,7 +8,7 @@ const gameControllers=require('../student_controllers/gameControllers.js');
 const router=express.Router();
 
 //routing
-router.patch('/unlockUniverse',gameControllers.unlockUniverse);
-
+router.patch('/unlock',gameControllers.unlockUniverse);
+router.patch('/endGame',gameControllers.endGame);
 //exporting router
 module.exports=router;
