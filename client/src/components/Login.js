@@ -1,22 +1,71 @@
-import react, {Component} from 'react';
+import react, { useState , Component} from 'react';
 import {axios} from 'axios';
 import MuiThemeProvider, {UploadScreen}from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
+import Navbar from './Navbar/Navbar';
+// import PropTypes from 'prop-types';
+
+// async function loginUser(credentials) {
+//   return fetch("localhost:5000/teacher/login", {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json'
+//     },
+//     body: JSON.stringify(credentials)
+//   })
+//     .then(data => data.json())
+//  }
+
+// export default function Login({ setToken }) {
+//   const [username, setUserName] = useState();
+//   const [password, setPassword] = useState();
+//   const handleSubmit = async e => {
+//     e.preventDefault();
+//     const token = await loginUser({
+//       username,
+//       password
+//     });
+//     setToken(token);
+//   }
+//   return(
+//     <div className="login-wrapper">
+//       <h1>Please Log In</h1>
+//       <form onSubmit={handleSubmit}>
+//         <label>
+//           <p>Username</p>
+//           <input type="text" onChange={e => setUserName(e.target.value)}/>
+//         </label>
+//         <label>
+//           <p>Password</p>
+//           <input type="password" onChange={e => setPassword(e.target.value)}/>
+//         </label>
+//         <div>
+//           <button type="submit">Submit</button>
+//         </div>
+//       </form>
+//     </div>
+//   )
+// }
+
+// Login.propTypes = {
+//   setToken: PropTypes.func.isRequired
+// }
+
 class Login extends Component {
 constructor(props){
   super(props);
   this.state={
-  username:'',
+  email:'',
   password:''
   }
  }
  handleClick(event){
-  var apiBaseUrl = "http://localhost:4000/api/";
+  var apiBaseUrl = "localhost:5000/teacher/login=";
   var self = this;
   var payload={
-  "email":this.state.username,
+  "email":this.state.email,
   "password":this.state.password
   }
   axios.post(apiBaseUrl+'login', payload)
@@ -24,9 +73,9 @@ constructor(props){
   console.log(response);
   if(response.data.code == 200){
   console.log("Login successfull");
-  var uploadScreen=[];
-  uploadScreen.push(<UploadScreen appContext={self.props.appContext}/>)
-  self.props.appContext.setState({loginPage:[],uploadScreen:uploadScreen})
+  var Nav=[];
+  Nav.push(<Navbar/>)
+  self.props.appContext.setState({loginPage:[],Nav:Navbar})
   }
   else if(response.data.code == 204){
   console.log("Username password do not match");
