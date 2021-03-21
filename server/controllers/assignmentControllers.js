@@ -2,7 +2,6 @@
 * controllers for assignment
 */
 const Assignment=require('../models/assignment');
-const AssignmentScore = require('../models/assignmentScore');
 const AssignmentQn = require('../models/assignmentQuestion');
 const Student = require('../models/student');
 const schemas = require('../models/assignmentScore');
