@@ -11,8 +11,7 @@ const fullLeaderboard=async(req,res)=>{
             if(result!=null)
             {let leaders=result.map((leader)=>{ 
                 let lead={
-                    firstName:leader.firstName,
-                    lastName:leader.lastName,
+                    name:leader.firstName + ' ' + leader.lastName,
                     emailID:leader.emailID,
                     totalScore:leader.totalScore,
                 }
@@ -22,7 +21,7 @@ const fullLeaderboard=async(req,res)=>{
                         res.status(400).send('There are currently no students in the database');
                     }
                     else{
-            res.status(200).send(leaders.sort((a, b) => parseFloat(b.totalScore) - parseFloat(a.totalScore)));
+            res.status(200).send(leaders);
                     }
             }
             else
@@ -46,8 +45,7 @@ const tutLeaderboard=async(req,res)=>{
         if(result!=null)
         {let leaders=result.map((leader)=>{ 
             let lead={
-                firstName:leader.firstName,
-                lastName:leader.lastName,
+                firstName:leader.firstName + ' ' + leader.lastName,
                 emailID:leader.emailID,
                 totalScore:leader.totalScore,
             }
@@ -57,9 +55,8 @@ const tutLeaderboard=async(req,res)=>{
                         res.status(400).send('There are currently no students in the database');
                     }
                     else{
-        res.status(200).send(leaders.sort((a, b) => parseFloat(b.totalScore) - parseFloat(a.totalScore))
-        );
-                    }
+        res.status(200).send(leaders);
+                }
         }
         else
         {

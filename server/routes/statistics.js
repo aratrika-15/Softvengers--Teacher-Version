@@ -12,6 +12,5 @@ const router=express.Router();
 router.get('/', auth, statsControllers.groupStats);
 router.get('/:student_id', auth, statsControllers.indivStats);
 
-
 //exporting router
 module.exports=router;
