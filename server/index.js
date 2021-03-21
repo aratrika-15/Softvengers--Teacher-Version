@@ -13,8 +13,9 @@ const assignmentRoutes=require('./routes/assignment');
 
 // student routes
 const loginStudentRoutes = require ('./student_routes/login');
-const getProgressRoutes = require('./student_routes/progress');
+const detailsRoutes = require('./student_routes/details');
 const gameRoutes = require('./student_routes/game')
+const questions = require('./student_routes/questions')
 
 
 dotenv.config();
@@ -41,8 +42,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 //setting up the routes
 app.use('/student',loginStudentRoutes);
-app.use('/student/getProgress',getProgressRoutes);
+app.use('/student/details',detailsRoutes);
 app.use('/student/game',gameRoutes);
+app.use('/student/questions',questions)
 app.use('/teacher/leaderboard',leaderboardRoutes);
 app.use('/teacher/statistics',statsRoutes);
 app.use('/teacher/question',questionRoutes);

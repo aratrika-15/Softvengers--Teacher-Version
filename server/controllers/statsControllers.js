@@ -39,6 +39,7 @@ const indivStats=async(req,res)=>{
     
     catch(err){
         res.status(400).send(err);
+        console.log(err);
     }
 };
 
@@ -64,8 +65,38 @@ const percentageCompletion=async(emailID)=>{
 };
 
 //individual stats function to show scores achieved in each universe, planet, solar system
-const scoresAchieved=(emailID)=>{
-    return 2;
+const scoresAchieved=async(emailID)=>{
+    const studentProgress=await StudentProgress.findOne({emailID:emailID});
+    universeList = [];
+    solarSystemList = [];
+
+    for (i=0; i < studentProgress.solarSystemDict.length; i++) {
+        temp = studentProgress.solarSystemDict[i];
+        entry={
+            identifier:temp.identifier,
+            totalScore:temp.totalScore
+        }
+        solarSystemList.push(entry)
+    }
+
+    for (i=0; i < studentProgress.universeDict.length; i++) {
+        temp = studentProgress.universeDict[i];
+        entry={
+            identifier:temp.identifier,
+            totalScore:temp.totalScore
+        }
+        universeList.push(entry)
+    }
+
+    console.log(universeList);
+    console.log(solarSystemList);
+
+    totalScoreCompleted={
+        universeTotal:universeList,
+        solarSystemTotal:solarSystemList
+    }
+
+    return totalScoreCompleted
 };
 
 //individual stats func to show no. of easy/medium/hard questions attempted
