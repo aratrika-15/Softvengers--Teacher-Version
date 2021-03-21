@@ -10,14 +10,6 @@ const MAX_PLAN=2;
 
   //defining the schema of Planet questions
 const planetQnSchema = new Schema({
-    universeName:{
-        type: String,
-        required: true
-    },
-    solarSystemName:{
-        type: String,
-        required: true
-    },
     universeID:{
         type:Number,
         required:true,
