@@ -33,7 +33,21 @@ const getStudent = async(req,res)=>{
 };
 
 const getProgress = async(req,res)=>{
-    
+    try{
+        //get student details and full dict identifier
+        const resultobj = await StudentProgress.find(
+            {emailID: req.body.emailID,
+            "fullDict.identifier":`(${req.body.universe},${req.body.SolarSystem},${req.body.planet})` }).populate({
+                path: 'fullDict',
+                match: {identifier: `(${req.body.universe},${req.body.SolarSystem},${req.body.planet})`},
+                select: 'maxCorrect'
+            }).exec();
+        console.log(resultobj);
+        res.status(200).send(resultobj);
+    }
+    catch(err){
+        res.status(400).send(err);
+    }
 };
 
 module.exports={

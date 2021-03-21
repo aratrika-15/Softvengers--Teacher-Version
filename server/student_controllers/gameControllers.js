@@ -90,7 +90,7 @@ const endGame = async(req,res)=>{
                    $set:{
                        totalScore: req.body.totalScore,
                    },
-                   $max:{
+                   $inc:{
                     "scoreHistory.$.dailyScore": req.body.score
                    }
                },
@@ -122,7 +122,7 @@ const endGame = async(req,res)=>{
                 },
                 $push:{
                  scoreHistory:{
-                     dailyScore: 0,
+                     dailyScore: req.body.score,
                      "sysDate": date.toISOString().slice(0,10)
                  }
                 }
