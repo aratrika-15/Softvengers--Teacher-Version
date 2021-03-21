@@ -11,6 +11,14 @@ const studentScores=new Schema({
         required: true,
         length:[9,"Matriculation number can have 9 characters only."]
     },
+    firstName:{
+        type: String,
+        required: true,
+    },
+    lastName:{
+        type: String,
+        required: true,
+    },
     attemptStatus:{
         type:Boolean,
         required:true,
@@ -42,4 +50,5 @@ const assnmtScoreSchema=new Schema({
 
 //making the mongoose model and exporting it
 const AssignmentScore= mongoose.model('AssignmentScore', assnmtScoreSchema);
-module.exports=AssignmentScore;
+const StudentScore = mongoose.model('StudentScore', studentScores);
+module.exports={StudentScore, AssignmentScore};

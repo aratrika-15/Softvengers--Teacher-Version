@@ -4,6 +4,7 @@
 
 //imports 
 const Teacher = require('../models/teacher');
+const UniSolarCount=require('../models/UniSolarCount');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -83,8 +84,42 @@ const teacherRegister=async (req,res)=>{
 
 };
 
+//logic for initialisation of universes with solar systems
+const initialisation=async(req,res)=>{
+    const {universeID, noOfSolar}=req.body;
+
+    //checking if this universeID already exists
+    try{
+    const uniExists=await UniSolarCount.findOne({universeID:universeID});
+    if(uniExists)
+    {
+        res.status(409).send('This universe data already exists in the database');
+    }
+    else
+    {
+        let UniSolar=new UniSolarCount({
+            universeID:universeID,
+            noOfSolar:noOfSolar
+        });
+        UniSolar.save().then((result)=>{
+            console.log(result);
+             res.status(200).send(result);
+        })
+        .catch((err)=>{
+            console.log(err);
+            res.status(400).send(err);
+        })
+    }
+}
+catch(err)
+{
+    res.status(400).send(err);
+}
+};
+
 //exporting the functions
 module.exports={
     teacherLogin,
     teacherRegister,
+    initialisation
 };

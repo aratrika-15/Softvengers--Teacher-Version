@@ -10,7 +10,8 @@ const questionList=(req,res)=>{
     .then((result)=>{
         console.log(result);
         if(result!=null)
-        {let planetQuestions=result.map(planetQ=>{ 
+        {   console.log('Yay');
+            let planetQuestions=result.map(planetQ=>{ 
             let question={
                 questionID:planetQ.questionID,
                 body:planetQ.body,
@@ -18,7 +19,14 @@ const questionList=(req,res)=>{
                 wrongOptions:planetQ.wrongOptions,
             }
              return question; });
+        if("[]"=== JSON.stringify(planetQuestions))
+        {
+            res.status(400).send('There are currently no questions in the database');
+        }
+        else
+        {
         res.status(200).send(planetQuestions);
+        }
         }
         else
         {

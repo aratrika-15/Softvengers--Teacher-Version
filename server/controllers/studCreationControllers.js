@@ -3,6 +3,7 @@
 */
 const Student=require('../models/student');
 const StudentProgress=require('../models/studentProgress');
+const UniSolarCount=require('../models/UniSolarCount');
 const bcrypt = require('bcrypt');
 const nodemailer=require('nodemailer');
 
@@ -25,21 +26,64 @@ const studentCreation= async (req,res)=>{
     catch(error){
         res.status(400).send(error); //error checking using try catch
     }
-
+    let uniDict=[];
+    let solarDict=[];
+    let planetDict=[];
+    let noOfUniverse=await UniSolarCount.count();
+    let noOfPlanet=3;
+    for(let i=0;i<noOfUniverse;i++)
+    {   const universeID=await UniSolarCount.findOne({universeID:i});
+        let noOfSolarSystem=universeID.noOfSolar;
+        for(let j=0;j<noOfSolarSystem;j++)
+        {   
+            for(let k=0;k<noOfPlanet;k++)
+            {   let pID="("+i.toString()+","+j.toString()+","+k.toString()+")";
+                let objP={
+                    identifier:pID,
+                    maxScore:0,
+                    minScore:100,
+                    totalScore:0,
+                    attempts:0,
+                }
+                planetDict.push(objP);
+            }
+            let sID="("+i.toString()+","+j.toString()+")";
+                let objS={
+                    identifier:sID,
+                    maxScore:0,
+                    minScore:100,
+                    totalScore:0,
+                    attempts:0,
+                }
+                solarDict.push(objS);
+        }
+        let uID="("+i.toString()+")";
+        let objU={
+            identifier:uID,
+            maxScore:0,
+            minScore:100,
+            totalScore:0,
+            attempts:0,
+        }
+        uniDict.push(objU);
+    }
+    console.log(planetDict);
     //creating StudentProgress
     const studentProgress=new StudentProgress({
             emailID:emailID,
             conqueredUniverse:0,
             conqueredSolarSystem:0,
             conqueredPlanet:0,
-            //put in the 3 dictionaries
+            fullDict:planetDict,
+            solarSystemDict:solarDict,
+            universeDict:uniDict,
 
     });
-    /*studentProgress.save().then((result)=>{
+    studentProgress.save().then((result)=>{
         console.log(result);})
          .catch((err)=>{
              console.log(err);
-         res.status(400).send(err);});*/
+         res.status(400).send(err);});
 
 
     //hashing the password

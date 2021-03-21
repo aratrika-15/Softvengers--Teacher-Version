@@ -8,7 +8,7 @@ const auth=require('../controllers/authentication');
 const router=express.Router();
 
 //routing
-router.get('/',auth, assignmentControllers.assignmentList);
+router.get('/list/:tut_grp',auth, assignmentControllers.assignmentList);
 router.get('/:a_id',auth, assignmentControllers.assignmentDetails);
 router.post('/:a_id',auth, assignmentControllers.newAssignment);
 
