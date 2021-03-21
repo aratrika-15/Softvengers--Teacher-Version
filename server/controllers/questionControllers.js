@@ -64,7 +64,7 @@ const questionDetails=async(req,res)=>{
 //function to create a new question
 const newQuestion=async (req,res)=>{
 
-    const {universeName, solarSystemName, planetName, difficulty, questionID, body, wrongOptions, correctOption}=req.body;
+    const {universeID, solarID, planetID, questionID, body, wrongOptions, correctOption}=req.body;
     var points;
     //checking if the question already exists
     try{
@@ -80,11 +80,11 @@ const newQuestion=async (req,res)=>{
     };
 
     //system assigning points based on difficulty level
-    if(difficulty==='Easy')
+    if(planetID===0)
    {
        points=5;
    }
-    else if (difficulty==='Medium')
+    else if (planetID===1)
     {
         points=10;
     }
@@ -93,10 +93,10 @@ const newQuestion=async (req,res)=>{
     
     //creating the planet question model and saving it to the database
     const planetQ=new PlanetQuestion({
-        universeName:universeName,
-        solarSystemName:solarSystemName,
-        planetName:planetName,
-        difficulty:difficulty,
+        universeID:universeID,
+        solarID:solarID,
+        planetID:planetID,
+        
         questionID:questionID,
         body:body,
         wrongOptions:wrongOptions,
@@ -128,13 +128,13 @@ const updateQuestion=(req,res)=>{
         }
         else
         {
-            const {universeName,solarSystemName,planetName,difficulty,body,wrongOptions,correctOption}=req.body;
+            const {universeID,solarID,planetID,body,wrongOptions,correctOption}=req.body;
              //system assigning points based on difficulty level
-            if(difficulty==='Easy')
+            if(planetID===0)
             {
                 points=5;
             }
-            else if (difficulty==='Medium')
+            else if (planetID===1)
             {
                 points=10;
             }
@@ -145,10 +145,10 @@ const updateQuestion=(req,res)=>{
                 { questionID: questionID },
                 {
                     $set: {
-                        universeName:universeName,
-                        solarSystemName:solarSystemName,
-                        planetName:planetName,
-                        difficulty:difficulty,
+                        universeID:universeID,
+                        solarID:solarID,
+                        planetID:planetID,
+                       
                         questionID:questionID,
                         body:body,
                         wrongOptions:wrongOptions,

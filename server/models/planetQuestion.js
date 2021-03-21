@@ -28,12 +28,6 @@ const planetQnSchema = new Schema({
         max:MAX_PLAN,
     },
     
-    difficulty:{
-        type: String,
-        required: true,
-        validate: {validator: function (v) {
-            return ['Easy', 'Medium', 'Hard'].includes(v)}} //validating array length
-    },
     questionID:{
         unique: true,
         type: Number,
