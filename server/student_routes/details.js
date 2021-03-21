@@ -12,6 +12,8 @@ const router=express.Router();
 router.get('/getStudent',detailsControllers.getStudent);
 //route called for progress bar
 router.get('/getProgress', detailsControllers.getProgress);
+//
+router.get('/getLeaderboard',detailsControllers.getLeaderboard);
 
 //exporting router
 module.exports=router;

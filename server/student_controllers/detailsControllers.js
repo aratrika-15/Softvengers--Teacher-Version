@@ -50,7 +50,19 @@ const getProgress = async(req,res)=>{
     }
 };
 
+const getLeaderboard = async(req,res)=>{
+    //try{
+    const topp = Student.find({}).sort({totalScore: -1}).limit(10);
+    console.log(topp);
+    res.status(200).send(topp);
+//}
+//catch(err){
+   // res.status(400).send(err);
+//}  
+};
+
 module.exports={
     getStudent,
-    getProgress
+    getProgress,
+    getLeaderboard
 };
