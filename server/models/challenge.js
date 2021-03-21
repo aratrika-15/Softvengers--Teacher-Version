@@ -28,8 +28,16 @@ const studentTaker=new Schema({
 });
 
 const topic=new Schema({
-    topicName:{
-        type:String,
+    universe:{
+        type: Number,
+        required:true,
+    },
+    solarSystem:{
+        type: Number,
+        required:true,
+    },
+    planet:{
+        type: Number,
         required:true,
     },
     noOfQuestions:{
@@ -41,13 +49,13 @@ const topic=new Schema({
 
 //creating the schema for challenges in the database
 const challengeSchema=new Schema({
-    challengeId:{
-        unique: true,
-        type: Number,
-        index: true,
-        required: true,
-        min:1,
-    },
+    // challengeId:{
+    //     unique: true,
+    //     type: Number,
+    //     index: true,
+    //     required: true,
+    //     min:1,
+    // },
     challengeName:{
         type:String,
         required:true,
@@ -55,8 +63,8 @@ const challengeSchema=new Schema({
     questionIds:{
         type:[Number],
         required:true,
-        validate: {validator: function (v) {
-            return v.length>=MIN_QUES}} //validating array length
+        // validate: {validator: function (v) {
+        //     return v.length>=MIN_QUES}} //validating array length
     },
     sender:{
         type: studentTaker,
@@ -75,4 +83,12 @@ const challengeSchema=new Schema({
 
 //making the mongoose model and exporting it
 const Challenge=mongoose.model('Challenge',challengeSchema);
-module.exports=Challenge;
+
+const student = mongoose.model('studentTaker', studentTaker)
+
+module.exports=
+{ 
+    Challenge, 
+    student
+
+}
