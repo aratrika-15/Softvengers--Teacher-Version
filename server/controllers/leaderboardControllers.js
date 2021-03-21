@@ -3,8 +3,9 @@
 */
 const Student=require('../models/student')
 
+//function that returns all the students sorted based on their score
 const fullLeaderboard=async(req,res)=>{
-        const StudentArray = await Student.find()    
+       Student.find()    
         .then((result)=>{
             console.log(result);
             if(result!=null)
@@ -16,25 +17,31 @@ const fullLeaderboard=async(req,res)=>{
                     totalScore:leader.totalScore,
                 }
                     return lead; });
-            res.status(200).send(leaders.sort((a, b) => parseFloat(b.totalScore) - parseFloat(a.totalScore))
-            );
+                if("[]"=== JSON.stringify(leaders))
+                    {
+                        res.status(400).send('There are currently no students in the database');
+                    }
+                    else{
+            res.status(200).send(leaders.sort((a, b) => parseFloat(b.totalScore) - parseFloat(a.totalScore)));
+                    }
             }
             else
             {
                 res.status(400).send('There are no students in leaderboard');
             }
 
-            return res.status(200).send(StudentArray);
+            //return res.status(200).send(StudentArray);
         })
         .catch ((err)=>{
             res.status(400).send(err); //error checking using try catch
         });
 };
 
+//function that returns students of a particular tutorial group sorted based on their score
 const tutLeaderboard=async(req,res)=>{
     console.log(req.params.tut_gp);
     const tutGrp = req.params.tut_gp;
-    const StudentArray =  await Student.find({tutGrp: tutGrp}).then((result)=>{
+    Student.find({tutGrp: tutGrp}).then((result)=>{
         console.log(result);
         if(result!=null)
         {let leaders=result.map((leader)=>{ 
@@ -45,15 +52,20 @@ const tutLeaderboard=async(req,res)=>{
                 totalScore:leader.totalScore,
             }
                 return lead; });
+                if("[]"=== JSON.stringify(leaders))
+                    {
+                        res.status(400).send('There are currently no students in the database');
+                    }
+                    else{
         res.status(200).send(leaders.sort((a, b) => parseFloat(b.totalScore) - parseFloat(a.totalScore))
         );
+                    }
         }
         else
         {
             res.status(400).send('There are no students in leaderboard');
         }
-        
-        return res.status(200).send(StudentArray);
+       
     })
     .catch ((err)=>{
         res.status(400).send(err); //error checking using try catch
