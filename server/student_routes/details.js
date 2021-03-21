@@ -8,7 +8,7 @@ const detailsControllers=require('../student_controllers/detailsControllers');
 const router=express.Router();
 
 //routing
-router.get('/',detailsControllers.getDetails);
+router.get('/getStudent',detailsControllers.getStudent);
 
 //exporting router
 module.exports=router;

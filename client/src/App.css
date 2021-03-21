@@ -19,6 +19,13 @@ body {
   padding: 30px;
   border-radius: 5px;
 }
+.paper{
+  max-width: 500px;
+  margin: 50px auto;
+}
+.score{
+  text-align: center;
+}
 
 .header {
   display: flex;

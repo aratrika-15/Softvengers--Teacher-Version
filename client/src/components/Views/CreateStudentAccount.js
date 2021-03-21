@@ -89,8 +89,8 @@ const CreateStudentAccount = () => {
                 <input type='text' placeholder = 'Enter Last Name' value={lastname} onChange={(e)=> setLastName(e.target.value)}/>
             </div>
             <div className = 'form-control'>
-                <label>Password:</label>
-                <input type='text' placeholder = 'Enter Password' value={password} onChange={(e)=> setPassword(e.target.value)}/>
+                <label>Matric Number:</label>
+                <input type='text' placeholder = 'Enter Matric Number' value={password} onChange={(e)=> setPassword(e.target.value)}/>
             </div>
             <div className = 'form-control'>
                 <label>Email Address:</label>
