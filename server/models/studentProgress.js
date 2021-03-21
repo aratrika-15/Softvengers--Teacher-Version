@@ -9,7 +9,6 @@ const fullDict = new Schema({
     identifier:{
     //"(0,0,0)"
         type: String,
-        unique: true,
         required:true
     },
     maxScore: {
@@ -46,7 +45,6 @@ const solarSystemDict = new Schema({
     identifier:{
         //"(0,0)"
         type: String,
-        unique: true,
         required:true
     },
     maxScore: {
@@ -78,7 +76,6 @@ const universeDict = new Schema({
     identifier:{
         //"0"
         type: String,
-        unique: true,
         required:true
     },
     maxScore: {

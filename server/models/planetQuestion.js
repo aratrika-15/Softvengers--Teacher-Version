@@ -5,6 +5,8 @@ const Schema = mongoose.Schema;
 const MAX_SCORE=30;
 const MIN_SCORE=1;
 const WRONG_OPTIONS=3;
+const MAX_UNI=5;
+const MAX_PLAN=2;
 
   //defining the schema of Planet questions
 const planetQnSchema = new Schema({
@@ -16,10 +18,24 @@ const planetQnSchema = new Schema({
         type: String,
         required: true
     },
-    planetName:{
-        type: String,
-        required: true
+    universeID:{
+        type:Number,
+        required:true,
+        min:0,
+        max:MAX_UNI,
     },
+    solarID:{
+        type:Number,
+        required:true,
+        min:0,
+    },
+    planetID:{
+        type:Number,
+        required:true,
+        min:0,
+        max:MAX_PLAN,
+    },
+    
     difficulty:{
         type: String,
         required: true,
