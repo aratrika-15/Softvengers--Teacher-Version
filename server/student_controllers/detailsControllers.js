@@ -32,6 +32,11 @@ const getStudent = async(req,res)=>{
     }
 };
 
+const getProgress = async(req,res)=>{
+    
+};
+
 module.exports={
     getStudent,
+    getProgress
 };
