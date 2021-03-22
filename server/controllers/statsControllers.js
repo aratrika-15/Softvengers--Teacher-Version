@@ -4,24 +4,25 @@
 
 const StudentProgress=require('../models/studentProgress');
 const Student=require('../models/student');
+const Teacher=require('../models/teacher')
 
 const groupStats=(req,res)=>{
     console.log(req.params);
-    let emailID=req.params.student_id;
-    console.log(emailID);
-    emailID=emailID.toString();
+    const tutID = req.params.tut_gp;
+    console.log(tutID);
+    tutID=tutID.toString();
     try{
-        const studentExists = await Student.findOne({ emailID: emailID});
-        if(!studentExists) 
+        const tutExists = await Teacher.findOne({ tutGrp: tutID});
+        if(!tutExists) 
         {
-            return res.status(404).send('This student does not exist');
+            return res.status(404).send('This tutorial group does not exist');
         }
         else{
-            let a=await groupScoreHistories();
+            let a=await groupScoreHistories(tutID);
            // console.log(a);
-            let b=await groupPercentageCompletion();
-            let c=await groupScoresAchieved();
-            let d=await groupAttemptedDifficulties();
+            let b=await groupPercentageCompletion(tutID);
+            let c=await groupScoresAchieved(tutID);
+            let d=await groupAttemptedDifficulties(tutID);
            let responseObj={
                 scoreHistory:a,
                 percentageCompletion:b,
@@ -74,7 +75,7 @@ const indivStats=async(req,res)=>{
 };
 
 //group stats function that deals with dailyScore vs Date, for a given student
-const groupScoreHistories=async()=>{
+const groupScoreHistories=async(tutID)=>{
     const student=await Student.findOne({emailID:emailID});
     //console.log(student.scoreHistory);
     return student.scoreHistory;
@@ -89,7 +90,7 @@ const scoreHistories=async(emailID)=>{
 };
 
 //group stats function that shows how many universes/solar systems and planets the person has conquered
-const groupPercentageCompletion=async()=>{
+const groupPercentageCompletion=async(tutID)=>{
     return 2;
 };
 
@@ -107,7 +108,7 @@ const percentageCompletion=async(emailID)=>{
 };
 
 //group stats function to show scores achieved in each universe, planet, solar system
-const groupScoresAchieved=async()=>{
+const groupScoresAchieved=async(tutID)=>{
     return 2;
 };
 
@@ -147,7 +148,7 @@ const scoresAchieved=async(emailID)=>{
 };
 
 //group stats func to show no. of easy/medium/hard questions attempted
-const groupAttemptedDifficulties=async()=>{
+const groupAttemptedDifficulties=async(tutID)=>{
     return 2;
 };
 
