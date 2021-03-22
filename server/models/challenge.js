@@ -63,8 +63,8 @@ const challengeSchema=new Schema({
     questionIds:{
         type:[Number],
         required:true,
-        // validate: {validator: function (v) {
-        //     return v.length>=MIN_QUES}} //validating array length
+        validate: {validator: function (v) {
+            return v.length>=MIN_QUES}} //validating array length
     },
     sender:{
         type: studentTaker,
