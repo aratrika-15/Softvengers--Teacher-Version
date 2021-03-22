@@ -5,10 +5,11 @@ import ViewLeaderboard from './components/Views/ViewLeaderboard'
 import ViewAssignment from './components/Views/ViewAssignments'
 import Dashboard from './components/Views/Dashboard'
 import Questionbank from './components/Views/ViewQuestionbank'
-import Login from './components/Views/LoginScreen'
+
 import Assignmentpage  from './components/Views/Assignmentpage'
 
 import { BrowserRouter,Route, Switch, Redirect } from 'react-router-dom'
+import Loginscreen from './components/Views/LoginScreen';
 
 const Routes = () => {
     // const [token, setToken] = useState();
@@ -27,7 +28,7 @@ const Routes = () => {
                 <Route exact path="/Leaderboard" component={ViewLeaderboard} />
                 <Route exact path="/CreateStudentAccount" component={CreateStudentAccount} />
             </Switch>
-            <Route exact path="/Logout" component={Login} />
+            <Route exact path="/Logout" component={Loginscreen} />
       </div>
         </BrowserRouter>
     )

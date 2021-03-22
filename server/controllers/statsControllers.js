@@ -4,8 +4,38 @@
 
 const StudentProgress=require('../models/studentProgress');
 const Student=require('../models/student');
+const Teacher=require('../models/teacher')
 
-const groupStats=(req,res)=>{
+const groupStats=async(req,res)=>{
+    console.log(req.params);
+    const tutID = req.params.tut_id;
+    console.log(tutID);
+    try{
+        const tutExists = await Teacher.findOne({ tutGrp: tutID});
+        if(!tutExists) 
+        {
+            return res.status(404).send('This tutorial group does not exist');
+        }
+        else{
+            let a=await groupScoreHistories(tutID);
+           // console.log(a);
+            let b=await groupPercentageCompletion(tutID);
+            let c=await groupScoresAchieved(tutID);
+            let d=await groupAttemptedDifficulties(tutID);
+           let responseObj={
+                scoreHistory:a,
+                percentageCompletion:b,
+                scoresAchieved:c,
+                attemptedDifficulties:d,
+            }
+            res.status(200).send(responseObj);
+            }
+        }
+    
+    catch(err){
+        res.status(400).send(err);
+        console.log(err);
+    }
 
 };
 
@@ -39,7 +69,45 @@ const indivStats=async(req,res)=>{
     
     catch(err){
         res.status(400).send(err);
+        console.log(err);
     }
+};
+
+//group stats function that deals with dailyScore vs Date, for a given student
+const groupScoreHistories=async(tutID)=>{
+    const students=await Student.find({tutGrp:tutID});
+    // console.log(students.scoreHistory);
+    studentsArray = [];
+    for (i=0; i < students.length; i++) {
+        studentsArray.push(students[i].scoreHistory);
+    }
+    // return studentsArray;
+    let length = studentsArray.length;
+    console.log(length);
+    sum = studentsArray[0];
+    // console.log(sum, sum.length);
+    console.log(studentsArray, studentsArray.length);
+
+    for (i=0; i < length; i++) {
+        for (j=0; j < sum.length; j++) {
+            sum[j].dailyScore += studentsArray[i+1][j].dailyScore;
+        }
+    }
+
+    // studentsArray.forEach(({scoreHistory})=> scoreTotal=scoreTotal.map(function (num, idx) {
+    //     return num + scoreHistory[idx];
+    //   }));
+
+    scoreAvg=[]
+    for(var i = 0; i < sum.length; i++){
+        scoreAvg[i] = sum[i]/length;
+    };
+    
+    groupHistory = {
+        tutGrp:tutID,
+        scoreHistory:scoreAvg
+    };
+    return groupHistory
 };
 
 //individual stats function that deals with dailyScore vs Date, for a given student
@@ -48,6 +116,11 @@ const scoreHistories=async(emailID)=>{
     //console.log(student.scoreHistory);
     return student.scoreHistory;
     
+};
+
+//group stats function that shows how many universes/solar systems and planets the person has conquered
+const groupPercentageCompletion=async(tutID)=>{
+    return 2;
 };
 
 //individual stats function that shows how many universes/solar systems and planets the person has conquered
@@ -63,8 +136,48 @@ const percentageCompletion=async(emailID)=>{
 
 };
 
+//group stats function to show scores achieved in each universe, planet, solar system
+const groupScoresAchieved=async(tutID)=>{
+    return 2;
+};
+
 //individual stats function to show scores achieved in each universe, planet, solar system
-const scoresAchieved=(emailID)=>{
+const scoresAchieved=async(emailID)=>{
+    const studentProgress=await StudentProgress.findOne({emailID:emailID});
+    universeList = [];
+    solarSystemList = [];
+
+    for (i=0; i < studentProgress.solarSystemDict.length; i++) {
+        temp = studentProgress.solarSystemDict[i];
+        entry={
+            identifier:temp.identifier,
+            totalScore:temp.totalScore
+        }
+        solarSystemList.push(entry)
+    }
+
+    for (i=0; i < studentProgress.universeDict.length; i++) {
+        temp = studentProgress.universeDict[i];
+        entry={
+            identifier:temp.identifier,
+            totalScore:temp.totalScore
+        }
+        universeList.push(entry)
+    }
+
+    console.log(universeList);
+    console.log(solarSystemList);
+
+    totalScoreCompleted={
+        universeTotal:universeList,
+        solarSystemTotal:solarSystemList
+    }
+
+    return totalScoreCompleted
+};
+
+//group stats func to show no. of easy/medium/hard questions attempted
+const groupAttemptedDifficulties=async(tutID)=>{
     return 2;
 };
 

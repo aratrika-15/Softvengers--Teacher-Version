@@ -32,6 +32,7 @@ const teacherSchema= new Schema({
     tutGrp:{
         type: String,
         required: true,
+        index: true,
         min:MIN_TUT,
         max:MAX_TUT
     }
