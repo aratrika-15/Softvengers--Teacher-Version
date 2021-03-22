@@ -8,9 +8,8 @@ const Teacher=require('../models/teacher')
 
 const groupStats=async(req,res)=>{
     console.log(req.params);
-    let tutID = req.params.tut_id;
+    const tutID = req.params.tut_id;
     console.log(tutID);
-    tutID=tutID.toString();
     try{
         const tutExists = await Teacher.findOne({ tutGrp: tutID});
         if(!tutExists) 
@@ -76,9 +75,39 @@ const indivStats=async(req,res)=>{
 
 //group stats function that deals with dailyScore vs Date, for a given student
 const groupScoreHistories=async(tutID)=>{
-    const student=await Student.find({tutGrp:tutID});
-    //console.log(student.scoreHistory);
-    return student;
+    const students=await Student.find({tutGrp:tutID});
+    // console.log(students.scoreHistory);
+    studentsArray = [];
+    for (i=0; i < students.length; i++) {
+        studentsArray.push(students[i].scoreHistory);
+    }
+    // return studentsArray;
+    let length = studentsArray.length;
+    console.log(length);
+    sum = studentsArray[0];
+    // console.log(sum, sum.length);
+    console.log(studentsArray, studentsArray.length);
+
+    for (i=0; i < length; i++) {
+        for (j=0; j < sum.length; j++) {
+            sum[j].dailyScore += studentsArray[i+1][j].dailyScore;
+        }
+    }
+
+    // studentsArray.forEach(({scoreHistory})=> scoreTotal=scoreTotal.map(function (num, idx) {
+    //     return num + scoreHistory[idx];
+    //   }));
+
+    scoreAvg=[]
+    for(var i = 0; i < sum.length; i++){
+        scoreAvg[i] = sum[i]/length;
+    };
+    
+    groupHistory = {
+        tutGrp:tutID,
+        scoreHistory:scoreAvg
+    };
+    return groupHistory
 };
 
 //individual stats function that deals with dailyScore vs Date, for a given student
