@@ -6,9 +6,9 @@ const StudentProgress=require('../models/studentProgress');
 const Student=require('../models/student');
 const Teacher=require('../models/teacher')
 
-const groupStats=(req,res)=>{
+const groupStats=async(req,res)=>{
     console.log(req.params);
-    const tutID = req.params.tut_gp;
+    let tutID = req.params.tut_id;
     console.log(tutID);
     tutID=tutID.toString();
     try{
@@ -76,9 +76,9 @@ const indivStats=async(req,res)=>{
 
 //group stats function that deals with dailyScore vs Date, for a given student
 const groupScoreHistories=async(tutID)=>{
-    const student=await Student.findOne({emailID:emailID});
+    const student=await Student.find({tutGrp:tutID});
     //console.log(student.scoreHistory);
-    return student.scoreHistory;
+    return student;
 };
 
 //individual stats function that deals with dailyScore vs Date, for a given student
