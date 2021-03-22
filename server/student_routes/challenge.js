@@ -9,6 +9,10 @@ const router=express.Router();
 
 //routing
 router.post('/createChallenge',challengeControllers.createChallenge);
-
+router.patch('/sendChallenge', challengeControllers.sendChallenge);
+router.get('/getReceivedChallenges', challengeControllers.getReceivedChallenges);
+router.get('/getSentChallenges',challengeControllers.getSentChallenges);
+router.patch('/endChallenge',challengeControllers.attemptChallenge);
+router.get('/getQuestions',challengeControllers.getQuestions);
 //exporting router
 module.exports=router;

@@ -11,7 +11,7 @@ const router=express.Router();
 //routing
 router.get('/', auth, questionControllers.questionList);
 router.get('/:q_id', auth, questionControllers.questionDetails);
-router.post('/:q_id', auth, questionControllers.newQuestion);
+router.post('/:q_id', questionControllers.newQuestion);
 router.put('/:q_id',auth, questionControllers.updateQuestion);
 router.delete('/:q_id', auth, questionControllers.deleteQuestion);
 
