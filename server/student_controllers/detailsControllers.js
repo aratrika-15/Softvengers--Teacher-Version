@@ -48,7 +48,7 @@ const getProgress = async(req,res)=>{
         });
     }
     catch(err){
-        res.status(400).send(err);
+        res.status(404).send("Invalid tuple");
     }
 };
 
@@ -68,7 +68,7 @@ const getMaxScore = async(req,res)=>{
         });
     }
     catch(err){
-        res.status(400).send(err);
+        res.status(400).send("Invalid tuple");
     }
 };
 
