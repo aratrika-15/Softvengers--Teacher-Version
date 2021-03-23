@@ -8,6 +8,7 @@ import ViewLeaderboard from './components/Views/ViewLeaderboard'
 import Login from './components/Views/LoginScreen'
 import ViewAssignment from './components/Views/ViewAssignments'
 import { BrowserRouter,Route, Switch, Redirect } from 'react-router-dom';
+import Routes from './Routes'
 
 
 
@@ -40,6 +41,7 @@ function App() {
   
   return (
     <div className="App">
+      <Routes/>
     </div>
   );
 }

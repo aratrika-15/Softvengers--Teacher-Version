@@ -78,23 +78,22 @@ const CreateStudentAccount = () => {
     }
     return (
         <div className='container'>
-            <>{students.map((student)=> (<h3 key={student.id}>{student.firstname}</h3>))}</>
         <form className = 'add-form' onSubmit ={onSubmit} >
             <div className = 'form-control'>
                 <label>First Name:</label>
-                <input type='text' placeholder = 'Enter First Name' value={firstname} onChange={(e)=> setFirstName(e.target.value)}/>
+                <input type='text' placeholder = 'Enter First Name' value={firstname} required onChange={(e)=> setFirstName(e.target.value)}/>
             </div>
             <div className = 'form-control'>
                 <label>Last Name:</label>
-                <input type='text' placeholder = 'Enter Last Name' value={lastname} onChange={(e)=> setLastName(e.target.value)}/>
+                <input type='text' placeholder = 'Enter Last Name' value={lastname} required onChange={(e)=> setLastName(e.target.value)}/>
             </div>
             <div className = 'form-control'>
                 <label>Matric Number:</label>
-                <input type='text' placeholder = 'Enter Matric Number' value={password} onChange={(e)=> setPassword(e.target.value)}/>
+                <input type='text' placeholder = 'Enter Matric Number' value={password} required onChange={(e)=> setPassword(e.target.value)}/>
             </div>
             <div className = 'form-control'>
                 <label>Email Address:</label>
-                <input type='text' placeholder = 'Enter Ntu Email address' value={email} onChange={(e)=> setEmail(e.target.value)}/> 
+                <input type='text' placeholder = 'Enter Ntu Email address' value={email}required onChange={(e)=> setEmail(e.target.value)}/> 
             </div>
             <div className = 'form-control'>
                 <label>Tutorial Group :</label>

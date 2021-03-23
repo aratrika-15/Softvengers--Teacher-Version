@@ -9,13 +9,13 @@ import Questionbank from './components/Views/ViewQuestionbank'
 import Assignmentpage  from './components/Views/Assignmentpage'
 
 import { BrowserRouter,Route, Switch, Redirect } from 'react-router-dom'
-import Loginscreen from './components/Views/LoginScreen';
+import Login from './components/Views/LoginScreen';
 
-const Routes = () => {
-    // const [token, setToken] = useState();
-    // if(!token) {
-    //     return <Login setToken={setToken} />
-    //   }
+const Routes = ({token ,setToken}) => {
+    
+    if(!token) {   
+        return <Login setToken={setToken} />
+      }
     return (
         <BrowserRouter>
         <div>
@@ -28,7 +28,7 @@ const Routes = () => {
                 <Route exact path="/Leaderboard" component={ViewLeaderboard} />
                 <Route exact path="/CreateStudentAccount" component={CreateStudentAccount} />
             </Switch>
-            <Route exact path="/Logout" component={Loginscreen} />
+            <Route exact path="/Logout" component={Login} />
       </div>
         </BrowserRouter>
     )
