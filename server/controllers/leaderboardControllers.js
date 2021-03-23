@@ -14,6 +14,7 @@ const fullLeaderboard=async(req,res)=>{
                     name:leader.firstName + ' ' + leader.lastName,
                     emailID:leader.emailID,
                     totalScore:leader.totalScore,
+                    tutGrp:leader.tutGrp
                 }
                     return lead; });
                 if("[]"=== JSON.stringify(leaders))
@@ -48,6 +49,7 @@ const tutLeaderboard=async(req,res)=>{
                 firstName:leader.firstName + ' ' + leader.lastName,
                 emailID:leader.emailID,
                 totalScore:leader.totalScore,
+                tutGrp:tutGrp
             }
                 return lead; });
                 if("[]"=== JSON.stringify(leaders))
