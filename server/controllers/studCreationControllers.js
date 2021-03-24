@@ -100,6 +100,7 @@ const studentCreation= async (req,res)=>{
         });
         student.save().then((result)=>{
             console.log(result);
+            sendEmail(req,res);
              res.status(200).send(result)})
              .catch((err)=>{
                  console.log(err);
@@ -109,26 +110,25 @@ const studentCreation= async (req,res)=>{
 
 };
 
-/*
+
 const sendEmail = (req,res)=>{
     const { emailID, password, matricNo, firstName, lastName}=req.body;
-
     // create reusable transporter object using the default SMTP transport\
 const transporter = nodemailer.createTransport({
     port: 465,               // true for 465, false for other ports
     host: "smtp.gmail.com",
        auth: {
-            user: 'youremail@gmail.com',
-            pass: 'password',
+            user: process.env.HOST_EMAIL,
+            pass: process.env.HOST_PASSWORD,
          },
     secure: true,
     });
 
-    const mailData = {from: 'youremail@gmail.com',  // sender address
+    const mailData = {from: process.env.HOST_EMAIL,  // sender address
     to: emailID,   // list of receivers
     subject: 'Student Credentials for Softvengers game',
-    text: 'Please login to Softvengers with this emailID and password as ${password}',
-    html: '<b>Hey there! </b><br> This is our first message sent with Nodemailer<br/>',
+    text: 'Hello from team Softvengers, '+firstName +" "+lastName+". You have been signed up for the Softvengers game. Please sign in using this email ID and the password: "+password,
+    //html: '<b>Hey there! </b><br> This is our first message sent with Nodemailer<br/>',
   };
 
   transporter.sendMail(mailData,(err,info)=>{
@@ -142,7 +142,7 @@ const transporter = nodemailer.createTransport({
     }
 })
  
-*/
+};
 
 //exporting the functions
 module.exports={
