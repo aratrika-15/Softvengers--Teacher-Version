@@ -24,7 +24,7 @@ const teacherLogin=async(req,res)=>{
           if(passwordCheck)
           {
            //generating and returning the token
-           const token = jwt.sign({ email: emailExists.emailID,  id:emailExists._id , tutGp:emailExists.tutGrp}, accessTokenSecret);   
+           const token = jwt.sign({ email: emailExists.emailID,  id:emailExists._id , tutGp:emailExists.tutGrp}, accessTokenSecret, {expiresIn: '1d'});   
            res.status(200).header('token', token).send(token);   
           }
           else
