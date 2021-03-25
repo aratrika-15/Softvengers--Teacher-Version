@@ -21,6 +21,7 @@ const groupStats=async(req,res)=>{
             let a=await groupScoreHistories(tutID);
            // console.log(a);
             let b=await groupPercentageCompletion(tutID);
+            //console.log(b);
             let c=await groupScoresAchieved(tutID);
             let d=await groupAttemptedDifficulties(tutID);
            let responseObj={
@@ -122,7 +123,22 @@ const scoreHistories=async(emailID)=>{
 
 //group stats function that shows how many universes/solar systems and planets the person has conquered
 const groupPercentageCompletion=async(tutID)=>{
-    return 2;
+    const students=await Student.find({tutGrp:tutID});
+    let len=students.length;
+    let arr=[];
+    for(let i=0;i<len;i++)
+    {
+        const percentageCompleted=await percentageCompletion(students[i].emailID);
+        console.log(percentageCompleted.conqueredUniverse);
+        arr.push(percentageCompleted.conqueredUniverse);
+    }
+    var counts = {};
+
+    for (var i = 0; i < arr.length; i++) {
+        var num = parseInt(arr[i]);
+        counts[num] = counts[num] ? counts[num] + 1 : 1;
+        }
+    return counts;
 };
 
 //individual stats function that shows how many universes/solar systems and planets the person has conquered
@@ -180,7 +196,54 @@ const scoresAchieved=async(emailID)=>{
 
 //group stats func to show no. of easy/medium/hard questions attempted
 const groupAttemptedDifficulties=async(tutID)=>{
-    return 2;
+    const students=await Student.find({tutGrp:tutID});
+    let len=students.length;
+    console.log(len);
+    let easy=[];
+    let medium=[];
+    let hard=[];
+    let maxEasyCorrect=0;
+    let maxMediumCorrect=0;
+    let maxHardCorrect=0;
+    for(let i=0;i<len;i++)
+    {
+        const attemptedDifficulty=await attemptedDifficulties(students[i].emailID);
+        console.log(attemptedDifficulty);
+        easy.push(attemptedDifficulty.easyCorrect);
+        medium.push(attemptedDifficulty.mediumCorrect);
+        hard.push(attemptedDifficulty.hardCorrect);
+        if(attemptedDifficulty.easyCorrect>maxEasyCorrect)
+        {
+            maxEasyCorrect=attemptedDifficulty.easyCorrect;
+        }
+        if(attemptedDifficulty.mediumCorrect>maxMediumCorrect)
+        {
+            maxMediumCorrect=attemptedDifficulty.mediumCorrect;
+        }
+        if(attemptedDifficulty.hardCorrect>maxHardCorrect)
+        {
+            maxHardCorrect=attemptedDifficulty.hardCorrect;
+        }
+    }
+    console.log(easy);
+    console.log(medium);
+    console.log(hard);
+    const Avg = arr => arr.reduce((a,b) => a + b, 0) / arr.length;
+    const easyAvg=Avg(easy);
+    const mediumAvg=Avg(medium);
+    const hardAvg=Avg(hard);
+    const averageAttemptedDifficulties={
+        "avgEasyCorrect":easyAvg,
+        "avgMediumCorrect":mediumAvg,
+        "avgHardCorrect":hardAvg,
+        "maxEasyCorrect":maxEasyCorrect,
+        "maxMediumCorrect":maxMediumCorrect,
+        "maxHardCorrect":maxHardCorrect,
+    }
+    console.log(averageAttemptedDifficulties);
+    //returning the average number of easy/medium/hard questions answered by students of this tut group
+    //also returning the maximum number of easy/medium/hard questions answered by students of this tut group
+    return averageAttemptedDifficulties;
 };
 
 //individual stats func to show no. of easy/medium/hard questions attempted
