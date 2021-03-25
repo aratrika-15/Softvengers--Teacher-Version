@@ -5,6 +5,7 @@
 const StudentProgress=require('../models/studentProgress');
 const Student=require('../models/student');
 const Teacher=require('../models/teacher')
+const moment = require('moment');
 
 const groupStats=async(req,res)=>{
     console.log(req.params);
@@ -75,39 +76,40 @@ const indivStats=async(req,res)=>{
 
 //group stats function that deals with dailyScore vs Date, for a given student
 const groupScoreHistories=async(tutID)=>{
-    const students=await Student.find({tutGrp:tutID});
-    // console.log(students.scoreHistory);
-    studentsArray = [];
-    for (i=0; i < students.length; i++) {
-        studentsArray.push(students[i].scoreHistory);
-    }
-    // return studentsArray;
-    let length = studentsArray.length;
-    console.log(length);
-    sum = studentsArray[0];
-    // console.log(sum, sum.length);
-    console.log(studentsArray, studentsArray.length);
 
-    for (i=0; i < length; i++) {
-        for (j=0; j < sum.length; j++) {
-            sum[j].dailyScore += studentsArray[i+1][j].dailyScore;
-        }
-    }
+    const today = moment().add(1,'days');
+    const twoWeeksAgo = moment().add(-13, 'days')
 
-    // studentsArray.forEach(({scoreHistory})=> scoreTotal=scoreTotal.map(function (num, idx) {
-    //     return num + scoreHistory[idx];
-    //   }));
+    dates = []
 
-    scoreAvg=[]
-    for(var i = 0; i < sum.length; i++){
-        scoreAvg[i] = sum[i]/length;
-    };
+    for (var m = moment(twoWeeksAgo); m.isBefore(today); m.add(1, 'days')) {
+        // console.log(m.format('MMM Do YY'), m.format('YYYY-MM-DD'));
+        dates.push(m.format('YYYY-MM-DD'))
+      }
     
-    groupHistory = {
-        tutGrp:tutID,
-        scoreHistory:scoreAvg
-    };
-    return groupHistory
+    let scores = []
+    const students=await Student.find({tutGrp:tutID});
+    for (i=0; i < students.length; i++) {
+        scores = scores.concat(students[i].scoreHistory);
+    }
+    const scoresSorted = []
+    // console.log(scores);
+    for (i=0; i < dates.length; i++) {
+        
+        let scoresOfDate = []
+        for (j=0; j < scores.length; j++) {
+            const tempScoreDate = moment(scores[j].sysDate).format('YYYY-MM-DD')
+            // console.log(tempScoreDate, dates[i], tempScoreDate == dates[i])
+            if (tempScoreDate == dates[i]) scoresOfDate.push(scores[j].dailyScore);
+        }
+        console.log(dates[i], scoresOfDate)
+        const temp={
+            date:dates[i],
+            averageScores:scoresOfDate.reduce(function(sum, a) { return sum + a },0)/(scoresOfDate.length||1)
+        }
+        scoresSorted.push(temp);
+    }
+    return scoresSorted;
 };
 
 //individual stats function that deals with dailyScore vs Date, for a given student
