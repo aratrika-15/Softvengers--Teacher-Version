@@ -24,17 +24,25 @@ const studentLogin=async(req,res)=>{
           {
            //generating and returning the token
            const token = jwt.sign({ email: emailExists.emailID,  id:emailExists._id , tutGp:emailExists.tutGrp}, accessTokenSecret);   
-           res.status(200).header('token', token).send(token);   
+           res.status(200).header('token', token).send({
+               message: "True",
+               token: token
+           });   
           }
           else
           {
-              return res.status(404).send("Password is incorrect for the user");
+              return res.status(404).send(
+                  {message: "False",
+              token: []
+          });
           }
          
       }
       else
       {
-          return res.status(404).send('Username does not exist');
+          return res.status(404).send({message: "False",
+              token: []
+          });
       }
       
   
