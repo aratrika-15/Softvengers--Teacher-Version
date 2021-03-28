@@ -26,15 +26,16 @@ import Checkbox from '@material-ui/core/Checkbox';
 import { dictOfUniverse, dictOfSolar, dictOfPlanet } from './../../variables/general';
 
 const columns = [
+    { id: 'QuestionID', label: 'Question ID', minWidth: 100},
     { id: 'Universe', label: 'Universe', minWidth: 100 },
     { id: 'Solar', label: 'Solar', minWidth: 100 },
     { id: 'planet', label: 'Planet', minWidth: 100 },
-    { id: 'question', label: 'Question', minWidth: 100 },
-    { id: 'difficulty', label: 'Level', minWidth: 100}
+    { id: 'question', label: 'Question', minWidth: 100 }
+   
   ];
 
-  function createData(universe,solar, planet, question) {
-    return { Universe: dictOfUniverse[universe-1], Solar: dictOfSolar[solar-1], planet: dictOfPlanet[planet-1], question};
+  function createData(universe,solar, planet, questionID, question) {
+    return { Universe: dictOfUniverse[universe-1], Solar: dictOfSolar[solar-1], Planet: dictOfPlanet[planet-1], QuestionID: questionID, question};
   }
 
   const useStyles = makeStyles((theme) => ({
@@ -84,38 +85,48 @@ const columns = [
       flex:5
     },
   }));
+
+  axios.defaults.baseURL = "http://localhost:5000/teacher";
 const NewQuestion = () => {
 
     const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
+  const [question, setQuestion] = React.useState({});
     const [inputState, setInput] = React.useState({});
     const [isModalOpen, setIsModalOpen] = useState(false);
     // Testing of data retrieval 
 
     const [appState, setAppState] = useState({
       loading: false,
-      repos: null,
+      allQuestions: null,
     });
   
     const [updated, setUpdate] = useState(true);
-  
+    const config = {
+        headers: {Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAxQGUubnR1LmVkdS5zZyIsImlkIjoiNjA1MzE2Njk5ZDRhNjI0MmYwZDk5M2RmIiwidHV0R3AiOiJTQ0U0IiwiaWF0IjoxNjE2MDU4MTg2fQ.7LFzy-ecqB89ZNydkPR0LhuM33SV3ciaPJmO_g9oQnc"}
+    };
     useEffect(() => {
-      setAppState({ loading: true });
-      axios.get('/allQuestions').then((allQuestions) => {
-        const allData = allQuestions.data.questions;
-        setAppState({ loading: false, allQuestions: allData });
-        console.log(allData[0].Question)
-      });
-      setUpdate(false);
+    //   setAppState({ loading: true });
+    //   axios.get('/question',config).then((allQuestions) => {
+    //     const allData = allQuestions.data;
+    //     setAppState({ loading: false, allQuestions: allData });
+    //     console.log(allQuestions)
+    //   });
+    //   setUpdate(false);
+    var myHeaders = new Headers();
+                myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAxQGUubnR1LmVkdS5zZyIsImlkIjoiNjA1MzE2Njk5ZDRhNjI0MmYwZDk5M2RmIiwidHV0R3AiOiJTQ0U0IiwiaWF0IjoxNjE2MDU4MTg2fQ.7LFzy-ecqB89ZNydkPR0LhuM33SV3ciaPJmO_g9oQnc");
+                fetch('http://localhost:5000/teacher/question',{headers: myHeaders})
+                .then(response => response.json())
+                .then(data => setAppState({loading: false, allQuestions: data}));
+                
     }, [setAppState, updated]);
-  
+    
     const rows = [];
-    appState.allQuestions && appState.allQuestions.forEach(question => rows.push(createData(question.Universe, question.Solar, question.Planet, question.Question)));
-  
+    appState.allQuestions && appState.allQuestions.forEach(question => rows.push(createData(question.Universe, question.Solar, question.Planet, question.QuestionID, question.body)));
+    console.log('appState', appState);
     const classes = useStyles();
 
-    const [question, setQuestion] = React.useState({});
+
     
     const handleChange = (event) => {
       switch(event.target.name){
@@ -155,6 +166,7 @@ const NewQuestion = () => {
         Universe: 1,
         Solar: 1,
         Planet: 1,
+        QuestionID: 1,
         Question: "",
         Type: "MCQ",
         Options: {
@@ -164,33 +176,21 @@ const NewQuestion = () => {
           "D": ""
         },
         CorrectAns: "A",
-        Difficulty: "Easy"
       }
       setInput(newObj);
       setAddOpen(true);
     };
-  
+    // const config = {
+    //     headers: { Authorization: `Bearer ${token}` }
+    // };
+
     const handleAddOk = () => {
       //TODO: Update DB question 
-      var myHeaders = new Headers();
-        myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAxQGUubnR1LmVkdS5zZyIsImlkIjoiNjA1MzE2Njk5ZDRhNjI0MmYwZDk5M2RmIiwidHV0R3AiOiJTQ0U0IiwiaWF0IjoxNjE2MDU4MTg2fQ.7LFzy-ecqB89ZNydkPR0LhuM33SV3ciaPJmO_g9oQnc");
-
-        var raw = inputState;
-
-        var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow'
-        };
-
-        fetch("http://localhost:5000/teacher/question", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
-
-        setUpdate(true);
-        setAddOpen(false);
+    axios.post(`/question/${inputState.QuestionID}`, inputState, config)
+    .then(res => console.log(res))
+    .catch(err => console.log(err));
+    setUpdate(true);
+    setAddOpen(false);
     };
   
     const handleAddCancel = () => {
@@ -249,7 +249,7 @@ const NewQuestion = () => {
     return (
       <div className={classes.root}>
         <Typography variant="h4" gutterBottom className={classes.typo}>
-            All Quizzes
+            Question Bank
         </Typography>
         <div className={classes.bar}>
             <Button color="primary" round onClick={toggleAddModal}>Add new question</Button>
@@ -260,6 +260,7 @@ const NewQuestion = () => {
                             <TextField name = "Universe" type="number" id="standard-basic" label="Universe" required="true" style = {{width: '45%'}} onChange={handleChange}/>
                             <TextField name = "Universe" type="number" id="standard-basic" label="Solar" required="true" style = {{width: '45%'}} onChange={handleChange}/>
                             <TextField name = "Planet" type="number" id="standard-basic" label="Planet" required="true" style = {{width: '45%'}} onChange={handleChange}/>
+                            <TextField name = "questionID" type="number" id="standard-basic" label="QuestionID" required="true" style = {{width: '45%'}} onChange={handleChange}/>
                             <TextField name = "Question" id="standard-basic" label="Quiz Question" fullWidth="true" required="true" style = {{width: '91%'}} onChange={handleChange}/>
                             <Typography variant="h7" >
                             <br></br> {"     "}Select the Checkbox with the correct option:
