@@ -8,9 +8,9 @@ const Teacher=require('../models/teacher')
 const moment = require('moment');
 
 const groupStats=async(req,res)=>{
-    console.log(req.params);
+    // console.log(req.params);
     const tutID = req.params.tut_id;
-    console.log(tutID);
+    // console.log(tutID);
     try{
         const tutExists = await Teacher.findOne({ tutGrp: tutID});
         if(!tutExists) 
@@ -149,14 +149,36 @@ const percentageCompletion=async(emailID)=>{
         conqueredSolar:studentProgress.conqueredSolarSystem,
         conqueredPlanet:studentProgress.conqueredPlanet
     }
-    console.log(percentageCompleted);
+    // console.log(percentageCompleted);
     return percentageCompleted;
 
 };
 
 //group stats function to show scores achieved in each universe, planet, solar system
 const groupScoresAchieved=async(tutID)=>{
-    return 2;
+    const students = await Student.find({tutGrp: tutID});
+    const allEmails = []
+    for (i=0; i < students.length; i++) {
+        console.log(students[i].emailID);
+        allEmails.push(students[i].emailID);
+    }
+
+    initialEmail = allEmails.pop();
+    initialTSC = await scoresAchieved(initialEmail);
+
+    for (i=0; i < allEmails.length; i++) {
+        tempVal = await scoresAchieved(allEmails[i]);
+
+        for (j=0; j < initialTSC.universeTotal.length; j++) {
+            initialTSC.universeTotal[j].totalScore += tempVal.universeTotal[j].totalScore;
+        }
+
+        for (j=0; j < initialTSC.solarSystemTotal.length; j++) {
+            initialTSC.solarSystemTotal[j].totalScore += tempVal.solarSystemTotal[j].totalScore;
+        }
+    }
+
+    return initialTSC;
 };
 
 //individual stats function to show scores achieved in each universe, planet, solar system
@@ -183,8 +205,8 @@ const scoresAchieved=async(emailID)=>{
         universeList.push(entry)
     }
 
-    console.log(universeList);
-    console.log(solarSystemList);
+    // console.log(universeList);
+    // console.log(solarSystemList);
 
     totalScoreCompleted={
         universeTotal:universeList,
@@ -198,7 +220,7 @@ const scoresAchieved=async(emailID)=>{
 const groupAttemptedDifficulties=async(tutID)=>{
     const students=await Student.find({tutGrp:tutID});
     let len=students.length;
-    console.log(len);
+    // console.log(len);
     let easy=[];
     let medium=[];
     let hard=[];
@@ -208,7 +230,7 @@ const groupAttemptedDifficulties=async(tutID)=>{
     for(let i=0;i<len;i++)
     {
         const attemptedDifficulty=await attemptedDifficulties(students[i].emailID);
-        console.log(attemptedDifficulty);
+        // console.log(attemptedDifficulty);
         easy.push(attemptedDifficulty.easyCorrect);
         medium.push(attemptedDifficulty.mediumCorrect);
         hard.push(attemptedDifficulty.hardCorrect);
@@ -225,9 +247,9 @@ const groupAttemptedDifficulties=async(tutID)=>{
             maxHardCorrect=attemptedDifficulty.hardCorrect;
         }
     }
-    console.log(easy);
-    console.log(medium);
-    console.log(hard);
+    // console.log(easy);
+    // console.log(medium);
+    // console.log(hard);
     const Avg = arr => arr.reduce((a,b) => a + b, 0) / arr.length;
     const easyAvg=Avg(easy);
     const mediumAvg=Avg(medium);
@@ -240,7 +262,7 @@ const groupAttemptedDifficulties=async(tutID)=>{
         "maxMediumCorrect":maxMediumCorrect,
         "maxHardCorrect":maxHardCorrect,
     }
-    console.log(averageAttemptedDifficulties);
+    // console.log(averageAttemptedDifficulties);
     //returning the average number of easy/medium/hard questions answered by students of this tut group
     //also returning the maximum number of easy/medium/hard questions answered by students of this tut group
     return averageAttemptedDifficulties;
