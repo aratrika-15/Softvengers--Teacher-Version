@@ -8,7 +8,13 @@ import TableHead from '@material-ui/core/TableHead'
 import TablePagination from '@material-ui/core/TablePagination'
 import TableRow from '@material-ui/core/TableRow'
 import {useState,useEffect} from 'react'
+import Trail from '../trail'
+import AddQuestion from './addQuestion'
+import { DataGrid } from '@material-ui/data-grid';
+import FilterListIcon from '@material-ui/icons/FilterList';
+import IconButton from '@material-ui/core/IconButton';
 
+import Tooltip from '@material-ui/core/Tooltip';
 const ViewLeaderboard = () => {
   const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -31,7 +37,7 @@ const ViewLeaderboard = () => {
   const columns = [
         { id: 'rank', label: 'Rank', minWidth: 100},
         { id: 'name', label: 'Student Name', minWidth: 170, type: 'link' },
-        { id: 'totalScore', label: 'Total Score', minWidth: 100 }
+        { id: 'totalScore', label: 'Total Score', minWidth: 100 },{ id: 'tutGrp', label: 'Tutorial Group', minWidth: 100 }
         ]
   const [rows, setData] = useState([])
 
@@ -57,8 +63,9 @@ const ViewLeaderboard = () => {
     }
     getStudents()
   },[setData])
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+  
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const handleChangePage = (e, newPage) => {
     setPage(newPage);
@@ -68,16 +75,43 @@ const ViewLeaderboard = () => {
     setRowsPerPage(+e.target.value);
     setPage(0);
   };
+  // const ColumnTypeFilteringGrid=() =>{
+    
+  //   const columns = React.useMemo(() => {
+  //     if (data.columns.length > 0) {
+  //       const visibleFields = ['desk', 'commodity', 'totalPrice'];
+  //       const mappedColumns = data.columns.map((dataColumn) => {
+  //         const mappedColumn = {
+  //           ...dataColumn,
+  //           hide: visibleFields.indexOf(dataColumn.field) === -1,
+  //         };
+  
+  //         if (mappedColumn.field === 'totalPrice') {
+  //           mappedColumn.type = 'price';
+  //         }
+  //         return mappedColumn;
+  //       });
+  //       return mappedColumns;
+  //     }
+  //     return [];
+  //   }, [data.columns]);
+  
   
     return (
         <div className ='table-container'>
           <h1 className ='LeaderBoard'>LeaderBoard</h1>
+          
             <TableContainer >
                 <Table stickyHeader aria-label="sticky table">
+                
                     <TableHead>
-                        <TableRow>{columns.map((column)=>(
-                        <StyledTableCell key = {column.id} align ={column.align} style={{minWidth: column.minWidth}} >{column.label}</StyledTableCell>))}
-                        </TableRow>
+                        <TableRow>{columns.map((column)=>{
+                          const value = column.id === 'tutGrp' ? <>
+                          {column.label} <IconButton> <FilterListIcon/>
+                         </IconButton></>
+                          : `${column.label}`;
+                          return(<StyledTableCell key = {column.id} align ={column.align} style={{minWidth: column.minWidth}} >{value}</StyledTableCell>)})}
+                      </TableRow>
                     </TableHead>
                     <TableBody>
                     {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
@@ -107,7 +141,7 @@ const ViewLeaderboard = () => {
         onChangePage={handleChangePage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
-            
+        <Trail/>  
         </div>
     )
 }

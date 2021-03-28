@@ -15,42 +15,29 @@ import Assignmentpage from '../Views/Assignmentpage'
 import Link from '@material-ui/core/Link'
 
 const ViewAssignments = () => {
-    const [assignments, setAssignments] = useState([
-        {
-            id:1,
-            name: 'Assignment 1',
-            date: 'Date Added : 25 Feb 2021',
-            deadline : '28 Feb 2021'
-        },
-        {
-            id:2,
-            name: 'Assignment 2',
-            date: 'Date Added : 20 Feb 2021',deadline : '25 Feb 2021'
-        },
-        {
-            id:3,
-            name: 'Assignment 3',
-            date: 'Date Added : 18 Feb 2021',deadline : '23 Feb 2021'
-        },
-        {
-            id:4,
-            name: 'Assignment 4',
-            date: 'Date Added : 12 Feb 2021',deadline : '17 Feb 2021'
-        },
-        {
-            id:5,
-            name: 'Assignment 5',
-            date: 'Date Added : 2 Feb 2021'
-        },
-        {
-            id: 6,
-            name: 'Assignment 6',
-            date: 'Date Added : 25 Jan 2021'
-        }
+    const [assignments, setAssignments] = useState([])
 
-    
-    ])
-    
+    const fetchAssignments = async ()=> {
+      var myHeaders = new Headers();
+      myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAxQGUubnR1LmVkdS5zZyIsImlkIjoiNjA1MzE2Njk5ZDRhNjI0MmYwZDk5M2RmIiwidHV0R3AiOiJTQ0U0IiwiaWF0IjoxNjE2MDU4MTg2fQ.7LFzy-ecqB89ZNydkPR0LhuM33SV3ciaPJmO_g9oQnc");
+      const res = await fetch('http://localhost:5000/teacher/assignment/list/SCE5',{
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+      })
+      const data = await res.json()
+      console.log(data);
+      return data
+    }
+    useEffect(()=>{
+      const getAssignments = async()=>{
+        const assignementsFromServer = await fetchAssignments()
+        
+        setAssignments(assignementsFromServer)
+  
+      }
+      getAssignments()
+    },[setAssignments])
     const ColorButton = withStyles((theme) => ({
         root: {
             body :{
@@ -84,14 +71,15 @@ const ViewAssignments = () => {
   };      
     return (
         <div className='assignment-container'>
-            <h1>Assignments <IColourButton><AddTwoToneIcon/></IColourButton></h1>
+            <h1>Assignments <IColourButton><Link href="/CreateAssignment"><AddTwoToneIcon/></Link></IColourButton></h1>
             {assignments.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((assignment)=>(
             <Card>
                 <CardActionArea>
                     <CardMedia title="Assignment"/>
-                    <CardContent><Typography gutterBottom variant="h5" component="h2">Assignment {assignment.id}</Typography>
-                    <Typography>{assignment.date} Due : {assignment.deadline}</Typography>
-                    <Typography>Timelimit: {assignment.deadline}</Typography>
+                    <CardContent><Typography gutterBottom variant="h5" component="h2">Assignment {assignment.assignmentID}</Typography>
+                    <Typography>{assignment.assignmentName}</Typography>
+                    <Typography>Due : {assignment.deadline}</Typography>
+                    <Typography>Timelimit: {assignment.timeLimit}</Typography>
                     </CardContent>
                 </CardActionArea>
                 <CardActions>
