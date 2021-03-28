@@ -11,7 +11,7 @@ import {
     } from '@devexpress/dx-react-chart-material-ui'
 import { Animation } from '@devexpress/dx-react-chart'
 
-const Assignmentpage = () => {
+const Assignmentpage = (props) => {
     const [data, setdata] = useState([
         { NumberOFStudents: '50', score: 10.5 },
         { NumberOFStudents: '30', score: 8.5  },

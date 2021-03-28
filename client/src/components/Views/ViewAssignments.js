@@ -14,7 +14,7 @@ import TablePagination from '@material-ui/core/TablePagination'
 import Assignmentpage from '../Views/Assignmentpage'
 import Link from '@material-ui/core/Link'
 
-const ViewAssignments = () => {
+const ViewAssignments = (props) => {
     const [assignments, setAssignments] = useState([
         {
             id:1,
@@ -71,7 +71,7 @@ const ViewAssignments = () => {
           marginLeft:'49rem'
         }
       }))(IconButton);  
-      const [page, setPage] = useState(0);
+    const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(3);
 
   const handleChangePage = (e, newPage) => {

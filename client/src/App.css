@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap");
 
 * {
   box-sizing: border-box;
@@ -7,7 +7,7 @@
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .container {
@@ -19,11 +19,11 @@ body {
   padding: 30px;
   border-radius: 5px;
 }
-.paper{
+.paper {
   max-width: 500px;
   margin: 50px auto;
 }
-.score{
+.score {
   text-align: center;
 }
 
@@ -60,7 +60,6 @@ body {
   display: block;
   width: 100%;
 }
-
 
 .task {
   background: #f4f4f4;
@@ -114,23 +113,21 @@ body {
   height: 20px;
 }
 /* rgb(24, 0, 88); */
-.table-container{
-  background: rgb(196,210,244);
+.table-container {
+  background: rgb(196, 210, 244);
   max-width: 1200px;
   margin: 100px auto;
   overflow: auto;
   min-height: 300px;
-  
-  padding: 30px;
-  border-radius:10px;
-  
 
+  padding: 30px;
+  border-radius: 10px;
 }
-.LeaderBoard{
-  margin-bottom:  25px
+.LeaderBoard {
+  margin-bottom: 25px;
 }
-.error{
-  font-size: .7rem;
+.error {
+  font-size: 0.7rem;
   margin-left: 1rem;
 }
 .assignment-container {
@@ -142,8 +139,18 @@ body {
   padding: 30px;
   border-radius: 2.5px;
 }
+
+.questionBank-container {
+  max-width: 1200px;
+  margin: 120px auto;
+  overflow: auto;
+  min-height: 300px;
+  border: 2px solid steelblue;
+  padding: 30px;
+  border-radius: 2.5px;
+}
+
 footer {
   margin-top: 30px;
   text-align: center;
 }
-

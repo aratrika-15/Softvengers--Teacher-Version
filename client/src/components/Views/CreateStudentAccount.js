@@ -1,6 +1,6 @@
 import {useState} from 'react'
 
-const CreateStudentAccount = () => {
+const CreateStudentAccount = (props) => {
     const [students, setStudents] = useState([
         {
             id:1,
