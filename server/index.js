@@ -17,6 +17,8 @@ const detailsRoutes = require('./student_routes/details');
 const gameRoutes = require('./student_routes/game')
 const questions = require('./student_routes/questions')
 const challengeRoutes = require('./student_routes/challenge')
+const studentAssignmentRoutes = require('./student_routes/assignments');
+
 
 
 dotenv.config();
@@ -47,6 +49,7 @@ app.use('/student/details',detailsRoutes);
 app.use('/student/game',gameRoutes);
 app.use('/student/questions',questions);
 app.use('/student/challenge',challengeRoutes);
+app.use('/student/assignments',studentAssignmentRoutes);
 
 app.use('/teacher/leaderboard',leaderboardRoutes);
 app.use('/teacher/statistics',statsRoutes);
