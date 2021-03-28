@@ -10,29 +10,28 @@ import Assignmentpage  from './components/Views/Assignmentpage'
 
 import { BrowserRouter,Route, Switch, Redirect } from 'react-router-dom'
 import Login from './components/Views/LoginScreen';
+import LoginScreen from './components/Views/LoginScreen';
 
-const Routes = ({token ,setToken}) => {
-    
-    // if(!token) {   
-    //     return <Login setToken={setToken} />
-    //   }
+const Routes = (props) => {
+
+
     return (
         <BrowserRouter>
         <div>
-            <Navbar />
+            <Navbar token = {props.token}/>
             <Switch>
-                <Route exact path="/Statistics" component={Dashboard} />
-                <Route exact path="/Assignments" component={ViewAssignment} />
-                <Route path="/Assignmentpage" component={Assignmentpage} />
-                <Route path="/CreateAssignment" component={CreateAssignment} />
-                <Route exact path="/QuestionBank" component={Questionbank} />
-                <Route exact path="/Leaderboard" component={ViewLeaderboard} />
-                <Route exact path="/CreateStudentAccount" component={CreateStudentAccount} />
+                <Route exact path="/Statistics" component={Dashboard} token = {props.token}/>
+                <Route exact path="/Assignments" component={ViewAssignment} token = {props.token}/>
+                <Route path="/Assignmentpage" component={Assignmentpage} token = {props.token}/>
+                <Route exact path="/QuestionBank" component={Questionbank} token = {props.token} />
+                <Route exact path="/Leaderboard" component={ViewLeaderboard} token = {props.token}/>
+                <Route exact path="/CreateStudentAccount" component={CreateStudentAccount} token = {props.token}/>
             </Switch>
-            <Route exact path="/Logout" component={Login} />
+            <Route exact path="/Logout" component={LoginScreen} />
       </div>
         </BrowserRouter>
     )
-}
+    }
+
 
 export default Routes

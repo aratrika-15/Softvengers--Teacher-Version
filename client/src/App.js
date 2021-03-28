@@ -9,10 +9,10 @@ import Login from './components/Views/LoginScreen'
 import ViewAssignment from './components/Views/ViewAssignments'
 import { BrowserRouter,Route, Switch, Redirect } from 'react-router-dom';
 import Routes from './Routes'
+import Particles from 'react-particles-js';
+import { Component } from 'react';
 
-
-
-function App() {
+class App extends Component{
 //   const [students, setStudents] = useState([
 //     {
 //         id:1,
@@ -38,12 +38,14 @@ function App() {
 //     const newStudent = {id,...student}
 //     setStudents([...students,newStudent])
 //   }
-  
+ render(){ 
   return (
+    
     <div className="App">
       <Routes/>
     </div>
   );
+}
 }
 
 export default App;

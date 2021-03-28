@@ -1,7 +1,7 @@
 import {useState} from 'react'
-import * as Yup from 'yup';
 
-const CreateStudentAccount = () => {
+
+const CreateStudentAccount = (props) => {
     const [students, setStudents] = useState([
         {
             id:1,

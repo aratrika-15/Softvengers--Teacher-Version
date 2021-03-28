@@ -49,7 +49,7 @@ const Assignmentpage = () => {
       },[setdetails])
       console.log(details);
       console.log(details.scoresResults);
-      //
+      
       
     return (
         <div>

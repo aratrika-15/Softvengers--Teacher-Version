@@ -58,7 +58,7 @@ const ViewAssignments = () => {
           marginLeft:'49rem'
         }
       }))(IconButton);  
-      const [page, setPage] = useState(0);
+    const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(3);
 
   const handleChangePage = (e, newPage) => {

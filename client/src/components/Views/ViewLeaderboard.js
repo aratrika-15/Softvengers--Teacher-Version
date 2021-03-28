@@ -8,14 +8,12 @@ import TableHead from '@material-ui/core/TableHead'
 import TablePagination from '@material-ui/core/TablePagination'
 import TableRow from '@material-ui/core/TableRow'
 import {useState,useEffect} from 'react'
-import Trail from '../trail'
-import AddQuestion from './addQuestion'
+
 import { DataGrid } from '@material-ui/data-grid';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import IconButton from '@material-ui/core/IconButton';
 
-import Tooltip from '@material-ui/core/Tooltip';
-const ViewLeaderboard = () => {
+const ViewLeaderboard = (props) => {
   const StyledTableCell = withStyles((theme) => ({
     head: {
       backgroundColor:'#6f7bd9',
@@ -43,7 +41,7 @@ const ViewLeaderboard = () => {
 
   const fetchStudents = async ()=> {
     var myHeaders = new Headers();
-    myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAxQGUubnR1LmVkdS5zZyIsImlkIjoiNjA1MzE2Njk5ZDRhNjI0MmYwZDk5M2RmIiwidHV0R3AiOiJTQ0U0IiwiaWF0IjoxNjE2MDU4MTg2fQ.7LFzy-ecqB89ZNydkPR0LhuM33SV3ciaPJmO_g9oQnc");
+    myHeaders.append("Authorization", "Bearer "+ props.token);
     const res = await fetch('http://localhost:5000/teacher/leaderboard',{
       method: 'GET',
       headers: myHeaders,
@@ -141,7 +139,7 @@ const ViewLeaderboard = () => {
         onChangePage={handleChangePage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
-        <Trail/>  
+        
         </div>
     )
 }
