@@ -109,11 +109,11 @@ const sendChallenge = async(req,res) =>{
 const getReceivedChallenges = async (req, res) =>{
 
     const challenges = await challengeSchema.find({
-        'receivers.emailID': req.body.emailID
+        'receivers.emailID': req.query.emailID
     });
 
     const myDetails =await challengeSchema.find({
-        'receivers.emailID': req.body.emailID
+        'receivers.emailID': req.query.emailID
     },
     {
         'receivers.$': 1,
@@ -141,7 +141,7 @@ const getReceivedChallenges = async (req, res) =>{
 const getSentChallenges = async (req, res) =>{
 
     const challenges = await challengeSchema.find({
-        'sender.emailID': req.body.emailID
+        'sender.emailID': req.query.emailID
     }).sort({'sender.score':-1});
 
     // const myDetails =await challengeSchema.find({
@@ -172,7 +172,7 @@ const getSentChallenges = async (req, res) =>{
 const getQuestions = async(req,res)=>{
     const qids = await challengeSchema.findOne(
         {
-            _id: req.body.challengeID
+            _id: req.query.challengeID
         }
     );
     console.log(qids.questionIds);
@@ -214,12 +214,14 @@ const attemptChallenge = async(req,res) =>{
 
 
 
-
 module.exports={
     createChallenge,
     sendChallenge,
     getReceivedChallenges,
     getSentChallenges,
     attemptChallenge,
-    getQuestions
+    getQuestions,
+    //declineChallenge
 };
+
+// change attempt status to -1
