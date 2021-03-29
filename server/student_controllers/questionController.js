@@ -23,7 +23,7 @@ const getQuestions = async(req,res)=>{
             }
             else
             {
-            res.status(200).send({questions: JSON.parse(JSON.stringify(planetQuestions))});
+            res.status(200).json({questions: JSON.parse(JSON.stringify(planetQuestions))});
             }
             }
             else
