@@ -106,20 +106,21 @@ const NewQuestion = () => {
         headers: {Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAxQGUubnR1LmVkdS5zZyIsImlkIjoiNjA1MzE2Njk5ZDRhNjI0MmYwZDk5M2RmIiwidHV0R3AiOiJTQ0U0IiwiaWF0IjoxNjE2MDU4MTg2fQ.7LFzy-ecqB89ZNydkPR0LhuM33SV3ciaPJmO_g9oQnc"}
     };
     useEffect(() => {
-    //   setAppState({ loading: true });
-    //   axios.get('/question',config).then((allQuestions) => {
-    //     const allData = allQuestions.data;
-    //     setAppState({ loading: false, allQuestions: allData });
-    //     console.log(allQuestions)
-    //   });
-    //   setUpdate(false);
-    var myHeaders = new Headers();
-                myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAxQGUubnR1LmVkdS5zZyIsImlkIjoiNjA1MzE2Njk5ZDRhNjI0MmYwZDk5M2RmIiwidHV0R3AiOiJTQ0U0IiwiaWF0IjoxNjE2MDU4MTg2fQ.7LFzy-ecqB89ZNydkPR0LhuM33SV3ciaPJmO_g9oQnc");
-                fetch('http://localhost:5000/teacher/question',{headers: myHeaders})
-                .then(response => response.json())
-                .then(data => setAppState({loading: false, allQuestions: data}));
+      setAppState({ loading: true });
+      axios.get('/question',config).then((allQuestions) => {
+        const allData = allQuestions.data.questions;
+        setAppState({ loading: false, allQuestions: allData });
+        console.log(allQuestions)
+      });
+      setUpdate(false);
+    // var myHeaders = new Headers();
+    //             myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAxQGUubnR1LmVkdS5zZyIsImlkIjoiNjA1MzE2Njk5ZDRhNjI0MmYwZDk5M2RmIiwidHV0R3AiOiJTQ0U0IiwiaWF0IjoxNjE2MDU4MTg2fQ.7LFzy-ecqB89ZNydkPR0LhuM33SV3ciaPJmO_g9oQnc");
+    //             fetch('http://localhost:5000/teacher/question',{headers: myHeaders})
+    //             .then(response => response.json())
+    //             .then(data => setAppState({loading: false, allQuestions: data}));
                 
-    }, [setAppState, updated]);
+    // 
+  }, [setAppState, updated]);
     
     const rows = [];
     appState.allQuestions && appState.allQuestions.forEach(question => rows.push(createData(question.Universe, question.Solar, question.Planet, question.QuestionID, question.body)));
