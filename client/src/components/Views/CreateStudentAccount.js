@@ -1,6 +1,7 @@
 import {useState} from 'react'
 
-const CreateStudentAccount = () => {
+
+const CreateStudentAccount = (props) => {
     const [students, setStudents] = useState([
         {
             id:1,
@@ -33,9 +34,13 @@ const CreateStudentAccount = () => {
 
 
       
-      
+    // validationSchema={Yup.object().shape({
+    //     username: Yup.string().required('Username is required'),
+    //     password: Yup.string().required('Password is required')
+    // })}
     const onSubmit = (e)=>{
         e.preventDefault()
+        
 
 
         if(!firstname){

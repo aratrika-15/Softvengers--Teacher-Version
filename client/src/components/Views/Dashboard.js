@@ -9,7 +9,7 @@ import {
   MakeBar
 } from "../barchart/styles";
 
-export default function Dashboard() {
+export default function Dashboard(props) {
   return (
     <Container>
       <MainContainer>

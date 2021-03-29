@@ -1,13 +1,54 @@
 import React, {Component} from 'react';
 import {useState, useEffect} from 'react'
 import Navbar from '../Navbar/Navbar';
+import CreateStudentAccount from './CreateStudentAccount'
+import ViewLeaderboard from './ViewLeaderboard'
+import ViewAssignment from './ViewAssignments'
+import Dashboard from './Dashboard'
+import Questionbank from './ViewQuestionbank'
+import Assignmentpage  from './Assignmentpage'
+import { BrowserRouter,Route, Switch, Redirect } from 'react-router-dom'
+import Routes from '../../Routes';
 
-const LoginScreen = () => {
+
+
+
+const LoginScreen = ({ setToken }) => {
     const [Email, setEmail] = useState('');
     const [Password,setPassword] = useState('');
-    const [token, setToken] = useState('');
+    const [token, settoken] = useState('')
 
-    const onSubmit = (e)=>{
+    // const login = async ()=> {
+    //     return fetch('http://localhost:5000/teacher/login',{
+    //         method: 'POST',
+    //         headers: {'Content-Type': 'application/json'},
+    //         body : JSON.stringify({"emailID":Email,"password":Password})
+    //       }).then(data => data.text())}
+    //     var myHeaders = new Headers();
+    //     myHeaders.append("Content-Type", "application/json");
+    //     const res = await 
+    //     const data = await res.text()
+    //     return data
+    //   }
+    
+    // const login = async ()=>{var myHeaders = new Headers();
+    //     myHeaders.append("Content-Type", "application/json");
+    
+    //     var raw = JSON.stringify({"emailID":Email,"password":Password});
+    
+    //     var requestOptions = {
+    //     method: 'POST',
+    //     headers: myHeaders,
+    //     body: raw,
+    //     redirect: 'follow',
+    //     };
+        
+    //     fetch("http://localhost:5000/teacher/login", requestOptions)
+    //         .then(response => response.text())
+    //         .then(result => setToken(result))
+    //         .then(data => console.log(data))
+    //         .catch(error => console.log('error', error));}
+    const onSubmit = async (e)=>{
       e.preventDefault()
       if(!Email){
           alert('Please Enter Email')
@@ -17,17 +58,17 @@ const LoginScreen = () => {
           alert('Please Enter Password')
           return
       }
-        setEmail('')
-        setPassword('')
+      verify()  
     }
 
 
-    useEffect(() => {
+    
+    const verify=()=>{
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-    
+
         var raw = JSON.stringify({"emailID":Email,"password":Password});
-    
+
         var requestOptions = {
         method: 'POST',
         headers: myHeaders,
@@ -40,7 +81,8 @@ const LoginScreen = () => {
             .then(result => setToken(result))
             .then(data => console.log(data))
             .catch(error => console.log('error', error));
-    })
+    }
+
     if (token ==''|| token == 'Username does not exist' || token == 'Password is incorrect for the user')
     return (
       <div className='container'>
@@ -62,12 +104,11 @@ const LoginScreen = () => {
   {
     console.log('token=',token);
     return(
-        <div> 
-            <Navbar/>
-        </div>
+        <Routes token = {token}/>
     )
 
-  }
+}
 
   }
-  export default LoginScreen;
+  
+  export default LoginScreen

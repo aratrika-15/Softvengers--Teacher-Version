@@ -1,11 +1,13 @@
 const Student = require('../models/student');
 const StudentProgress = require('../models/studentProgress');
+const bcrypt = require('bcrypt');
 
 const getStudent = async(req,res)=>{
     try{
         //get Student details
-        const stud = await Student.findOne({emailID: req.body.emailID});
-        const sp = await StudentProgress.findOne({emailID: req.body.emailID});
+        const stud = await Student.findOne({emailID: req.query.emailID});
+        console.log(req.query);
+        const sp = await StudentProgress.findOne({emailID: req.query.emailID});
         let sp_pseudo = JSON.parse(JSON.stringify(sp));
         let pseudo = JSON.parse(JSON.stringify(stud));
 
@@ -36,8 +38,8 @@ const getProgress = async(req,res)=>{
     try{
         //get student details and full dict identifier
         const resultobj = await StudentProgress.findOne(
-            {emailID: req.body.emailID,
-            "fullDict.identifier":`(${req.body.universe},${req.body.SolarSystem},${req.body.planet})` },
+            {emailID: req.query.emailID,
+            "fullDict.identifier":`(${req.query.universe},${req.query.SolarSystem},${req.query.planet})` },
             {
                 "fullDict.$":1,
                 _id: 0
@@ -56,8 +58,8 @@ const getMaxScore = async(req,res)=>{
     try{
         //get student details and full dict identifier
         const resultobj = await StudentProgress.findOne(
-            {emailID: req.body.emailID,
-            "fullDict.identifier":`(${req.body.universe},${req.body.SolarSystem},${req.body.planet})` },
+            {emailID: req.query.emailID,
+            "fullDict.identifier":`(${req.query.universe},${req.query.SolarSystem},${req.query.planet})` },
             {
                 "fullDict.$":1,
                 _id: 0
@@ -68,7 +70,7 @@ const getMaxScore = async(req,res)=>{
         });
     }
     catch(err){
-        res.status(400).send("Invalid tuple");
+        res.status(500).send("Invalid tuple");
     }
 };
 
@@ -78,7 +80,7 @@ const getLeaderboard = async(req,res)=>{
     let rank = 0;
     let finalRank = 0;
     studentSorted.map((student)=>{
-        if (student.emailID == req.body.emailID){
+        if (student.emailID == req.query.emailID){
             finalRank = rank;
         }
         else{
@@ -93,9 +95,115 @@ const getLeaderboard = async(req,res)=>{
 //}  
 };
 
+
+const updateStudent = async(req,res)=>{
+    const studentExists = await Student.findOne({ emailID: req.body.emailID});
+    if(!studentExists) 
+    {
+        return res.status(409).send('This student does not exist');
+    }
+    // const salt = await bcrypt.genSalt(10);
+    // const hashedPass = await bcrypt.hash(req.body.password, salt)
+    Student.update(
+        {
+            emailID: req.body.emailID,
+        },
+        {
+            $set:{
+                //password: hashedPass,
+                volume: req.body.volume,
+                avatar: req.body.avatar
+            },
+        },
+        function(
+         err,
+         result
+     ) {
+         if (err) {
+            return res.status(500).send("Update error in student")
+         }
+         else{
+             return res.status(200).send('Success');
+         }
+     }
+    );
+};
+
+
+const changePassword = async (req, res) => {
+    const studentExists = await Student.findOne({ emailID: req.body.emailID});
+    if (!studentExists)
+    {
+        return res.status(409).send('This student does not exist');
+    }
+    const salt = await bcrypt.genSalt(10);
+
+    const passwordCheck = await bcrypt.compare(req.body.oldPassword, emailExists.password);
+    if (passwordCheck)
+    {
+        const hashedPass = await bcrypt.hash(req.body.newPassword, salt);
+        Student.update(
+            {
+                emailID: req.body.emailID,
+            },
+            {
+                $set:
+                {
+                    password: hashedPass,
+                },
+            },
+            function(
+             err,
+             result
+            )  {
+                    if (err)
+                    {
+                        return res.status(500).send("Update error in student")
+                        }
+                    else
+                    {
+                        return res.status(200).send('Success');
+                    }
+                }
+        );
+    }
+
+};
+
+const getTutStudents = async(req,res) =>{
+
+    const tutgrp = req.query.tutGrp;
+    Student.find({
+        tutGrp: tutgrp
+    }).then((result)=>{
+        if(result != null){
+
+            let students =result.map((res)=>{
+                let student = {
+                emailID: result.emailID,
+                name: `${result.firstName} ${result.lastName}`
+                };
+                return student;
+            
+            })
+
+            res.status(200).send(JSON.parse(JSON.stringify(students)));
+        }
+        else{
+            res.status(404).send('Tut Grp does not exist')
+        }
+    }
+    )
+}
+
+
+
 module.exports={
     getStudent,
     getProgress,
     getLeaderboard,
-    getMaxScore
+    getMaxScore,
+    updateStudent,
+    changePassword,
+    getTutStudents,
 };
