@@ -15,7 +15,8 @@ router.get('/getProgress', detailsControllers.getProgress);
 router.get('/getMaxScore', detailsControllers.getMaxScore);
 //
 router.get('/getLeaderboard',detailsControllers.getLeaderboard);
-router.patch('/updateStudent', detailsControllers.updateStudent)
+router.patch('/updateStudent', detailsControllers.updateStudent);
+router.patch('/changePassword', detailsControllers.changePassword);
 
 //exporting router
 module.exports=router;
