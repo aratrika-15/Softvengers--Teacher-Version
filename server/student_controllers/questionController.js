@@ -3,8 +3,8 @@ const questions = require('../models/planetQuestion');
 const getQuestions = async(req,res)=>{
     // try{
         questions.find({
-            universeName: req.param.universe,
-            solarSystemName: req.param.solarSystem,
+            universeID: req.query.universe,
+            solarID: req.query.solarSystem,
         }).then((result)=>{
             if(result!=null)
             {  
@@ -23,7 +23,7 @@ const getQuestions = async(req,res)=>{
             }
             else
             {
-            res.status(200).send(JSON.parse(JSON.stringify(planetQuestions)));
+            res.status(200).send({questions: JSON.parse(JSON.stringify(planetQuestions))});
             }
             }
             else
