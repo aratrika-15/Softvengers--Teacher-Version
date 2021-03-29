@@ -14,7 +14,7 @@ const getQuestions = async(req,res)=>{
                     body:planetQ.body,
                     correctOption:planetQ.correctOption,
                     wrongOptions:planetQ.wrongOptions,
-                    difficulty: planetQ.difficulty
+                    difficulty: planetQ.planetID
                 }
                  return question; });
             if("[]"=== JSON.stringify(planetQuestions))

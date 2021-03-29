@@ -102,15 +102,15 @@ const updateStudent = async(req,res)=>{
     {
         return res.status(409).send('This student does not exist');
     }
-    const salt = await bcrypt.genSalt(10);
-    const hashedPass = await bcrypt.hash(req.body.password, salt)
+    // const salt = await bcrypt.genSalt(10);
+    // const hashedPass = await bcrypt.hash(req.body.password, salt)
     Student.update(
         {
             emailID: req.body.emailID,
         },
         {
             $set:{
-                password: hashedPass,
+                //password: hashedPass,
                 volume: req.body.volume,
                 avatar: req.body.avatar
             },
@@ -170,6 +170,33 @@ const changePassword = async (req, res) => {
 
 };
 
+const getTutStudents = async(req,res) =>{
+
+    const tutgrp = req.query.tutGrp;
+    Student.find({
+        tutGrp: tutgrp
+    }).then((result)=>{
+        if(result != null){
+
+            let students =result.map((res)=>{
+                let student = {
+                emailID: result.emailID,
+                name: `${result.firstName} ${result.lastName}`
+                };
+                return student;
+            
+            })
+
+            res.status(200).send(JSON.parse(JSON.stringify(students)));
+        }
+        else{
+            res.status(404).send('Tut Grp does not exist')
+        }
+    }
+    )
+}
+
+
 
 module.exports={
     getStudent,
@@ -177,5 +204,6 @@ module.exports={
     getLeaderboard,
     getMaxScore,
     updateStudent,
-    changePassword
+    changePassword,
+    getTutStudents,
 };

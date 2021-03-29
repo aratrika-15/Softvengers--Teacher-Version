@@ -214,12 +214,14 @@ const attemptChallenge = async(req,res) =>{
 
 
 
-
 module.exports={
     createChallenge,
     sendChallenge,
     getReceivedChallenges,
     getSentChallenges,
     attemptChallenge,
-    getQuestions
+    getQuestions,
+    //declineChallenge
 };
+
+// change attempt status to -1
