@@ -130,10 +130,52 @@ const updateStudent = async(req,res)=>{
 };
 
 
+const changePassword = async (req, res) => {
+    const studentExists = await Student.findOne({ emailID: req.body.emailID});
+    if (!studentExists)
+    {
+        return res.status(409).send('This student does not exist');
+    }
+    const salt = await bcrypt.genSalt(10);
+
+    const passwordCheck = await bcrypt.compare(req.body.oldPassword, emailExists.password);
+    if (passwordCheck)
+    {
+        const hashedPass = await bcrypt.hash(req.body.newPassword, salt);
+        Student.update(
+            {
+                emailID: req.body.emailID,
+            },
+            {
+                $set:
+                {
+                    password: hashedPass,
+                },
+            },
+            function(
+             err,
+             result
+            )  {
+                    if (err)
+                    {
+                        return res.status(500).send("Update error in student")
+                        }
+                    else
+                    {
+                        return res.status(200).send('Success');
+                    }
+                }
+        );
+    }
+
+};
+
+
 module.exports={
     getStudent,
     getProgress,
     getLeaderboard,
     getMaxScore,
-    updateStudent
+    updateStudent,
+    changePassword
 };
