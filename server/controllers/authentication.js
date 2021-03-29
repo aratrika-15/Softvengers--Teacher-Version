@@ -12,8 +12,10 @@ const authenticateJWT = (req, res, next) => {
     if (authHeader) {
         const token = authHeader.split(' ')[1];
         //verification of token
+        console.log(token);
         jwt.verify(token, accessTokenSecret, (err, user) => {
             if (err) {
+                console.log(err);
                 return res.sendStatus(403);//forbidden access
             }
 

@@ -3,8 +3,8 @@ const questions = require('../models/planetQuestion');
 const getQuestions = async(req,res)=>{
     // try{
         questions.find({
-            universeName: req.body.universe,
-            solarSystemName: req.body.solarSystem,
+            universeName: req.param.universe,
+            solarSystemName: req.param.solarSystem,
         }).then((result)=>{
             if(result!=null)
             {  

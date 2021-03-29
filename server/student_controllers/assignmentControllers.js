@@ -8,7 +8,7 @@ const AssignmentScore = schemas.AssignmentScore;
 
 //function to send back a list of assignments
 const getassignmentList=(req,res)=>{
-    Assignment.find({ tutGrp: req.body.tutGrp } ).sort({assignmentID:1})
+    Assignment.find({ tutGrp: req.query.tutGrp } ).sort({assignmentID:1})
     .then((result)=>{
         console.log(result);
         if(result!=null)
@@ -45,7 +45,7 @@ const getassignmentList=(req,res)=>{
 const getAssignmentQuestions = async (req,res) =>{
     try{
     const questions = await AssignmentQn.find({
-        "assignmentID":req.body.assignmentID
+        "assignmentID":req.query.assignmentID
         
     });
     console.log(questions);
