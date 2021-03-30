@@ -46,7 +46,7 @@ const tutLeaderboard=async(req,res)=>{
         if(result!=null)
         {let leaders=result.map((leader)=>{ 
             let lead={
-                firstName:leader.firstName + ' ' + leader.lastName,
+                name:leader.firstName + ' ' + leader.lastName,
                 emailID:leader.emailID,
                 totalScore:leader.totalScore,
                 tutGrp:tutGrp

@@ -60,19 +60,28 @@ const assignmentDetails=(req,res)=>{
             AssignmentScore.find({ assignmentID: { $eq: assignmentID } } ).sort({firstName:1})
             .then((scoresResult)=>{
                 //scoreResult has the assignmentID, matricNo, firstName, lastName, attemptStatus and score of each student
+                
                 tempList = []
+                let scores=[]
+                avgScore= arr => arr.reduce((a,b) => a + b, 0) / arr.length;
                 for (i=0; i < scoresResult[0].studentScoreDict.length; i++) {
+                    console.log(scoresResult[0].studentScoreDict[i].attemptStatus);
+                    scores.push(scoresResult[0].studentScoreDict[i].scores);
                     let temp = {
                         name:scoresResult[0].studentScoreDict[i].firstName + ' ' + scoresResult[0].studentScoreDict[i].lastName,
                         scores: scoresResult[0].studentScoreDict[i].scores,
-                        attemptStatus: scoresResult[0].studentScoreDict[i].attemptStatus
+                        attemptStatus: scoresResult[0].studentScoreDict[i].attemptStatus ===false? 'Not Attempted':'Attempted',
                     }
                     tempList.push(temp)
                 }
+                console.log(scores);
                 let assDetails={
                     assnt:result,
                     scoresResults:scoresResult,
                     students:tempList,
+                    minScore:Math.min(...scores),
+                    maxScore:Math.max(...scores),
+                    avgScore:avgScore(scores),
                 }
                 res.status(200).send(assDetails);//sending back Assignment Scores
             })
