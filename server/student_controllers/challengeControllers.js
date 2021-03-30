@@ -40,7 +40,7 @@ const createChallenge = async (req,res) =>{
     console.log(questionObj)
     
     //res.json(questionObj);
-
+    console.log (qid);
 
     const challenge = new challengeSchema({
         challengeName: req.body.challengeName,

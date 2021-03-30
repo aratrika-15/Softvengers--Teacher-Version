@@ -3,7 +3,7 @@ const mongoose=require('mongoose');
 const Schema=mongoose.Schema;
 
 //defining the constants
-const MIN_QUES=5;
+//const MIN_QUES=5;
 
 //defining subschemas
 const studentTaker=new Schema({
@@ -63,8 +63,8 @@ const challengeSchema=new Schema({
     questionIds:{
         type:[Number],
         required:true,
-        validate: {validator: function (v) {
-            return v.length>=MIN_QUES}} //validating array length
+        // validate: {validator: function (v) {
+        //     return v.length>=MIN_QUES}} //validating array length
     },
     sender:{
         type: studentTaker,

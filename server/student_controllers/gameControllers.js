@@ -147,7 +147,7 @@ const endGame = async(req,res)=>{
            emailID: req.body.emailID,
            "scoreHistory.sysDate": date.toISOString().slice(0,10)
        });
-       //console.log(dateExist);
+       console.log(dateExist);
        //console.log(date.toISOString().slice(0,10));
        if (dateExist){
            student.update(
