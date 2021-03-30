@@ -11,14 +11,40 @@ import Assignmentpage  from './components/Views/Assignmentpage'
 import { BrowserRouter,Route, Switch, Redirect } from 'react-router-dom'
 import Login from './components/Views/LoginScreen';
 import LoginScreen from './components/Views/LoginScreen';
+import Particles from 'react-particles-js';
 
 const Routes = (props) => {
+    
 
 
     return (
+        
         <BrowserRouter>
         <div>
+            
             <Navbar token = {props.token}/>
+            
+            <Particles className="particles" 
+    params={{
+	    "particles": {
+	        "number": {
+	            "value": 50
+	        },
+	        "size": {
+	            "value": 3
+	        }
+	    },
+	    "interactivity": {
+	        "events": {
+	            "onhover": {
+	                "enable": true,
+	                "mode": "repulse"
+	            }
+	        }
+	    }
+	}} />
+            
+            
             <Switch>
                 <Route exact path="/Statistics" component={Dashboard} token = {props.token}/>
                 <Route exact path="/Assignments" component={ViewAssignment} token = {props.token}/>
@@ -28,6 +54,9 @@ const Routes = (props) => {
                 <Route exact path="/CreateStudentAccount" component={CreateStudentAccount} token = {props.token}/>
             </Switch>
             <Route exact path="/Logout" component={LoginScreen} />
+            
+            
+            
       </div>
         </BrowserRouter>
     )

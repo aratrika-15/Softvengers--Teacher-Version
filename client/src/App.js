@@ -12,6 +12,7 @@ import Routes from './Routes'
 import Particles from 'react-particles-js';
 import { Component } from 'react';
 
+
 class App extends Component{
 //   const [students, setStudents] = useState([
 //     {
@@ -42,6 +43,7 @@ class App extends Component{
   return (
     
     <div className="App">
+      
       <Routes/>
     </div>
   );
