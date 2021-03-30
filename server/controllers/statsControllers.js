@@ -132,12 +132,25 @@ const groupPercentageCompletion=async(tutID)=>{
         console.log(percentageCompleted.conqueredUniverse);
         arr.push(percentageCompleted.conqueredUniverse);
     }
-    var counts = {};
-
+    var counts = {
+        "0":0,
+        "1":0,
+        "2":0,
+        "3":0,
+        "4":0,
+        "5":0
+    };
+    let totalStudents=0;
     for (var i = 0; i < arr.length; i++) {
         var num = parseInt(arr[i]);
-        counts[num] = counts[num] ? counts[num] + 1 : 1;
+        counts[num] =counts[num] + 1 ;
+        totalStudents=totalStudents+1;
         }
+    console.log(typeof counts);
+    for (const [key, value] of Object.entries(counts)) {
+        counts[key]=(counts[key]/totalStudents)*100
+      }
+      
     return counts;
 };
 
