@@ -72,7 +72,7 @@ const sendChallenge = async(req,res) =>{
         (receiver)=>{
             const rec = new studentTaker({
                 emailID: receiver,
-                attempted: false,
+                attempted: 0,
                 score: 0,
                 timeTaken: 0
             });
@@ -89,7 +89,7 @@ const sendChallenge = async(req,res) =>{
             receivers: receivers,
             "sender.score": req.body.senderScore,
             "sender.timeTaken": req.body.senderTime,
-            "sender.attempted":true
+            "sender.attempted":1
         }
     },
     function(
@@ -195,7 +195,31 @@ const attemptChallenge = async(req,res) =>{
         $set:{
             "receivers.$.score": req.body.receiverScore,
             "receivers.$.timeTaken": req.body.receiverTime,
-            "receivers.$.attempted":true
+            "receivers.$.attempted":1
+        }
+    },
+    function(
+        err,result
+    ) {
+        if (err) {
+            res.status(500).send(err);
+        }
+        else{
+            res.status(200).send(result);
+        }
+    }
+    )
+
+};
+
+const declineChallenge = async(req,res) =>{
+    challengeSchema.update({
+        _id: req.body.challengeID,
+        "receivers.emailID": req.body.emailID
+    },
+    {
+        $set:{
+            "receivers.$.attempted":-1
         }
     },
     function(
@@ -221,7 +245,7 @@ module.exports={
     getSentChallenges,
     attemptChallenge,
     getQuestions,
-    //declineChallenge
+    declineChallenge
 };
 
 // change attempt status to -1

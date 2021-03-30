@@ -14,5 +14,7 @@ router.get('/getReceivedChallenges', challengeControllers.getReceivedChallenges)
 router.get('/getSentChallenges',challengeControllers.getSentChallenges);
 router.patch('/endChallenge',challengeControllers.attemptChallenge);
 router.get('/getQuestions',challengeControllers.getQuestions);
+router.patch('/declineChallenge',challengeControllers.declineChallenge);
+
 //exporting router
 module.exports=router;

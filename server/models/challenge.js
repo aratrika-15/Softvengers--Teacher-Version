@@ -12,9 +12,9 @@ const studentTaker=new Schema({
         required:true,
     },
     attempted:{
-        type:Boolean,
+        type:Number,
         required:true,
-        default:false,
+        default:0,
     },
     score:{
         type:Number,
