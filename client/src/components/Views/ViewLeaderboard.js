@@ -8,7 +8,7 @@ import TableHead from '@material-ui/core/TableHead'
 import TablePagination from '@material-ui/core/TablePagination'
 import TableRow from '@material-ui/core/TableRow'
 import {useState,useEffect} from 'react'
-
+import Tooltip from '@material-ui/core/Tooltip';
 import { DataGrid } from '@material-ui/data-grid';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import IconButton from '@material-ui/core/IconButton';
@@ -57,12 +57,10 @@ const ViewLeaderboard = (props) => {
     const getStudents = async()=>{
       const studentsFromServer = await fetchStudents('http://localhost:5000/teacher/leaderboard')
       const allStudents = studentsFromServer.sort((a, b) => parseFloat(b.totalScore) - parseFloat(a.totalScore));
-      setData(allStudents)
-
-
-    }
+      setData(allStudents)}
     getStudents()
   },[setData])
+  console.log(rows);
   console.log(rows);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);

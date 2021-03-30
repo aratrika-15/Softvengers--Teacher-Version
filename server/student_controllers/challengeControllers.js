@@ -109,11 +109,17 @@ const sendChallenge = async(req,res) =>{
 const getReceivedChallenges = async (req, res) =>{
 
     const challenges = await challengeSchema.find({
-        'receivers.emailID': req.query.emailID
+        'receivers.emailID': req.query.emailID,
+        'receivers.attempted': {
+            $in: [0,1]
+        }
     });
 
     const myDetails =await challengeSchema.find({
-        'receivers.emailID': req.query.emailID
+        'receivers.emailID': req.query.emailID,
+        'receivers.attempted': {
+            $in: [0,1]
+        }
     },
     {
         'receivers.$': 1,
