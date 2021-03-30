@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@data-ui/histogram": "0.0.84",
     "@devexpress/dx-core": "^2.7.5",
     "@devexpress/dx-react-chart": "^2.7.5",
     "@devexpress/dx-react-chart-material-ui": "^2.7.5",

@@ -82,6 +82,7 @@ const assignmentDetails=(req,res)=>{
                     minScore:Math.min(...scores),
                     maxScore:Math.max(...scores),
                     avgScore:avgScore(scores),
+                    scores:scores,
                 }
                 res.status(200).send(assDetails);//sending back Assignment Scores
             })
