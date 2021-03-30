@@ -10,10 +10,11 @@ import {
       Tooltip
     } from '@devexpress/dx-react-chart-material-ui'
 import { Animation } from '@devexpress/dx-react-chart'
-import { Card } from '@material-ui/core'
+
 
 const Assignmentpage = () => {
     const [details, setdetails] = useState([])
+    
     
     const [data, setdata] = useState([
         { NumberOFStudents: '50', score: 10.5 },
@@ -47,10 +48,11 @@ const Assignmentpage = () => {
         }
         getscores()
       },[setdetails])
-      console.log(details);
-      console.log(details.scoresResults);
+      console.log(details.students);
+
       
       
+
     return (
         <div>
         <Paper className='paper'>
@@ -68,6 +70,7 @@ const Assignmentpage = () => {
         <h5>Max Score : 20 Min Score : 8 </h5>
         <h5>Median : 15  Mean : 10</h5>
         </div>
+        
         </div>
 
             

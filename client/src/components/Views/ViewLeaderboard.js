@@ -57,12 +57,10 @@ const ViewLeaderboard = (props) => {
     const getStudents = async()=>{
       const studentsFromServer = await fetchStudents()
       const allStudents = studentsFromServer.sort((a, b) => parseFloat(b.totalScore) - parseFloat(a.totalScore));
-      setData(allStudents)
-
-
-    }
+      setData(allStudents)}
     getStudents()
   },[setData])
+  console.log(rows);
   console.log(rows);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
