@@ -39,10 +39,10 @@ const ViewLeaderboard = (props) => {
         ]
   const [rows, setData] = useState([])
 
-  const fetchStudents = async ()=> {
+  const fetchStudents = async (url)=> {
     var myHeaders = new Headers();
     myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAxQGUubnR1LmVkdS5zZyIsImlkIjoiNjA1MzE2Njk5ZDRhNjI0MmYwZDk5M2RmIiwidHV0R3AiOiJTQ0U0IiwiaWF0IjoxNjE2MDU4MTg2fQ.7LFzy-ecqB89ZNydkPR0LhuM33SV3ciaPJmO_g9oQnc");
-    const res = await fetch('http://localhost:5000/teacher/leaderboard',{
+    const res = await fetch(url,{
       method: 'GET',
       headers: myHeaders,
       redirect: 'follow'
@@ -55,7 +55,7 @@ const ViewLeaderboard = (props) => {
 
   useEffect(()=>{
     const getStudents = async()=>{
-      const studentsFromServer = await fetchStudents()
+      const studentsFromServer = await fetchStudents('http://localhost:5000/teacher/leaderboard')
       const allStudents = studentsFromServer.sort((a, b) => parseFloat(b.totalScore) - parseFloat(a.totalScore));
       setData(allStudents)}
     getStudents()
@@ -73,6 +73,39 @@ const ViewLeaderboard = (props) => {
     setRowsPerPage(+e.target.value);
     setPage(0);
   };
+  // const ColumnTypeFilteringGrid=() =>{
+    
+  //   const columns = React.useMemo(() => {
+  //     if (data.columns.length > 0) {
+  //       const visibleFields = ['desk', 'commodity', 'totalPrice'];
+  //       const mappedColumns = data.columns.map((dataColumn) => {
+  //         const mappedColumn = {
+  //           ...dataColumn,
+  //           hide: visibleFields.indexOf(dataColumn.field) === -1,
+  //         };
+  
+  //         if (mappedColumn.field === 'totalPrice') {
+  //           mappedColumn.type = 'price';
+  //         }
+  //         return mappedColumn;
+  //       });
+  //       return mappedColumns;
+  //     }
+  //     return [];
+  //   }, [data.columns]);
+  const filterByTutGrp=(e)=>{
+    console.log(e);
+    const getStudents = async()=>{
+      const studentsFromServer = await fetchStudents('http://localhost:5000/teacher/leaderboard/SCE4')
+      const allStudents = studentsFromServer.sort((a, b) => parseFloat(b.totalScore) - parseFloat(a.totalScore));
+      setData(allStudents);
+      
+      
+  
+  }
+  getStudents();
+  
+}
   
     return (
         <div className ='table-container'>
@@ -84,11 +117,8 @@ const ViewLeaderboard = (props) => {
                     <TableHead>
                         <TableRow>{columns.map((column)=>{
                           const value = column.id === 'tutGrp' ? <>
-                          {column.label} <Tooltip title="Filter by Tutorial Group">
-          <IconButton aria-label="filter list">
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip></>
+                          {column.label} <IconButton onClick={filterByTutGrp}> <FilterListIcon/>
+                         </IconButton></>
                           : `${column.label}`;
                           return(<StyledTableCell key = {column.id} align ={column.align} style={{minWidth: column.minWidth}} >{value}</StyledTableCell>)})}
                       </TableRow>
