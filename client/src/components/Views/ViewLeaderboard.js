@@ -12,7 +12,7 @@ import {useState,useEffect} from 'react'
 import { DataGrid } from '@material-ui/data-grid';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import IconButton from '@material-ui/core/IconButton';
-
+import Particles from 'react-particles-js';
 const ViewLeaderboard = (props) => {
   const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -41,13 +41,14 @@ const ViewLeaderboard = (props) => {
 
   const fetchStudents = async ()=> {
     var myHeaders = new Headers();
-    myHeaders.append("Authorization", "Bearer "+ props.token);
+    myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAxQGUubnR1LmVkdS5zZyIsImlkIjoiNjA1MzE2Njk5ZDRhNjI0MmYwZDk5M2RmIiwidHV0R3AiOiJTQ0U0IiwiaWF0IjoxNjE2MDU4MTg2fQ.7LFzy-ecqB89ZNydkPR0LhuM33SV3ciaPJmO_g9oQnc");
     const res = await fetch('http://localhost:5000/teacher/leaderboard',{
       method: 'GET',
       headers: myHeaders,
       redirect: 'follow'
     })
     const data = await res.json()
+    
     return data
   }
   
@@ -58,10 +59,11 @@ const ViewLeaderboard = (props) => {
       const allStudents = studentsFromServer.sort((a, b) => parseFloat(b.totalScore) - parseFloat(a.totalScore));
       setData(allStudents)
 
+
     }
     getStudents()
   },[setData])
-  
+  console.log(rows);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -139,6 +141,7 @@ const ViewLeaderboard = (props) => {
         onChangePage={handleChangePage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
+      
         
         </div>
     )
