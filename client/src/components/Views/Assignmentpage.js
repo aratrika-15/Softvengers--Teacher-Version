@@ -65,8 +65,8 @@ const Assignmentpage = () => {
             </Chart>
         </Paper>
         <div className="score">
-        <h5>Max Score : 20 Min Score : 8 </h5>
-        <h5>Median : 15  Mean : 10</h5>
+        <h5>Max Score : {details.maxScore} Min Score : {details.minScore} </h5>
+        <h5>Mean : {details.avgScore}</h5>
         </div>
         </div>
 
