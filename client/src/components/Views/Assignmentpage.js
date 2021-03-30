@@ -10,10 +10,47 @@ import {
       Tooltip
     } from '@devexpress/dx-react-chart-material-ui'
 import { Animation } from '@devexpress/dx-react-chart'
-import { Card } from '@material-ui/core'
+
+import { withStyles} from '@material-ui/core/styles'
+import Table from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
+import TableCell from '@material-ui/core/TableCell'
+import TableContainer from '@material-ui/core/TableContainer'
+import TableHead from '@material-ui/core/TableHead'
+import TablePagination from '@material-ui/core/TablePagination'
+import TableRow from '@material-ui/core/TableRow'
+
+
+import FilterListIcon from '@material-ui/icons/FilterList';
+import IconButton from '@material-ui/core/IconButton';
+import Particles from 'react-particles-js';
+
 
 const Assignmentpage = () => {
+  const StyledTableCell = withStyles((theme) => ({
+    head: {
+      backgroundColor:'#6f7bd9',
+     color: theme.palette.common.black,
+      fontSize: 24,
+      
+    },
+    body: {
+      fontSize: 20,
+      color: theme.palette.common.black,
+    },
+  }))(TableCell);
+  const ColorTableContainer= withStyles((theme) => ({
+    body:{
+      backgroundColor: '#ffffff',
+    }
+  }))(TableContainer);  
+  const [rows, setrows] = useState([])
     const [details, setdetails] = useState([])
+    const columns = [
+      { id: 'name', label: 'Student Name', minWidth: 170, type: 'link' },
+      { id: 'scores', label: 'Total Score', minWidth: 100 },{ id: 'attemptStatus', label: 'Status', minWidth: 100 }
+      ]
+    
     
     const [data, setdata] = useState([
         { NumberOFStudents: '50', score: 10.5 },
@@ -34,23 +71,25 @@ const Assignmentpage = () => {
           redirect: 'follow'
         })
         const data = await res.json()
-        console.log(data);
-        return data
+        const temp = data.students;
+        console.log(temp);
+        return temp
         
       }
       useEffect(()=>{
         const getscores = async()=>{
           const scoresFromServer = await fetchAssignmentDetails()
-          
-          setdetails(scoresFromServer)
-    
-        }
+          setrows(scoresFromServer)
+          }
         getscores()
-      },[setdetails])
-      console.log(details);
-      console.log(details.scoresResults);
+      },[setrows])
       
       
+      
+
+      
+      
+
     return (
         <div>
         <Paper className='paper'>
@@ -68,6 +107,33 @@ const Assignmentpage = () => {
         <h5>Max Score : 20 Min Score : 8 </h5>
         <h5>Median : 15  Mean : 10</h5>
         </div>
+        <TableContainer className ='table-container'> 
+        <Table stickyHeader aria-label="sticky table">
+        <TableHead>
+                        <TableRow>{columns.map((column)=>{
+                          return(<StyledTableCell key = {column.id} align ={column.align} style={{minWidth: column.minWidth}} >{column.label}</StyledTableCell>)})}
+                          </TableRow>
+                    </TableHead>
+                    <TableBody>
+                    {rows.map((row, index) => {
+              return (
+                <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                  {columns.map((column) => {
+                    const value = row[column.id]; 
+                    // const value = column.id === 'attemptStatus' ==  true ? `Attempted ` :row[column.id] ;
+                    // const rank1 = value[5] === '1'? `Rank 1 🥇` : value;
+                    // const rank2 = value[5] === '2'? `Rank 2 🥈` : rank1;
+                    // const rank3 = value[5] === '3'? `Rank 3 🥉` : rank2;
+                    return (
+                      <StyledTableCell key={column.id} align={column.align}>{value}</StyledTableCell>
+                    );
+                  })}
+                </TableRow>
+              );
+            })}
+                    </TableBody>
+                    </Table>
+        </TableContainer>
         </div>
 
             
