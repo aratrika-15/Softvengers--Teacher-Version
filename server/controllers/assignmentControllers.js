@@ -63,8 +63,8 @@ const assignmentDetails=(req,res)=>{
                 let assDetails={
                     assnt:result,
                     scoresResults:scoresResult,
+                    students:scoresResult[0].studentScoreDict
                 }
-                
                 res.status(200).send(assDetails);//sending back Assignment Scores
             })
             .catch(err =>{
