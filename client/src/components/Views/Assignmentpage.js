@@ -89,8 +89,8 @@ const Assignmentpage = () => {
       useEffect(()=>{
         const getscores = async()=>{
           const scoresFromServer = await fetchAssignmentDetails()
-          setrows(scoresFromServer.students)
           setdetails(scoresFromServer);
+          setrows(scoresFromServer.students);
           console.log("Hello");
           console.log(details.scores);
           }
