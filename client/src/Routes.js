@@ -32,7 +32,9 @@ const Routes = (props) => {
 	        },
 	        "size": {
 	            "value": 3
-	        }
+	        },"color": {
+                "value": "#0000ff"
+              }
 	    },
 	    "interactivity": {
 	        "events": {

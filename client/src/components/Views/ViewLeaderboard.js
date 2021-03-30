@@ -8,7 +8,7 @@ import TableHead from '@material-ui/core/TableHead'
 import TablePagination from '@material-ui/core/TablePagination'
 import TableRow from '@material-ui/core/TableRow'
 import {useState,useEffect} from 'react'
-
+import Tooltip from '@material-ui/core/Tooltip';
 import { DataGrid } from '@material-ui/data-grid';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import IconButton from '@material-ui/core/IconButton';
@@ -73,27 +73,6 @@ const ViewLeaderboard = (props) => {
     setRowsPerPage(+e.target.value);
     setPage(0);
   };
-  // const ColumnTypeFilteringGrid=() =>{
-    
-  //   const columns = React.useMemo(() => {
-  //     if (data.columns.length > 0) {
-  //       const visibleFields = ['desk', 'commodity', 'totalPrice'];
-  //       const mappedColumns = data.columns.map((dataColumn) => {
-  //         const mappedColumn = {
-  //           ...dataColumn,
-  //           hide: visibleFields.indexOf(dataColumn.field) === -1,
-  //         };
-  
-  //         if (mappedColumn.field === 'totalPrice') {
-  //           mappedColumn.type = 'price';
-  //         }
-  //         return mappedColumn;
-  //       });
-  //       return mappedColumns;
-  //     }
-  //     return [];
-  //   }, [data.columns]);
-  
   
     return (
         <div className ='table-container'>
@@ -105,8 +84,11 @@ const ViewLeaderboard = (props) => {
                     <TableHead>
                         <TableRow>{columns.map((column)=>{
                           const value = column.id === 'tutGrp' ? <>
-                          {column.label} <IconButton> <FilterListIcon/>
-                         </IconButton></>
+                          {column.label} <Tooltip title="Filter by Tutorial Group">
+          <IconButton aria-label="filter list">
+            <FilterListIcon />
+          </IconButton>
+        </Tooltip></>
                           : `${column.label}`;
                           return(<StyledTableCell key = {column.id} align ={column.align} style={{minWidth: column.minWidth}} >{value}</StyledTableCell>)})}
                       </TableRow>
