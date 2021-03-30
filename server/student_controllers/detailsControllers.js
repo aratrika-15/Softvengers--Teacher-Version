@@ -39,18 +39,23 @@ const getProgress = async(req,res)=>{
         //get student details and full dict identifier
         const resultobj = await StudentProgress.findOne(
             {emailID: req.query.emailID,
-            "fullDict.identifier":`(${req.query.universe},${req.query.SolarSystem},${req.query.planet})` },
-            {
-                "fullDict.$":1,
-                _id: 0
-            });
-        console.log(resultobj['fullDict'][0]['maxCorrect']);
-        res.status(200).json({
-            "maxCorrect": resultobj['fullDict'][0]['maxCorrect']
+            //"fullDict.identifier":`(${req.query.universe},${req.query.SolarSystem},${req.query.planet})` 
         });
+        console.log(resultobj['fullDict']);
+        let result = resultobj['fullDict'].map((level)=>{
+            let lev = {
+                identifier: level.identifier,
+                maxCorrect: level.maxCorrect
+            }
+            return lev;
+        })
+        res.status(200).json({
+            "progress": result
+        });
+
     }
     catch(err){
-        res.status(404).send("Invalid tuple");
+        res.status(404).send("Invalid emailID");
     }
 };
 
@@ -65,9 +70,9 @@ const getMaxScore = async(req,res)=>{
                 _id: 0
             });
         console.log(resultobj['fullDict'][0]['maxScore']);
-        res.status(200).json({
-            "maxScore": resultobj['fullDict'][0]['maxScore']
-        });
+        res.status(200).json(
+            resultobj['fullDict'][0]['maxScore']
+    );
     }
     catch(err){
         res.status(500).send("Invalid tuple");
@@ -79,16 +84,25 @@ const getLeaderboard = async(req,res)=>{
     const studentSorted = await Student.find().sort({'totalScore': -1});
     let rank = 0;
     let finalRank = 0;
-    studentSorted.map((student)=>{
+    let final = studentSorted.map((student)=>{
         if (student.emailID == req.query.emailID){
             finalRank = rank;
         }
         else{
             rank++;
+
         }
+        let result = {
+            firstName: student.firstName,
+            lastName: student.lastName,
+            emailID: student.emailID,
+
+        }
+        return result;
+
     });
     console.log(finalRank);
-    res.status(200).json({student: studentSorted.slice(0,9), myRank: finalRank+1});
+    res.status(200).json({students: final.slice(0,9), myRank: finalRank+1});
 //}
 //catch(err){
    // res.status(400).send(err);
@@ -138,7 +152,7 @@ const changePassword = async (req, res) => {
     }
     const salt = await bcrypt.genSalt(10);
 
-    const passwordCheck = await bcrypt.compare(req.body.oldPassword, emailExists.password);
+    const passwordCheck = await bcrypt.compare(req.body.oldPassword, studentExists.password);
     if (passwordCheck)
     {
         const hashedPass = await bcrypt.hash(req.body.newPassword, salt);
@@ -166,6 +180,9 @@ const changePassword = async (req, res) => {
                     }
                 }
         );
+    }
+    else{
+        res.status(500).send('Failure')
     }
 
 };
