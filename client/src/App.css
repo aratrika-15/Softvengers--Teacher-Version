@@ -8,7 +8,8 @@
 
 body {
   font-family: "Poppins", sans-serif;
-  background-color:#6f7bd9;}
+  /* background-color:#6f7bd9;} */
+}
 .particles {
   position: fixed;
   right: 0;
@@ -29,7 +30,7 @@ body {
   border-radius:10px;
 }
 .paper {
-  max-width: 500px;
+  max-width: 100px;
   margin: 50px auto;
 }
 .score {
@@ -69,7 +70,11 @@ body {
   display: block;
   width: 100%;
 }
-
+.button{
+  max-width: 100px;
+}.form{
+  margin: 20px 0;
+}
 .task {
   background: #f4f4f4;
   margin: 5px;
