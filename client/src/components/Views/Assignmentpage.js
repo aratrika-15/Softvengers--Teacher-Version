@@ -82,20 +82,21 @@ const Assignmentpage = () => {
         })
         const data = await res.json()
         const temp = data;
-        console.log(temp);
+       // console.log(temp);
         return temp
         
       };
+      let scoresFromServer;
       useEffect(()=>{
         const getscores = async()=>{
-          const scoresFromServer = await fetchAssignmentDetails()
+          scoresFromServer = await fetchAssignmentDetails()
           setrows(scoresFromServer.students)
           setdetails(scoresFromServer);
-          console.log("Hello");
-          console.log(details.scores);
+          //console.log("Hello");
+          //console.log(details.scores);
           }
         getscores()
-      },[setrows]);
+      },[rows], [details]);
     //   console.log(details);
     //   //console.log(details.maxScore);
     //   console.log("Hello");
@@ -106,6 +107,10 @@ const Assignmentpage = () => {
     //  // console.log(rawData);
     //  console.log("Whoo");
     //   console.log(rawData);
+    let data = details.scores; 
+    if (details.scores == undefined){
+      data = [10, 25, 25];
+    }
     return (
         <div>
         <ResponsiveHistogram 
@@ -126,7 +131,7 @@ const Assignmentpage = () => {
         )}
       >
         <BarSeries
-          rawData={details.scores/* or binnedData={...} */}
+          rawData={data/* or binnedData={...} */}
         />
         <XAxis label="Assignment Score"/>
         <YAxis label="Count of Students"/>
