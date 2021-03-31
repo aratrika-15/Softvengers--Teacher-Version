@@ -54,6 +54,7 @@ function createData(universe,solar, planet, questionID, question) {
         const [optionB,setB] = useState('');
         const [optionC,setC] = useState('');
         const [optionD,setD] = useState('');
+        const [correct,setCorrect] = useState('');
         
         const fetchQuestions = () => {
                 var myHeaders = new Headers();
@@ -116,10 +117,6 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
         function DelDialog(index){
           return(
             <div>
-               {/* <IconButton onClick={() => toggleDeleteModal(realIndex)}>
-                       <DeleteIcon/>
-                       </IconButton>  */}
-                      
                       <Dialog open={DeleteOpen} onClose={handleDeleteCancel} aria-labelledby="form-dialog-title" maxWidth='xl'>
                         <DialogTitle id="form-dialog-title" color='primary'>Delete Question</DialogTitle>
                         <DialogContent>Are you sure you want to delete this question?</DialogContent>
@@ -144,13 +141,6 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
           else{
             return(
               <div>
-              
-                  {/* <div>
-                    <IconButton onClick={() => toggleEditModal()}>
-                    <EditIcon />
-                    </IconButton> 
-                  </div> */}
-                    
                     <div>
                       <Dialog open={EditOpen} onClose={handleEditCancel} aria-labelledby="form-dialog-title" maxWidth='xl'>
                           <DialogTitle id="form-dialog-title" color='primary'>Edit Question</DialogTitle>
@@ -244,30 +234,30 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
         const [updated, setUpdate] = useState(true);
         const handleAddOk = () => {
             console.log('Input',inputState);
-            if (inputState.correctOption == "A")
+            if (correct == "A")
               {
-                inputState.correctOption = optionA;
+                
                 inputState.wrongOptions.push(optionB);
                 inputState.wrongOptions.push(optionC);
                 inputState.wrongOptions.push(optionD);
               }
-            else if (inputState.correctOption == "B")
+            else if (correct == "B")
             {
-              inputState.correctOption = optionB;
+              
               inputState.wrongOptions.push(optionB);
               inputState.wrongOptions.push(optionD);
               inputState.wrongOptions.push(optionA);
             }
-            else if (inputState.correctOption == "C")
+            else if (correct == "C")
             {
-              inputState.correctOption = optionC;
+              
               inputState.wrongOptions.push(optionA);
               inputState.wrongOptions.push(optionB);
               inputState.wrongOptions.push(optionD);
             }
-            else if (inputState.correctOption == "D")
+            else if (correct == "D")
             {
-              inputState.correctOption = optionD;
+              
               inputState.wrongOptions.push(optionA);
               inputState.wrongOptions.push(optionB);
               inputState.wrongOptions.push(optionC);
@@ -352,34 +342,12 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
           }
 
     const handleEditOk = () => {
-      if (inputState.correctOption == "A")
-              {
+      
                 inputState.correctOption = optionA;
                 inputState.wrongOptions.push(optionB);
                 inputState.wrongOptions.push(optionC);
                 inputState.wrongOptions.push(optionD);
-              }
-            else if (inputState.correctOption == "B")
-            {
-              inputState.correctOption = optionB;
-              inputState.wrongOptions.push(optionB);
-              inputState.wrongOptions.push(optionD);
-              inputState.wrongOptions.push(optionA);
-            }
-            else if (inputState.correctOption == "C")
-            {
-              inputState.correctOption = optionC;
-              inputState.wrongOptions.push(optionA);
-              inputState.wrongOptions.push(optionB);
-              inputState.wrongOptions.push(optionD);
-            }
-            else if (inputState.correctOption == "D")
-            {
-              inputState.correctOption = optionD;
-              inputState.wrongOptions.push(optionA);
-              inputState.wrongOptions.push(optionB);
-              inputState.wrongOptions.push(optionC);
-            }
+            
             setInput(inputState);
             var myHeaders = new Headers();
             myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAxQGUubnR1LmVkdS5zZyIsImlkIjoiNjA1MzE2Njk5ZDRhNjI0MmYwZDk5M2RmIiwidHV0R3AiOiJTQ0U0IiwiaWF0IjoxNjE2MDU4MTg2fQ.7LFzy-ecqB89ZNydkPR0LhuM33SV3ciaPJmO_g9oQnc");
@@ -395,7 +363,7 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
             };
             
             fetch("http://localhost:5000/teacher/question/"+String(inputState.questionID), requestOptions)
-              .then(response => response.text())
+              .then(response => response.json())
               .then(result => console.log(result))
               .catch(error => console.log('error', error));
         setEditOpen(false);
@@ -404,12 +372,14 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
     
       const handleEditCancel = () => {
           setEditOpen(false);
+          setInput({});
       };
 
       const checkAns = (event) => {
         const isChecked = event.target.checked;
         if(isChecked){
-          inputState.correctOption = event.target.name;
+          inputState.correctOption = event.target.value;
+          setCorrect(event.target.name);
         }
       }
     
@@ -451,21 +421,23 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
     function toggleModal(){
         setIsModalOpen(true);
     }
-    function addQuestion(){
-        
-    }
+    
     console.log("render state:",questions);
     return(
             <div className='questionBank-container'>
             <h1 >Question Bank </h1>
             <br/>
             <Button color="primary" round onClick={toggleAddModal}  >Add new question</Button>
-            {questions.map((ques,index)=>(
+            {questions.map((ques)=>(
             <Card>
                 <CardActionArea>
                     <CardMedia title="Question Bank"/>
-                    <CardContent><Typography gutterBottom variant="h5" component="h2">{ques.body}</Typography>
-                    {/* <Typography>{assignment.date} Due : {assignment.deadline}</Typography> */}
+                  
+                    <CardContent><Typography gutterBottom variant="h5" component="h2">
+                                  Q{ques.questionID} <br/>
+                                  {ques.body}
+                                  </Typography>
+
                         <Typography>
                             A: {ques.correctOption}   <br/>
                             B: {ques.wrongOptions[0]} <br/>
@@ -475,14 +447,14 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
                     </CardContent>
                 </CardActionArea>
                 <CardActions>
-                    <ColorButton size="large" variant="outlined" onClick={() => toggleEditModal(index)}>
+                    <ColorButton size="large" variant="outlined" onClick={() => toggleEditModal(ques.questionID)}>
                             Edit
                     </ColorButton>
-                      {editDialog(index)}
-                    <ColorButton size="large" variant="outlined" onClick = {() => toggleDeleteModal(index)} >
+                      {editDialog(ques.questionID)}
+                    <ColorButton size="large" variant="outlined" onClick = {() => toggleDeleteModal(ques.questionID)} >
                             Delete
                     </ColorButton>
-                      {DelDialog(index)}
+                      {DelDialog(ques.questionID)}
                 </CardActions>
             </Card>
             ))}
