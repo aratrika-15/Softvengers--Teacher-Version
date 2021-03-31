@@ -119,7 +119,7 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
                {/* <IconButton onClick={() => toggleDeleteModal(realIndex)}>
                        <DeleteIcon/>
                        </IconButton>  */}
-                      <Button color="primary" round onClick={toggleAddModal}>Add new question</Button> 
+                      
                       <Dialog open={DeleteOpen} onClose={handleDeleteCancel} aria-labelledby="form-dialog-title" maxWidth='xl'>
                         <DialogTitle id="form-dialog-title" color='primary'>Delete Question</DialogTitle>
                         <DialogContent>Are you sure you want to delete this question?</DialogContent>
@@ -457,7 +457,9 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
     console.log("render state:",questions);
     return(
             <div className='questionBank-container'>
-            <h1>Question Bank </h1>
+            <h1 >Question Bank </h1>
+            <br/>
+            <Button color="primary" round onClick={toggleAddModal}  >Add new question</Button>
             {questions.map((ques,index)=>(
             <Card>
                 <CardActionArea>
@@ -484,7 +486,7 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
                 </CardActions>
             </Card>
             ))}
-            <Button color="primary" round onClick={toggleAddModal}>Add new question</Button>
+            
             <Dialog open={AddOpen} onClose={handleAddCancel} aria-labelledby="form-dialog-title" maxWidth='xl'>
                           <DialogTitle id="form-dialog-title" color='primary'>Add Question</DialogTitle>
                           <DialogContent>
