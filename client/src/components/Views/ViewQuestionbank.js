@@ -116,7 +116,8 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
           // Add dialog
         const [AddOpen, setAddOpen] = React.useState(false);
         function DelDialog(index){
-          <div>
+          return(
+            <div>
                {/* <IconButton onClick={() => toggleDeleteModal(realIndex)}>
                        <DeleteIcon/>
                        </IconButton>  */}
@@ -127,12 +128,14 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
                           <Button onClick={handleDeleteCancel} color="primary">
                             Cancel
                           </Button>
-                          <Button onClick={handleDeleteOk} color="primary">
-                            Delete
+                          <Button onClick={() => handleDeleteOk(index)} color="primary">
+                            Yes Delete
                           </Button>
                         </DialogActions>
                       </Dialog>
           </div>
+          )
+          
         }
         function editDialog(){
           if (!inputState.wrongOptions)
@@ -314,9 +317,13 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
         const [DeleteOpen, setDeleteOpen] = React.useState(false);
   
       const toggleDeleteModal = (index) => {
-        const allQuestions = questions;
-        setInput(allQuestions[index]);
-    
+        
+        fetchFullDataQuestions(index+1);
+        console.log(questions);
+        setInput(fullDataQuestions);
+        console.log('new input',inputState);
+        setEditOpen(true);
+        console.log('index',index)
         setDeleteOpen(true);
       }
   
@@ -324,13 +331,27 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
         setDeleteOpen(false);
       }
   
-    const handleDeleteOk = () => {
-      axios.delete(`/question/${inputState.QuestionID}`)
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
+    const handleDeleteOk = (qid) => {
+      var myHeaders = new Headers();
+      myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAxQGUubnR1LmVkdS5zZyIsImlkIjoiNjA1MzE2Njk5ZDRhNjI0MmYwZDk5M2RmIiwidHV0R3AiOiJTQ0U0IiwiaWF0IjoxNjE2MDU4MTg2fQ.7LFzy-ecqB89ZNydkPR0LhuM33SV3ciaPJmO_g9oQnc");
+
+      var raw = "";
+
+      var requestOptions = {
+        method: 'DELETE',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+      };
+
+      fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
       setDeleteOpen(false);
       setUpdate(true);
-    }
+          }
+
     const handleEditOk = () => {
       if (inputState.correctOption == "A")
               {
@@ -458,9 +479,7 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
                     </ColorButton>
                       {editDialog(index)}
                     <ColorButton size="large" variant="outlined" onClick = {() => toggleDeleteModal(index)} >
-                        
                             Delete
-                     
                     </ColorButton>
                       {DelDialog(index)}
                 </CardActions>
