@@ -1,4 +1,3 @@
-
 import React, {useState, useRef, useEffect} from 'react';
 import axios from 'axios';
 import { createMuiTheme, withStyles, makeStyles, ThemeProvider  } from '@material-ui/core/styles'
@@ -40,6 +39,9 @@ import Link from '@material-ui/core/Link'
 //     )
     
 // }
+
+
+
 function createData(universe,solar, planet, questionID, question) {
     return { Universe: dictOfUniverse[universe-1], Solar: dictOfSolar[solar-1], Planet: dictOfPlanet[planet-1], QuestionID: questionID, question};
   }
@@ -47,6 +49,9 @@ function createData(universe,solar, planet, questionID, question) {
     const ViewQuestionbank = (props) => {
         const [fullDataQuestions, setFullData] = React.useState({});
         const [inputState, setInput] = React.useState({});
+        useEffect(() => {
+          console.log(inputState) // do something after state has updated
+        }, [inputState]);
         const [questions, setQuestions] = useState([]);
         const [loading, setLoading] = useState(false);
         const [isModalOpen, setIsModalOpen] = useState(false);
@@ -54,15 +59,27 @@ function createData(universe,solar, planet, questionID, question) {
         const [optionB,setB] = useState('');
         const [optionC,setC] = useState('');
         const [optionD,setD] = useState('');
-        const [correct,setCorrect] = useState('');
-        
+        const [page, setPage] = useState(0);
+        const [rowsPerPage, setRowsPerPage] = useState(3);
+        // const [correct,setCorrect] = useState('');
+        const [currentQID, setCurrentQID]=useState(-1);
+        const getOptionFromIndex = (val) => {
+          switch (val) {
+            case "0": return optionA;
+            case "1": return optionB;
+            case "2": return optionC;
+            case "3": return optionD;
+          }
+          return "";
+        }
+
         const fetchQuestions = () => {
                 var myHeaders = new Headers();
                 myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAxQGUubnR1LmVkdS5zZyIsImlkIjoiNjA1MzE2Njk5ZDRhNjI0MmYwZDk5M2RmIiwidHV0R3AiOiJTQ0U0IiwiaWF0IjoxNjE2MDU4MTg2fQ.7LFzy-ecqB89ZNydkPR0LhuM33SV3ciaPJmO_g9oQnc");
                 fetch('http://localhost:5000/teacher/question',{headers: myHeaders})
                 .then(response => response.json())
                 .then(data => setQuestions(data))
-                .then(setLoading(false));
+                .then(setLoading(true));
                  
         }
         const fetchFullDataQuestions = (qid) => {
@@ -79,8 +96,9 @@ var requestOptions = {
 
 fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
   .then(response => response.json())
-  .then(data => setFullData(data))
-  .then(result => console.log(result))
+  .then(data => {setFullData(data); setInput(data);setA(data.correctOption);setB(data.wrongOptions[0]);setC(data.wrongOptions[1]);setD(data.wrongOptions[2])})
+  .then(setLoading(true))
+  .then(result => setEditOpen(true))
   .catch(error => console.log('error', error));
           
            
@@ -114,7 +132,7 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
           };
           // Add dialog
         const [AddOpen, setAddOpen] = React.useState(false);
-        function DelDialog(index){
+        function DelDialog(){
           return(
             <div>
                       <Dialog open={DeleteOpen} onClose={handleDeleteCancel} aria-labelledby="form-dialog-title" maxWidth='xl'>
@@ -124,7 +142,7 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
                           <Button onClick={handleDeleteCancel} color="primary">
                             Cancel
                           </Button>
-                          <Button onClick={() => handleDeleteOk(index)} color="primary">
+                          <Button onClick={() => handleDeleteOk()} color="primary">
                             Yes Delete
                           </Button>
                         </DialogActions>
@@ -149,7 +167,7 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
                             <TextField name = "universeID" id="standard-basic" label="Universe" required="true" style = {{width: '45%'}} defaultValue= {inputState.universeID} onChange={handleChange}/>
                             <TextField name = "solarID" id="standard-basic" label="Solar" required="true" style = {{width: '45%'}}  defaultValue={inputState.solarID} onChange={handleChange}/>
                             <TextField name = "planetID" id="standard-basic" label="Planet" required="true" style = {{width: '45%'}} defaultValue={inputState.planetID} onChange={handleChange}/>
-                            <TextField name = "questionID" id="standard-basic" label="Planet question ID" fullWidth="true" required="true" style = {{width: '91%'}} defaultValue={inputState.questionID} onChange={handleChange}/>
+                            {/* <TextField name = "questionID" id="standard-basic" label="Planet question ID" fullWidth="true" required="true" style = {{width: '91%'}} defaultValue={inputState.questionID} onChange={handleChange}/> */}
                             <TextField name = "body" id="standard-basic" label="Planet question" fullWidth="true" required="true" style = {{width: '91%'}} defaultValue={inputState.body} onChange={handleChange}/>
                             <Typography variant="h7" >
                             <br></br> {"     "}Select the Checkbox with the correct option:
@@ -160,7 +178,7 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
                               defaultChecked = {true}
                               color="primary"
                               inputProps={{ 'aria-label': 'secondary checkbox' }}
-                              name="A"
+                              name="0"
                               onChange={checkAns}
                             />
                             <TextField name = "OptionA" id="standard-basic" label="Option 1" required="true" style = {{width: '90%'}} defaultValue={inputState.correctOption} onChange={handleChange}/>
@@ -170,7 +188,7 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
                               
                               color="primary"
                               inputProps={{ 'aria-label': 'secondary checkbox' }}
-                              name="B"
+                              name="1"
                               onChange={checkAns}
                             />
                             <TextField name = "OptionB" id="standard-basic" label="Option 2" required="true" style = {{width: '90%'}} defaultValue={inputState.wrongOptions[0]} onChange={handleChange}/>
@@ -180,7 +198,7 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
                               
                               color="primary"
                               inputProps={{ 'aria-label': 'secondary checkbox' }}
-                              name="C"
+                              name="2"
                               onChange={checkAns}
                             />
                             <TextField name = "OptionC" id="standard-basic" label="Option 3" required="true" style = {{width: '90%'}} defaultValue={inputState.wrongOptions[1]} onChange={handleChange}/>
@@ -190,7 +208,7 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
                               
                               color="primary"
                               inputProps={{ 'aria-label': 'secondary checkbox' }}
-                              name="D"
+                              name="3"
                               onChange={checkAns}
                             />
                             <TextField name = "OptionD" id="standard-basic" label="Option 4" required="true" style = {{width: '90%'}} defaultValue={inputState.wrongOptions[2]} onChange={handleChange}/>
@@ -221,8 +239,8 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
               planetID: 1,
               questionID: 1,
               body: "",
-              correctOption: "A",
-              wrongOptions:[],
+              correctOption: "0",
+              wrongOptions:["1", "2", "3"],
             }
             setAddOpen(true);
             setInput(newObj);
@@ -233,36 +251,16 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
         },[setFullData])
         const [updated, setUpdate] = useState(true);
         const handleAddOk = () => {
-            console.log('Input',inputState);
-            if (correct == "A")
-              {
-                
-                inputState.wrongOptions.push(optionB);
-                inputState.wrongOptions.push(optionC);
-                inputState.wrongOptions.push(optionD);
-              }
-            else if (correct == "B")
-            {
-              
-              inputState.wrongOptions.push(optionB);
-              inputState.wrongOptions.push(optionD);
-              inputState.wrongOptions.push(optionA);
-            }
-            else if (correct == "C")
-            {
-              
-              inputState.wrongOptions.push(optionA);
-              inputState.wrongOptions.push(optionB);
-              inputState.wrongOptions.push(optionD);
-            }
-            else if (correct == "D")
-            {
-              
-              inputState.wrongOptions.push(optionA);
-              inputState.wrongOptions.push(optionB);
-              inputState.wrongOptions.push(optionC);
-            }
-            setInput(inputState);
+          // if(inputState.correctOption===0)
+          // {
+          //   setInput({
+          //     ...inputState, 
+          //     correctOption: getOptionFromIndex(inputState.correctOption),
+          //    wrongOptions: inputState.wrongOptions.map(getOptionFromIndex)
+          //  })
+          // }
+            // console.log('Input',inputState);
+             
             //TODO: Update DB question 
             var myHeaders = new Headers();
             myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAxQGUubnR1LmVkdS5zZyIsImlkIjoiNjA1MzE2Njk5ZDRhNjI0MmYwZDk5M2RmIiwidHV0R3AiOiJTQ0U0IiwiaWF0IjoxNjE2MDU4MTg2fQ.7LFzy-ecqB89ZNydkPR0LhuM33SV3ciaPJmO_g9oQnc");
@@ -279,7 +277,7 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
             
             fetch("http://localhost:5000/teacher/question/"+String(inputState.questionID), requestOptions)
               .then(response => response.text())
-              .then(result => console.log(result))
+              .then(result => {console.log(result);setQuestions([...questions,inputState].sort((a, b) => a.questionID - b.questionID))})
               .catch(error => console.log('error', error));
 
             setUpdate(true);
@@ -294,67 +292,62 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
     
         const toggleEditModal = (index) => {
 
-        fetchFullDataQuestions(index+1);
-        console.log(questions);
-        setInput(fullDataQuestions);
-        console.log('new input',inputState);
-        setEditOpen(true);
-        console.log('index',index)
+        fetchFullDataQuestions(index);
+        // console.log(questions);
+        // setInput(fullDataQuestions);
+        // console.log('new input',inputState);
+        // setEditOpen(true);
+        // console.log('index',index)
         // {console.log('button id',event.target.id)}
         };
 
         const [DeleteOpen, setDeleteOpen] = React.useState(false);
   
-      const toggleDeleteModal = (index) => {
+      const toggleDeleteModal = (qid) => {
         
-        fetchFullDataQuestions(index+1);
-        console.log(questions);
-        setInput(fullDataQuestions);
-        console.log('new input',inputState);
-        setEditOpen(true);
-        console.log('index',index)
-        setDeleteOpen(true);
+       setCurrentQID(qid);
+       setDeleteOpen(true);
       }
   
       const handleDeleteCancel = () => {
         setDeleteOpen(false);
       }
   
-    const handleDeleteOk = (qid) => {
+    const handleDeleteOk = () => {
       var myHeaders = new Headers();
       myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAxQGUubnR1LmVkdS5zZyIsImlkIjoiNjA1MzE2Njk5ZDRhNjI0MmYwZDk5M2RmIiwidHV0R3AiOiJTQ0U0IiwiaWF0IjoxNjE2MDU4MTg2fQ.7LFzy-ecqB89ZNydkPR0LhuM33SV3ciaPJmO_g9oQnc");
 
-      var raw = "";
 
       var requestOptions = {
         method: 'DELETE',
         headers: myHeaders,
-        body: raw,
         redirect: 'follow'
       };
 
-      fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
+      fetch("http://localhost:5000/teacher/question/"+String(currentQID), requestOptions)
         .then(response => response.text())
-        .then(result => console.log(result))
+        .then(result => {console.log(result); setDeleteOpen(false);
+        setUpdate(true);
+        setQuestions(questions.filter((question) => question.questionID !== currentQID));})
         .catch(error => console.log('error', error));
-      setDeleteOpen(false);
-      setUpdate(true);
+      
           }
 
     const handleEditOk = () => {
       
-                inputState.correctOption = optionA;
-                inputState.wrongOptions.push(optionB);
-                inputState.wrongOptions.push(optionC);
-                inputState.wrongOptions.push(optionD);
+                 inputState.correctOption = optionA;
+                 inputState.wrongOptions=[];
+                 inputState.wrongOptions.push(optionB);
+                 inputState.wrongOptions.push(optionC);
+                 inputState.wrongOptions.push(optionD);
             
             setInput(inputState);
+            
             var myHeaders = new Headers();
             myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAxQGUubnR1LmVkdS5zZyIsImlkIjoiNjA1MzE2Njk5ZDRhNjI0MmYwZDk5M2RmIiwidHV0R3AiOiJTQ0U0IiwiaWF0IjoxNjE2MDU4MTg2fQ.7LFzy-ecqB89ZNydkPR0LhuM33SV3ciaPJmO_g9oQnc");
             myHeaders.append("Content-Type", "application/json");
             
             var raw = JSON.stringify(inputState);
-            
             var requestOptions = {
               method: 'PUT',
               headers: myHeaders,
@@ -364,7 +357,7 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
             
             fetch("http://localhost:5000/teacher/question/"+String(inputState.questionID), requestOptions)
               .then(response => response.json())
-              .then(result => console.log(result))
+              .then(result => {console.log(result);setQuestions([...questions.filter((question) => question.questionID !== inputState.questionID), inputState].sort((a, b) => a.questionID - b.questionID));})
               .catch(error => console.log('error', error));
         setEditOpen(false);
         setUpdate(true);
@@ -377,15 +370,28 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
 
       const checkAns = (event) => {
         const isChecked = event.target.checked;
+        console.log(isChecked)
         if(isChecked){
-          inputState.correctOption = event.target.value;
-          setCorrect(event.target.name);
+          setInput({...inputState, 
+            correctOption: getOptionFromIndex(event.target.name), 
+            wrongOptions: ["0", "1", "2", "3"].filter(val => {
+              return val !== event.target.name;
+            }).map(getOptionFromIndex)
+          });
+          // setCorrect(event.target.name);
         }
+        else {
+          setInput({...inputState, 
+            correctOption: "", 
+            wrongOptions: ["0", "1", "2", "3"].map(getOptionFromIndex)
+          });
+        }
+        
       }
     
   
-        const [page, setPage] = useState(0);
-        const [rowsPerPage, setRowsPerPage] = useState(5);
+        // const [page, setPage] = useState(0);
+        // const [rowsPerPage, setRowsPerPage] = useState(5);
     
       const handleChangePage = (e, newPage) => {
         setPage(newPage);
@@ -422,7 +428,7 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
         setIsModalOpen(true);
     }
     
-    console.log("render state:",questions);
+    // console.log("render state:",questions);
     return(
             <div className='questionBank-container'>
             <h1 >Question Bank </h1>
@@ -454,7 +460,7 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
                     <ColorButton size="large" variant="outlined" onClick = {() => toggleDeleteModal(ques.questionID)} >
                             Delete
                     </ColorButton>
-                      {DelDialog(ques.questionID)}
+                      {DelDialog()}
                 </CardActions>
             </Card>
             ))}
@@ -473,10 +479,9 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
                             </Typography>
                             <div  >
                             <Checkbox
-                              defaultChecked
                               color="primary"
                               inputProps={{ 'aria-label': 'secondary checkbox' }}
-                              name="A"
+                              name="0"
                               onChange={checkAns}
                             />
                             <TextField id="standard-basic" label="Option 1" required="true" style = {{width: '90%'}} name = "OptionA" onChange={handleChange}/>
@@ -485,7 +490,7 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
                             <Checkbox
                               color="primary"
                               inputProps={{ 'aria-label': 'secondary checkbox' }}
-                              name="B"
+                              name="1"
                               onChange={checkAns}
                             />
                             <TextField id="standard-basic" label="Option 2" required="true" style = {{width: '90%'}} name = "OptionB" onChange={handleChange}/>
@@ -494,7 +499,7 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
                             <Checkbox
                               color="primary"
                               inputProps={{ 'aria-label': 'secondary checkbox' }}
-                              name="C"
+                              name="2"
                               onChange={checkAns}
                             />
                             <TextField id="standard-basic" label="Option 3" required="true" style = {{width: '90%'}} name = "OptionC" onChange={handleChange}/>
@@ -503,7 +508,7 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
                             <Checkbox
                               color="primary"
                               inputProps={{ 'aria-label': 'secondary checkbox' }}
-                              name="D"
+                              name="3"
                               onChange={checkAns}
                             />
                             <TextField id="standard-basic" label="Option 4" required="true" style = {{width: '90%'}} name = "OptionD" onChange={handleChange}/>
