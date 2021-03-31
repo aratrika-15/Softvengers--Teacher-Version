@@ -45,6 +45,7 @@ function createData(universe,solar, planet, questionID, question) {
   }
 
     const ViewQuestionbank = (props) => {
+        const [fullDataQuestions, setFullData] = React.useState({});
         const [inputState, setInput] = React.useState({});
         const [questions, setQuestions] = useState([]);
         const [loading, setLoading] = useState(true);
@@ -56,7 +57,7 @@ function createData(universe,solar, planet, questionID, question) {
         const config = {
             headers: {Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAxQGUubnR1LmVkdS5zZyIsImlkIjoiNjA1MzE2Njk5ZDRhNjI0MmYwZDk5M2RmIiwidHV0R3AiOiJTQ0U0IiwiaWF0IjoxNjE2MDU4MTg2fQ.7LFzy-ecqB89ZNydkPR0LhuM33SV3ciaPJmO_g9oQnc"}
         };
-        const fetchQuestions = async () => {
+        const fetchQuestions = () => {
                 var myHeaders = new Headers();
                 myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAxQGUubnR1LmVkdS5zZyIsImlkIjoiNjA1MzE2Njk5ZDRhNjI0MmYwZDk5M2RmIiwidHV0R3AiOiJTQ0U0IiwiaWF0IjoxNjE2MDU4MTg2fQ.7LFzy-ecqB89ZNydkPR0LhuM33SV3ciaPJmO_g9oQnc");
                 fetch('http://localhost:5000/teacher/question',{headers: myHeaders})
@@ -65,6 +66,26 @@ function createData(universe,solar, planet, questionID, question) {
                 .then(setLoading(false));
                  
         }
+        const fetchFullDataQuestions = (qid) => {
+          var myHeaders = new Headers();
+myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAxQGUubnR1LmVkdS5zZyIsImlkIjoiNjA1MzE2Njk5ZDRhNjI0MmYwZDk5M2RmIiwidHV0R3AiOiJTQ0U0IiwiaWF0IjoxNjE2MDU4MTg2fQ.7LFzy-ecqB89ZNydkPR0LhuM33SV3ciaPJmO_g9oQnc");
+
+var raw = "";
+
+var requestOptions = {
+  method: 'GET',
+  headers: myHeaders,
+  redirect: 'follow'
+};
+
+fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
+  .then(response => response.json())
+  .then(data => setFullData(data))
+  .then(result => console.log(result))
+  .catch(error => console.log('error', error));
+          
+           
+  }
         
 
         const handleChange = (event) => {
@@ -94,78 +115,10 @@ function createData(universe,solar, planet, questionID, question) {
           };
           // Add dialog
         const [AddOpen, setAddOpen] = React.useState(false);
-        function editDelDialog(){
-            
-                
-                    // <IconButton onClick={() => toggleEditModal(index)}>
-                    //     <EditIcon />
-                    //   </IconButton> 
-                    <div>
-                      <Dialog open={EditOpen} onClose={handleEditCancel} aria-labelledby="form-dialog-title" maxWidth='xl'>
-                          <DialogTitle id="form-dialog-title" color='primary'>Edit Question</DialogTitle>
-                          <DialogContent>
-                          <form  noValidate autoComplete="off">
-                            <TextField name = "universeID" id="standard-basic" label="Universe" required="true" style = {{width: '45%'}} defaultValue={dictOfUniverse[inputState.universeID-1]} onChange={handleChange}/>
-                            <TextField name = "solarID" id="standard-basic" label="Solar" required="true" style = {{width: '45%'}}  defaultValue={dictOfSolar[inputState.solarID-1]} onChange={handleChange}/>
-                            <TextField name = "planetID" id="standard-basic" label="Planet" required="true" style = {{width: '45%'}} defaultValue={dictOfPlanet[inputState.planetID-1]} onChange={handleChange}/>
-                            <TextField name = "questionID" id="standard-basic" label="Quiz Question" fullWidth="true" required="true" style = {{width: '91%'}} defaultValue={inputState.body} onChange={handleChange}/>
-                          
-                            <Typography variant="h7" >
-                            <br></br> {"     "}Select the Checkbox with the correct option:
-                            </Typography>
-                            <div >
-  
-                            <Checkbox
-                              defaultChecked = {inputState.correctOption === "A"}
-                              color="primary"
-                              inputProps={{ 'aria-label': 'secondary checkbox' }}
-                              name="A"
-                              onChange={checkAns}
-                            />
-                            <TextField name = "OptionA" id="standard-basic" label="Option 1" required="true" style = {{width: '90%'}} defaultValue={inputState.Options && inputState.Options.A} onChange={handleChange}/>
-                            </div>
-                            <div >
-                            <Checkbox
-                              defaultChecked = {inputState.correctOption === "B"}
-                              color="primary"
-                              inputProps={{ 'aria-label': 'secondary checkbox' }}
-                              name="B"
-                              onChange={checkAns}
-                            />
-                            <TextField name = "OptionB" id="standard-basic" label="Option 2" required="true" style = {{width: '90%'}} defaultValue={inputState.Options && inputState.Options.B} onChange={handleChange}/>
-                            </div>
-                            <div>
-                            <Checkbox
-                              defaultChecked = {inputState.correctOption === "C"}
-                              color="primary"
-                              inputProps={{ 'aria-label': 'secondary checkbox' }}
-                              name="C"
-                              onChange={checkAns}
-                            />
-                            <TextField name = "OptionC" id="standard-basic" label="Option 3" required="true" style = {{width: '90%'}} defaultValue={inputState.Options && inputState.Options.C} onChange={handleChange}/>
-                            </div>
-                            <div>
-                            <Checkbox
-                              defaultChecked = {inputState.correctOption === "D"}
-                              color="primary"
-                              inputProps={{ 'aria-label': 'secondary checkbox' }}
-                              name="D"
-                              onChange={checkAns}
-                            />
-                            <TextField name = "OptionD" id="standard-basic" label="Option 4" required="true" style = {{width: '90%'}} defaultValue={inputState.Options && inputState.Options.D} onChange={handleChange}/>
-                            </div>
-                          </form>
-                          </DialogContent>
-                          <DialogActions>
-                            <Button onClick={handleEditCancel} color="primary">
-                              Cancel
-                            </Button>
-                            <Button onClick={handleEditOk} color="primary">
-                              Update Quiz
-                            </Button>
-                          </DialogActions>
-                        </Dialog>
-                     {/* <IconButton onClick={() => toggleDeleteModal(realIndex)}>
+        function DelDialog(index){
+          return(
+            <div>
+               {/* <IconButton onClick={() => toggleDeleteModal(realIndex)}>
                        <DeleteIcon/>
                        </IconButton>  */}
                       <Dialog open={DeleteOpen} onClose={handleDeleteCancel} aria-labelledby="form-dialog-title" maxWidth='xl'>
@@ -175,13 +128,101 @@ function createData(universe,solar, planet, questionID, question) {
                           <Button onClick={handleDeleteCancel} color="primary">
                             Cancel
                           </Button>
-                          <Button onClick={handleDeleteOk} color="primary">
-                            Delete
+                          <Button onClick={() => handleDeleteOk(index)} color="primary">
+                            Yes Delete
                           </Button>
                         </DialogActions>
                       </Dialog>
+          </div>
+          )
+          
+        }
+        function editDialog(){
+          if (!inputState.wrongOptions)
+          {
+            return(<div/>)
+          }
+          else{
+            return(
+              <div>
+              
+                  {/* <div>
+                    <IconButton onClick={() => toggleEditModal()}>
+                    <EditIcon />
+                    </IconButton> 
+                  </div> */}
+                    
+                    <div>
+                      <Dialog open={EditOpen} onClose={handleEditCancel} aria-labelledby="form-dialog-title" maxWidth='xl'>
+                          <DialogTitle id="form-dialog-title" color='primary'>Edit Question</DialogTitle>
+                          <DialogContent>
+                          <form  noValidate autoComplete="off">
+                            <TextField name = "universeID" id="standard-basic" label="Universe" required="true" style = {{width: '45%'}} defaultValue= {inputState.universeID} onChange={handleChange}/>
+                            <TextField name = "solarID" id="standard-basic" label="Solar" required="true" style = {{width: '45%'}}  defaultValue={inputState.solarID} onChange={handleChange}/>
+                            <TextField name = "planetID" id="standard-basic" label="Planet" required="true" style = {{width: '45%'}} defaultValue={inputState.planetID} onChange={handleChange}/>
+                            <TextField name = "questionID" id="standard-basic" label="Planet question ID" fullWidth="true" required="true" style = {{width: '91%'}} defaultValue={inputState.questionID} onChange={handleChange}/>
+                            <TextField name = "body" id="standard-basic" label="Planet question" fullWidth="true" required="true" style = {{width: '91%'}} defaultValue={inputState.body} onChange={handleChange}/>
+                            <Typography variant="h7" >
+                            <br></br> {"     "}Select the Checkbox with the correct option:
+                            </Typography>
+                            <div >
+  
+                            <Checkbox
+                              defaultChecked = {true}
+                              color="primary"
+                              inputProps={{ 'aria-label': 'secondary checkbox' }}
+                              name="A"
+                              onChange={checkAns}
+                            />
+                            <TextField name = "OptionA" id="standard-basic" label="Option 1" required="true" style = {{width: '90%'}} defaultValue={inputState.correctOption} onChange={handleChange}/>
+                            </div>
+                            <div >
+                            <Checkbox
+                              
+                              color="primary"
+                              inputProps={{ 'aria-label': 'secondary checkbox' }}
+                              name="B"
+                              onChange={checkAns}
+                            />
+                            <TextField name = "OptionB" id="standard-basic" label="Option 2" required="true" style = {{width: '90%'}} defaultValue={inputState.wrongOptions[0]} onChange={handleChange}/>
+                            </div>
+                            <div>
+                            <Checkbox
+                              
+                              color="primary"
+                              inputProps={{ 'aria-label': 'secondary checkbox' }}
+                              name="C"
+                              onChange={checkAns}
+                            />
+                            <TextField name = "OptionC" id="standard-basic" label="Option 3" required="true" style = {{width: '90%'}} defaultValue={inputState.wrongOptions[1]} onChange={handleChange}/>
+                            </div>
+                            <div>
+                            <Checkbox
+                              
+                              color="primary"
+                              inputProps={{ 'aria-label': 'secondary checkbox' }}
+                              name="D"
+                              onChange={checkAns}
+                            />
+                            <TextField name = "OptionD" id="standard-basic" label="Option 4" required="true" style = {{width: '90%'}} defaultValue={inputState.wrongOptions[2]} onChange={handleChange}/>
+                            </div>
+                          </form>
+                          </DialogContent>
+                          <DialogActions>
+                            <Button onClick={handleEditCancel} color="primary">
+                              Cancel
+                            </Button>
+                            <Button onClick={handleEditOk} color="primary">
+                              Update Question
+                            </Button>
+                          </DialogActions>
+                        </Dialog>
+                  
                       </div>
-                   
+                      </div>
+            )
+          }
+            
                     }
      
         const toggleAddModal = () => {
@@ -263,36 +304,101 @@ function createData(universe,solar, planet, questionID, question) {
         const [EditOpen, setEditOpen] = React.useState(false);
     
         const toggleEditModal = (index) => {
-        const allQuestions = questions;
-        setInput(questions[index]);
-    
+
+        fetchFullDataQuestions(index+1);
+        console.log(questions);
+        setInput(fullDataQuestions);
+        console.log('new input',inputState);
         setEditOpen(true);
+        console.log('index',index)
+        // {console.log('button id',event.target.id)}
         };
 
         const [DeleteOpen, setDeleteOpen] = React.useState(false);
   
-    const toggleDeleteModal = (index) => {
-      const allQuestions = questions;
-      setInput(allQuestions[index]);
+      const toggleDeleteModal = (index) => {
+        
+        fetchFullDataQuestions(index+1);
+        console.log(questions);
+        setInput(fullDataQuestions);
+        console.log('new input',inputState);
+        setEditOpen(true);
+        console.log('index',index)
+        setDeleteOpen(true);
+      }
   
-      setDeleteOpen(true);
-    }
+      const handleDeleteCancel = () => {
+        setDeleteOpen(false);
+      }
   
-    const handleDeleteCancel = () => {
-      setDeleteOpen(false);
-    }
-  
-    const handleDeleteOk = (index) => {
-      axios.delete(`/question/${inputState.QuestionID}`)
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
+    const handleDeleteOk = (qid) => {
+      var myHeaders = new Headers();
+      myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAxQGUubnR1LmVkdS5zZyIsImlkIjoiNjA1MzE2Njk5ZDRhNjI0MmYwZDk5M2RmIiwidHV0R3AiOiJTQ0U0IiwiaWF0IjoxNjE2MDU4MTg2fQ.7LFzy-ecqB89ZNydkPR0LhuM33SV3ciaPJmO_g9oQnc");
+
+      var raw = "";
+
+      var requestOptions = {
+        method: 'DELETE',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+      };
+
+      fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
       setDeleteOpen(false);
       setUpdate(true);
-    }
+          }
+
     const handleEditOk = () => {
-        axios.patch(`/question/${inputState.QuestionID}`, inputState)
-        .then(res => console.log(res))
-        .catch(err => console.log(err));
+      if (inputState.correctOption == "A")
+              {
+                inputState.correctOption = optionA;
+                inputState.wrongOptions.push(optionB);
+                inputState.wrongOptions.push(optionC);
+                inputState.wrongOptions.push(optionD);
+              }
+            else if (inputState.correctOption == "B")
+            {
+              inputState.correctOption = optionB;
+              inputState.wrongOptions.push(optionB);
+              inputState.wrongOptions.push(optionD);
+              inputState.wrongOptions.push(optionA);
+            }
+            else if (inputState.correctOption == "C")
+            {
+              inputState.correctOption = optionC;
+              inputState.wrongOptions.push(optionA);
+              inputState.wrongOptions.push(optionB);
+              inputState.wrongOptions.push(optionD);
+            }
+            else if (inputState.correctOption == "D")
+            {
+              inputState.correctOption = optionD;
+              inputState.wrongOptions.push(optionA);
+              inputState.wrongOptions.push(optionB);
+              inputState.wrongOptions.push(optionC);
+            }
+            setInput(inputState);
+            var myHeaders = new Headers();
+            myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAxQGUubnR1LmVkdS5zZyIsImlkIjoiNjA1MzE2Njk5ZDRhNjI0MmYwZDk5M2RmIiwidHV0R3AiOiJTQ0U0IiwiaWF0IjoxNjE2MDU4MTg2fQ.7LFzy-ecqB89ZNydkPR0LhuM33SV3ciaPJmO_g9oQnc");
+            myHeaders.append("Content-Type", "application/json");
+            
+            var raw = JSON.stringify(inputState);
+            
+            var requestOptions = {
+              method: 'PUT',
+              headers: myHeaders,
+              body: raw,
+              redirect: 'follow'
+            };
+            
+            fetch("http://localhost:5000/teacher/question/"+String(inputState.questionID), requestOptions)
+              .then(response => response.text())
+              .then(result => console.log(result))
+              .catch(error => console.log('error', error));
         setEditOpen(false);
         setUpdate(true);
       };
@@ -353,7 +459,7 @@ function createData(universe,solar, planet, questionID, question) {
     return(
             <div className='questionBank-container'>
             <h1>Question Bank </h1>
-            {questions.map((ques)=>(
+            {questions.map((ques,index)=>(
             <Card>
                 <CardActionArea>
                     <CardMedia title="Question Bank"/>
@@ -368,16 +474,14 @@ function createData(universe,solar, planet, questionID, question) {
                     </CardContent>
                 </CardActionArea>
                 <CardActions>
-                    <ColorButton size="large" variant="outlined" >
-                        <Link href="/QuestionBank" >
+                    <ColorButton size="large" variant="outlined" onClick={() => toggleEditModal(index)}>
                             Edit
-                        </Link>
                     </ColorButton>
-                    <ColorButton size="large" variant="outlined" >
-                        <Link href="/QuestionBank" >
+                      {editDialog(index)}
+                    <ColorButton size="large" variant="outlined" onClick = {() => toggleDeleteModal(index)} >
                             Delete
-                        </Link>
                     </ColorButton>
+                      {DelDialog(index)}
                 </CardActions>
             </Card>
             ))}
@@ -390,7 +494,7 @@ function createData(universe,solar, planet, questionID, question) {
                             <TextField name = "solarID" type="number" id="standard-basic" label="Solar" required="true" style = {{width: '45%'}} onChange={handleChange}/>
                             <TextField name = "planetID" type="number" id="standard-basic" label="Planet" required="true" style = {{width: '45%'}} onChange={handleChange}/>
                             <TextField name = "questionID" type="number" id="standard-basic" label="QuestionID" required="true" style = {{width: '45%'}} onChange={handleChange}/>
-                            <TextField name = "body" id="standard-basic" label="Quiz Question" fullWidth="true" required="true" style = {{width: '91%'}} onChange={handleChange}/>
+                            <TextField name = "body" id="standard-basic" label="Planet Question" fullWidth="true" required="true" style = {{width: '91%'}} onChange={handleChange}/>
                             <Typography variant="h7" >
                             <br></br> {"     "}Select the Checkbox with the correct option:
                             </Typography>
