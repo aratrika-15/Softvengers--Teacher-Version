@@ -106,10 +106,9 @@ const assignmentDetails=(req,res)=>{
 
 const newAssignment=async(req,res)=>{
     const assignmentID = req.params.a_id;
-    const { assignmentName, timeLimit, deadline, tutGrp } = req.body[0];
+    const { assignmentName, timeLimit, questionIDs, deadline, tutGrp } = req.body[0];
     console.log(req.body[0]);
 
-    const questionIDs = Date.now();
     //Loop 1 to check if there is any error in looping through
     try {
         const assignment = new Assignment({
