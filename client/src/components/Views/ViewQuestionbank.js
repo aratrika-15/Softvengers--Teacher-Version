@@ -436,7 +436,7 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
               },
             backgroundColor: '#6f7bd9',
             margin:'auto',
-            marginRight:'2rem'
+            marginLeft:'60rem'
         }
       }))(Button); 
     const IColourButton = withStyles((theme) => ({
@@ -463,6 +463,7 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
             <Card>
                 <CardActionArea>
                     <CardMedia title="Question Bank"/>
+                    
                     <CardContent><Typography gutterBottom variant="h5" component="h2">{ques.body}</Typography>
                     {/* <Typography>{assignment.date} Due : {assignment.deadline}</Typography> */}
                         <Typography>
@@ -485,7 +486,7 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
                 </CardActions>
             </Card>
             ))}
-            <Button color="primary" round onClick={toggleAddModal}>Add new question</Button>
+            
             <Dialog open={AddOpen} onClose={handleAddCancel} aria-labelledby="form-dialog-title" maxWidth='xl'>
                           <DialogTitle id="form-dialog-title" color='primary'>Add Question</DialogTitle>
                           <DialogContent>
