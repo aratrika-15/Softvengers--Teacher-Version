@@ -54,7 +54,7 @@ const Assignmentpage = () => {
     }
   }))(TableContainer);  
   const [rows, setrows] = useState([])
-    const [details, setdetails] = useState([])
+    const [details, setdetails] = useState({scores:[0]})
     const columns = [
       { id: 'name', label: 'Student Name', minWidth: 170, type: 'link' },
       { id: 'scores', label: 'Total Score', minWidth: 100 },{ id: 'attemptStatus', label: 'Status', minWidth: 100 }
@@ -82,20 +82,21 @@ const Assignmentpage = () => {
         })
         const data = await res.json()
         const temp = data;
-        console.log(temp);
+       // console.log(temp);
         return temp
         
       };
+      let scoresFromServer;
       useEffect(()=>{
         const getscores = async()=>{
-          const scoresFromServer = await fetchAssignmentDetails()
+          scoresFromServer = await fetchAssignmentDetails()
           setrows(scoresFromServer.students)
           setdetails(scoresFromServer);
-          console.log("Hello");
-          console.log(details.scores);
+          //console.log("Hello");
+          //console.log(details.scores);
           }
         getscores()
-      },[setrows]);
+      },[setrows], [setdetails]);
     //   console.log(details);
     //   //console.log(details.maxScore);
     //   console.log("Hello");
@@ -106,6 +107,10 @@ const Assignmentpage = () => {
     //  // console.log(rawData);
     //  console.log("Whoo");
     //   console.log(rawData);
+    // let data = details.scores; 
+    // if (details.scores == undefined){
+    //   data = [0,0,0];
+    // }
     return (
         <div>
         <ResponsiveHistogram 

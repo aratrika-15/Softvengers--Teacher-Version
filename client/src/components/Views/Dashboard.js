@@ -1,63 +1,68 @@
-// import React from "react";
-// import { __DATA__ } from "../barchart/data";
-// import {
-//   MainContainer,
-//   Container,
-//   BarChartContainer,
-//   Number,
-//   BlackLine,
-//   MakeBar
-// } from "../barchart/styles";
-
-// export default function Dashboard(props) {
-//   return (
-//     <Container>
-//       <MainContainer>
-//         {__DATA__.map(({ NumOfStd, colors }, i) => {
-//           return (
-//             <BarChartContainer key={i}>
-//               <Number color={colors[1]}>{NumOfStd} students</Number>
-//               <MakeBar height={NumOfStd * 2} colors={colors} />
-//             </BarChartContainer>
-//           );
-//         })}
-//       </MainContainer>
-//       <BlackLine />
-//     </Container>
-//   );
-// }
-
-import React from 'react'
 import {useState,useEffect} from 'react'
-
-
 const Dashboard = () => {
-  const [details, setdetails] = useState([])
-const fetchAssignmentDetails = async (id)=> {
-  var myHeaders = new Headers();
-  myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAxQGUubnR1LmVkdS5zZyIsImlkIjoiNjA1MzE2Njk5ZDRhNjI0MmYwZDk5M2RmIiwidHV0R3AiOiJTQ0U0IiwiaWF0IjoxNjE2MDU4MTg2fQ.7LFzy-ecqB89ZNydkPR0LhuM33SV3ciaPJmO_g9oQnc");
-  const res = await fetch(`http://localhost:5000/teacher/statistics/group/SCE5`,{
-    method: 'GET',
-    headers: myHeaders,
-    redirect: 'follow'
-  })
-  const data = await res.text()
-  console.log(data);
-  return data
-  
-}
-useEffect(()=>{
-  const getscores = async()=>{
-    const scoresFromServer = await fetchAssignmentDetails()
-    
-    setdetails(scoresFromServer)
+  const [showForm, setShowForm] = useState(false);
+  const [indv, setinv] = useState([])
+  const [grps, setgrps] = useState([])
+  const [email, setemail] = useState('')
+  const fetchAssignmentDetails = async (url)=> {
+      var myHeaders = new Headers();
+      myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAxQGUubnR1LmVkdS5zZyIsImlkIjoiNjA1MzE2Njk5ZDRhNjI0MmYwZDk5M2RmIiwidHV0R3AiOiJTQ0U0IiwiaWF0IjoxNjE2MDU4MTg2fQ.7LFzy-ecqB89ZNydkPR0LhuM33SV3ciaPJmO_g9oQnc");
+      const res = await fetch(url,{
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+      })
+      const data = await res.json()
+      return data
+    }
 
+    const Form2 = async (e)=>{
+      e.preventDefault()
+      const getgrpstats = async()=>{
+    const studentsFromServer = await fetchAssignmentDetails(`http://localhost:5000/teacher/statistics/group/SCE5`)
+    setgrps(studentsFromServer)
   }
-  getscores()
-},[setdetails])
-console.log(details);
+  getgrpstats()
+      
+      setemail('')
+  }
+  
+  const onSubmit =  (e)=>{
+      e.preventDefault()
+      const getindstats = async()=>{
+    const studentsFromServer = await fetchAssignmentDetails(`http://localhost:5000/teacher/statistics/${email}`)
+    setinv(studentsFromServer)
+  }
+  getindstats()
+      
+      setemail('')
+  }
+  console.log(indv)
+  console.log(grps)
+  
+ 
+  const Form = () => {
+    setShowForm(!showForm)
+  }
+
   return (
-    <div>
+    <div className = 'button' >
+      <input  type = 'submit' value = 'Group'className ='btn2 btn2-block' onClick={Form2}/>
+      <input type = 'submit' value = 'Individual' className ='btn2 btn2-block' onClick={Form}/>
+      
+      {showForm && (
+        
+        <form className = 'form' onSubmit={onSubmit}>
+          <label>Email Address:</label>
+                <input type='text' placeholder = 'Enter Ntu Email address' value={email}required onChange={(e)=> setemail(e.target.value)}/>         
+                <input type = 'submit' value = 'enter' className ='btn2 btn2-block' />
+                
+        </form>
+        
+          
+      )}
+      
+       
       
     </div>
   )
