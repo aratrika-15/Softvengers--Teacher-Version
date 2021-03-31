@@ -48,15 +48,13 @@ function createData(universe,solar, planet, questionID, question) {
         const [fullDataQuestions, setFullData] = React.useState({});
         const [inputState, setInput] = React.useState({});
         const [questions, setQuestions] = useState([]);
-        const [loading, setLoading] = useState(true);
+        const [loading, setLoading] = useState(false);
         const [isModalOpen, setIsModalOpen] = useState(false);
         const [optionA,setA] = useState('');
         const [optionB,setB] = useState('');
         const [optionC,setC] = useState('');
         const [optionD,setD] = useState('');
-        const config = {
-            headers: {Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAxQGUubnR1LmVkdS5zZyIsImlkIjoiNjA1MzE2Njk5ZDRhNjI0MmYwZDk5M2RmIiwidHV0R3AiOiJTQ0U0IiwiaWF0IjoxNjE2MDU4MTg2fQ.7LFzy-ecqB89ZNydkPR0LhuM33SV3ciaPJmO_g9oQnc"}
-        };
+        
         const fetchQuestions = () => {
                 var myHeaders = new Headers();
                 myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAxQGUubnR1LmVkdS5zZyIsImlkIjoiNjA1MzE2Njk5ZDRhNjI0MmYwZDk5M2RmIiwidHV0R3AiOiJTQ0U0IiwiaWF0IjoxNjE2MDU4MTg2fQ.7LFzy-ecqB89ZNydkPR0LhuM33SV3ciaPJmO_g9oQnc");
@@ -121,6 +119,7 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
                {/* <IconButton onClick={() => toggleDeleteModal(realIndex)}>
                        <DeleteIcon/>
                        </IconButton>  */}
+                      <Button color="primary" round onClick={toggleAddModal}>Add new question</Button> 
                       <Dialog open={DeleteOpen} onClose={handleDeleteCancel} aria-labelledby="form-dialog-title" maxWidth='xl'>
                         <DialogTitle id="form-dialog-title" color='primary'>Delete Question</DialogTitle>
                         <DialogContent>Are you sure you want to delete this question?</DialogContent>
@@ -436,7 +435,7 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
               },
             backgroundColor: '#6f7bd9',
             margin:'auto',
-            marginLeft:'60rem'
+            marginRight:'2rem'
         }
       }))(Button); 
     const IColourButton = withStyles((theme) => ({
@@ -463,7 +462,6 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
             <Card>
                 <CardActionArea>
                     <CardMedia title="Question Bank"/>
-                    
                     <CardContent><Typography gutterBottom variant="h5" component="h2">{ques.body}</Typography>
                     {/* <Typography>{assignment.date} Due : {assignment.deadline}</Typography> */}
                         <Typography>
@@ -486,7 +484,7 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
                 </CardActions>
             </Card>
             ))}
-            
+            <Button color="primary" round onClick={toggleAddModal}>Add new question</Button>
             <Dialog open={AddOpen} onClose={handleAddCancel} aria-labelledby="form-dialog-title" maxWidth='xl'>
                           <DialogTitle id="form-dialog-title" color='primary'>Add Question</DialogTitle>
                           <DialogContent>
