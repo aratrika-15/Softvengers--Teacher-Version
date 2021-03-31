@@ -54,7 +54,7 @@ const Assignmentpage = () => {
     }
   }))(TableContainer);  
   const [rows, setrows] = useState([])
-    const [details, setdetails] = useState([])
+    const [details, setdetails] = useState({scores:[0]})
     const columns = [
       { id: 'name', label: 'Student Name', minWidth: 170, type: 'link' },
       { id: 'scores', label: 'Total Score', minWidth: 100 },{ id: 'attemptStatus', label: 'Status', minWidth: 100 }
@@ -96,7 +96,7 @@ const Assignmentpage = () => {
           //console.log(details.scores);
           }
         getscores()
-      },[rows], [details]);
+      },[setrows], [setdetails]);
     //   console.log(details);
     //   //console.log(details.maxScore);
     //   console.log("Hello");
@@ -107,10 +107,10 @@ const Assignmentpage = () => {
     //  // console.log(rawData);
     //  console.log("Whoo");
     //   console.log(rawData);
-    let data = details.scores; 
-    if (details.scores == undefined){
-      data = [10, 25, 25];
-    }
+    // let data = details.scores; 
+    // if (details.scores == undefined){
+    //   data = [0,0,0];
+    // }
     return (
         <div>
         <ResponsiveHistogram 
@@ -131,7 +131,7 @@ const Assignmentpage = () => {
         )}
       >
         <BarSeries
-          rawData={data/* or binnedData={...} */}
+          rawData={details.scores/* or binnedData={...} */}
         />
         <XAxis label="Assignment Score"/>
         <YAxis label="Count of Students"/>
