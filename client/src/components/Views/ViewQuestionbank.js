@@ -230,7 +230,7 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
           };
         useEffect(()=>{
             fetchQuestions()
-        })
+        },[setFullData])
         const [updated, setUpdate] = useState(true);
         const handleAddOk = () => {
             console.log('Input',inputState);
