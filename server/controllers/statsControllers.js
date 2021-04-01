@@ -151,7 +151,7 @@ const groupPercentageCompletion=async(tutID)=>{
     let returnArray=[];
     for (const [key, value] of Object.entries(counts)) {
         counts[key]=(counts[key]/totalStudents)*100
-        const obj={"universe":(parseInt(key)+1).toString(),"percentStudents":counts[key]};
+        const obj={"universe":(parseInt(key)+1).toString(),"percentage":counts[key]};
         returnArray.push(obj);
       }
       
