@@ -165,11 +165,11 @@ const percentageCompletion=async(emailID)=>{
     for(let i=0;i<6;i++)
     {
         if(i<conqUni){
-            const uniProgress={"universe":i+1,"percentage":100};
+            const uniProgress={"universe":(i+1).toString(),"percentage":100};
             barGraphData.push(uniProgress);
         }
         else if(i>conqUni){
-            const uniProgress={"universe":i+1,"percentage":0};
+            const uniProgress={"universe":(i+1).toString(),"percentage":0};
             barGraphData.push(uniProgress);
         }
         else
@@ -180,7 +180,7 @@ const percentageCompletion=async(emailID)=>{
             console.log(solarCompleted);
             const planetCompleted=(conqPlanet)/((totalSolarSys-conqSolar)*3)*(100-solarCompleted);
             console.log(planetCompleted);
-            const uniProgress={"universe":i+1,"percentage":solarCompleted+planetCompleted};
+            const uniProgress={"universe":(i+1).toString(),"percentage":solarCompleted+planetCompleted};
             barGraphData.push(uniProgress);
         }
     }
