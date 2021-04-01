@@ -267,14 +267,22 @@ const groupAttemptedDifficulties=async(tutID)=>{
     const easyAvg=Avg(easy);
     const mediumAvg=Avg(medium);
     const hardAvg=Avg(hard);
-    const averageAttemptedDifficulties={
-        "avgEasyCorrect":easyAvg,
-        "avgMediumCorrect":mediumAvg,
-        "avgHardCorrect":hardAvg,
-        "maxEasyCorrect":maxEasyCorrect,
-        "maxMediumCorrect":maxMediumCorrect,
-        "maxHardCorrect":maxHardCorrect,
-    }
+    let averageAttemptedDifficulties=[];
+    const easyData={ id: 'avgEasyCorrect', title: 'Easy',value: easyAvg,color: '#ff9800'};
+    const hardData={ id: 'avgHardCorrect', title: 'Hard', value: hardAvg,color: '#4caf50'};
+    const mediumData={ id: 'avgMediumCorrect', title: 'Medium',value: mediumAvg,color: '#00acc1' };
+    averageAttemptedDifficulties.push(easyData);
+    averageAttemptedDifficulties.push(hardData);
+    averageAttemptedDifficulties.push(mediumData);
+    
+    // const averageAttemptedDifficulties={
+    //     "avgEasyCorrect":easyAvg,
+    //     "avgMediumCorrect":mediumAvg,
+    //     "avgHardCorrect":hardAvg,
+    //     "maxEasyCorrect":maxEasyCorrect,
+    //     "maxMediumCorrect":maxMediumCorrect,
+    //     "maxHardCorrect":maxHardCorrect,
+    // }
     // console.log(averageAttemptedDifficulties);
     //returning the average number of easy/medium/hard questions answered by students of this tut group
     //also returning the maximum number of easy/medium/hard questions answered by students of this tut group
