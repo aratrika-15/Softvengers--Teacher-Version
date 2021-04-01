@@ -49,79 +49,113 @@ const ViewAssignments = () => {
     const handleChangeQuestion = (event) => {
       console.log('target val',event.target.value);
         switch(event.target.name){
-          case "OptionA":
-            setA(event.target.value);
-            break;
-          case "OptionB":
+          // case "":
+          //   setA(event.target.value);
+          //   break;
+          case "wrongOptions[0]":
             setB(event.target.value);
             break;
-          case "OptionC":
+          case "wrongOptions[1]":
             setC(event.target.value);
             break;
-          case "OptionD":
+          case "wrongOptions[2]":
             setD(event.target.value);
             break;
           default:
-            if (event.target.name == "body" || event.target.name == "correctOption" )
-              {question[event.target.name] = event.target.value;}
-            else
+            if (event.target.name == "questionID")
               {question[event.target.name] = Number(event.target.value);}
-            break;
-        }
+            else
+              {
+                question[event.target.name] = (event.target.value);
+              }
+            }
+        //     if (event.target.name == "body" || event.target.name == "correctOption" )
+        //       {question[event.target.name] = event.target.value;}
+        //     else
+        //       {question[event.target.name] = Number(event.target.value);}
+        //     break;
+        // }
+        // if (event.target.name == "questionID")
+        //   {
+        //     inputState.questionIDs.push(event.target.value);
+        //     setInput(inputState);
+        //   }
+        console.log(inputState)
+        // if (event.target.name == wrongOptions)
         
         setQuestion(question);
-        inputState.push(question);
+        
 
       };
+    function handleAddQuestionok()
+    {
+      question.wrongOptions.push(optionB);
+      question.wrongOptions.push(optionC);
+      question.wrongOptions.push(optionD);
+      inputState[0].questionIDs.push(question.questionID);
+      inputState.push(question);  
+      console.log('add quest enter');
+      inputState.push(question);
+      setInput(inputState);
+
+    }
   
     function addQuestion(){
+      console.log('add question entered');
       return(
+        <div>
         <form  noValidate autoComplete="off">
         
-        <TextField name = "questionID" type="number" id="standard-basic" label="QuestionID" required="true" style = {{width: '45%'}} onChange={handleChange}/>
-        <TextField name = "body" id="standard-basic" label="Assignment Question" fullWidth="true" required="true" style = {{width: '91%'}} onChange={handleChange}/>
+        <TextField name = "questionID" type="number" id="standard-basic" label="QuestionID" required="true" style = {{width: '45%'}} onChange={handleChangeQuestion}/>
+        <TextField name = "body" id="standard-basic" label="Assignment Question" fullWidth="true" required="true" style = {{width: '91%'}} onChange={handleChangeQuestion}/>
         <Typography variant="h7" >
         <br></br> {"     "}Select the Checkbox with the correct option:
         </Typography>
         <div  >
         <Checkbox
-          color="primary"
-          inputProps={{ 'aria-label': 'secondary checkbox' }}
-          name="0"
-          onChange={checkAns}
-        />
-        <TextField id="standard-basic" label="Option 1" required="true" style = {{width: '90%'}} name = "OptionA" onChange={handleChange}/>
+                              defaultChecked = {true}
+                              color="primary"
+                              inputProps={{ 'aria-label': 'secondary checkbox' }}
+                              name="0"
+                              onChange={checkAns}
+                            />
+                            <TextField name = "OptionA" id="standard-basic" label="Option 1" required="true" style = {{width: '90%'}}  onChange={handleChangeQuestion}/>
+                            </div>
+                            <div >
+                            <Checkbox
+                              
+                              color="primary"
+                              inputProps={{ 'aria-label': 'secondary checkbox' }}
+                              name="1"
+                              onChange={checkAns}
+                            />
+                            <TextField name = "OptionB" id="standard-basic" label="Option 2" required="true" style = {{width: '90%'}}  onChange={handleChangeQuestion}/>
+                            </div>
+                            <div>
+                            <Checkbox
+                              
+                              color="primary"
+                              inputProps={{ 'aria-label': 'secondary checkbox' }}
+                              name="2"
+                              onChange={checkAns}
+                            />
+                            <TextField name = "OptionC" id="standard-basic" label="Option 3" required="true" style = {{width: '90%'}}  onChange={handleChangeQuestion}/>
+                            </div>
+                            <div>
+                            <Checkbox
+                              
+                              color="primary"
+                              inputProps={{ 'aria-label': 'secondary checkbox' }}
+                              name="3"
+                              onChange={checkAns}
+                            />
+                            <TextField name = "OptionD" id="standard-basic" label="Option 4" required="true" style = {{width: '90%'}} onChange={handleChangeQuestion}/>
+      
         </div>
-        <div  >
-        <Checkbox
-          color="primary"
-          inputProps={{ 'aria-label': 'secondary checkbox' }}
-          name="1"
-          onChange={checkAns}
-        />
-        <TextField id="standard-basic" label="Option 2" required="true" style = {{width: '90%'}} name = "OptionB" onChange={handleChange}/>
-        </div>
-        <div >
-        <Checkbox
-          color="primary"
-          inputProps={{ 'aria-label': 'secondary checkbox' }}
-          name="2"
-          onChange={checkAns}
-        />
-        <TextField id="standard-basic" label="Option 3" required="true" style = {{width: '90%'}} name = "OptionC" onChange={handleChange}/>
-        </div>
-        <div  >
-        <Checkbox
-          color="primary"
-          inputProps={{ 'aria-label': 'secondary checkbox' }}
-          name="3"
-          onChange={checkAns}
-        />
-        <TextField id="standard-basic" label="Option 4" required="true" style = {{width: '90%'}} name = "OptionD" onChange={handleChange}/>
+        </form>
         </div>
 
-      </form>
-      )
+      );
     }
 
     const fetchAssignments = async ()=> {
@@ -190,7 +224,7 @@ const ViewAssignments = () => {
       questionID: 1,
       body:"",
       correctOption: "0",
-      wrongOptions:["1", "2", "3"],
+      wrongOptions:[],
       points:1
     }
       
@@ -201,8 +235,10 @@ const ViewAssignments = () => {
   };
 
   const checkAns = (event) => {
+    console.log('check ans entered');
     const isChecked = event.target.checked;
     console.log(isChecked)
+    console.log('name',event.target.name)
     if(isChecked){
       setQuestion({...question, 
         correctOption: getOptionFromIndex(event.target.name), 
@@ -218,37 +254,45 @@ const ViewAssignments = () => {
         wrongOptions: ["0", "1", "2", "3"].map(getOptionFromIndex)
       });
     }
+    console.log('ques',question);
     
   }
 
   const handleChange = (event) => {
     console.log('target val',event.target.value);
-      switch(event.target.name){
-        case "OptionA":
-          setA(event.target.value);
-          break;
-        case "OptionB":
-          setB(event.target.value);
-          break;
-        case "OptionC":
-          setC(event.target.value);
-          break;
-        case "OptionD":
-          setD(event.target.value);
-          break;
-        default:
-          if (event.target.name == "body" || event.target.name == "correctOption" )
-            {inputState[event.target.name] = event.target.value;}
+    console.log('A',optionA,'B',optionB,'C',optionC,'D',optionD);
+    if (event.target.name == "assignmentName" || event.target.name == "tutGrp" || event.target.name == "deadline"  )
+            {inputState[0][event.target.name] = event.target.value;}
           else
-            {inputState[event.target.name] = Number(event.target.value);}
-          break;
-      }
+            {inputState[0][event.target.name] = Number(event.target.value);}
+    setInput(inputState);
+      // switch(event.target.name){
+      //   case "OptionA":
+      //     setA(event.target.value);
+      //     break;
+      //   case "OptionB":
+      //     setB(event.target.value);
+      //     break;
+      //   case "OptionC":
+      //     setC(event.target.value);
+      //     break;
+      //   case "OptionD":
+      //     setD(event.target.value);
+      //     break;
+        // default:
+          // if (event.target.name == "assignmentName" || event.target.name == "tutG" )
+          //   {inputState[event.target.name] = event.target.value;}
+          // else
+          //   {inputState[event.target.name] = Number(event.target.value);}
+          // break;
+      // }
       
-      setInput(inputState);
+      
     };
 
   const handleAddOk = () => {
     console.log('Input',inputState);
+    handleAddQuestionok();
     setInput(inputState);
     //TODO: Update DB question 
     var myHeaders = new Headers();
@@ -264,7 +308,7 @@ const ViewAssignments = () => {
       redirect: 'follow'
     };
     
-    fetch("http://localhost:5000/teacher/assignment/"+String(inputState.assignmentID), requestOptions)
+    fetch("http://localhost:5000/teacher/assignment/"+String(inputState[0].assignmentID), requestOptions)
       .then(response => response.text())
       .then(result => console.log(result))
       .catch(error => console.log('error', error));
@@ -296,7 +340,7 @@ const ViewAssignments = () => {
             </Card>))}
             {/* <Button color="primary" round >Add new assignment</Button> */}
             <Dialog open={AddOpen} onClose={handleAddCancel} aria-labelledby="form-dialog-title" maxWidth='xl'>
-                <DialogTitle id="form-dialog-title" color='primary'>Add Question</DialogTitle>
+                <DialogTitle id="form-dialog-title" color='primary'>Add Assignment</DialogTitle>
                     <DialogContent>
                     <form  noValidate autoComplete="off">
                           
@@ -305,51 +349,23 @@ const ViewAssignments = () => {
                             <TextField name = "timeLimit" type="number" id="standard-basic" label="Time limit" required="true" style = {{width: '45%'}} onChange={handleChange}/>
                             <TextField name = "deadline" type="date" id="standard-basic" label="Deadline" fullWidth="true" required="true" style = {{width: '91%'}} onChange={handleChange}/>
                             <TextField name = "tutGrp"  id="standard-basic" label="Tutorial Group" fullWidth="true" required="true" style = {{width: '91%'}} onChange={handleChange}/>
-                            <TextField name = "questionIDs"  id="standard-basic" label="Question Ids" fullWidth="true" required="true" style = {{width: '91%'}} onChange={handleChange}/>
-                            <Typography variant="h7" >
-                            <br></br> {"     "}Select the Checkbox with the correct option:
-                            </Typography>
-                            <div  >
-                            <Checkbox
-                              defaultChecked
-                              color="primary"
-                              inputProps={{ 'aria-label': 'secondary checkbox' }}
-                              name="0"
-                              onChange={checkAns}
-                            />
-                            <TextField id="standard-basic" label="Option 1" required="true" style = {{width: '90%'}} name = "OptionA" onChange={handleChange}/>
-                            </div>
-                            <div  >
-                            <Checkbox
-                              color="primary"
-                              inputProps={{ 'aria-label': 'secondary checkbox' }}
-                              name="1"
-                              onChange={checkAns}
-                            />
-                            <TextField id="standard-basic" label="Option 2" required="true" style = {{width: '90%'}} name = "OptionB" onChange={handleChange}/>
-                            </div>
-                            <div >
-                            <Checkbox
-                              color="primary"
-                              inputProps={{ 'aria-label': 'secondary checkbox' }}
-                              name="2"
-                              onChange={checkAns}
-                            />
-                            <TextField id="standard-basic" label="Option 3" required="true" style = {{width: '90%'}} name = "OptionC" onChange={handleChange}/>
-                            </div>
-                            <div  >
-                            <Checkbox
-                              color="primary"
-                              inputProps={{ 'aria-label': 'secondary checkbox' }}
-                              name="3"
-                              onChange={checkAns}
-                            />
-                            <TextField id="standard-basic" label="Option 4" required="true" style = {{width: '90%'}} name = "OptionD" onChange={handleChange}/>
-                            </div>
-  
+                            
                           </form>
+                          <div>
+        <form  noValidate autoComplete="off">
+        
+        <TextField name = "questionID" type="number" id="standard-basic" label="QuestionID" required="true" style = {{width: '45%'}} onChange={handleChangeQuestion}/>
+        <TextField name = "body" id="standard-basic" label="Assignment Question" fullWidth="true" required="true" style = {{width: '91%'}} onChange={handleChangeQuestion}/>
+        <TextField name = "correctOption" id="standard-basic" label="Correct Option" fullWidth="true" required="true" style = {{width: '91%'}} onChange={handleChangeQuestion}/>
+        <TextField name = "wrongOptions[0]" id="standard-basic" label="Wrong option 1" fullWidth="true" required="true" style = {{width: '91%'}} onChange={handleChangeQuestion}/>
+        <TextField name = "wrongOptions[1]" id="standard-basic" label="Wrong option 2" fullWidth="true" required="true" style = {{width: '91%'}} onChange={handleChangeQuestion}/>
+        <TextField name = "wrongOptions[2]" id="standard-basic" label="Wrong option 3" fullWidth="true" required="true" style = {{width: '91%'}} onChange={handleChangeQuestion}/>
+      </form>
+      
+      </div>
                     </DialogContent>
                           <DialogActions>
+                            <Button onClick = {() => addQuestion()}> Add Question </Button>
                             <Button onClick={handleAddCancel} color="primary">
                               Cancel
                             </Button>
