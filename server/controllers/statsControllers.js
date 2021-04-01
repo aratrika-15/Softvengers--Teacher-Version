@@ -104,9 +104,9 @@ const groupScoreHistories=async(tutID)=>{
             // console.log(tempScoreDate, dates[i], tempScoreDate == dates[i])
             if (tempScoreDate == dates[i]) scoresOfDate.push(scores[j].dailyScore);
         }
-        console.log(dates[i], scoresOfDate)
+        console.log(i,typeof dates[i], scoresOfDate)
         const temp={
-            date:dates[i],
+            date:i+1,
             averageScores:scoresOfDate.reduce(function(sum, a) { return sum + a },0)/(scoresOfDate.length||1)
         }
         scoresSorted.push(temp);
