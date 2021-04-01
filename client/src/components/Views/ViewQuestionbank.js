@@ -434,7 +434,7 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
             <h1 >Question Bank </h1>
             <br/>
             <Button color="primary" round onClick={toggleAddModal}  >Add new question</Button>
-            {questions.map((ques)=>(
+            {questions.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((ques)=>(
             <Card>
                 <CardActionArea>
                     <CardMedia title="Question Bank"/>

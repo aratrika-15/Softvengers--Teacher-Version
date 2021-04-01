@@ -38,7 +38,12 @@ body {
 .score {
   text-align: center;
 }
-
+.piechart{
+  max-width: 10rem;
+}
+.graphs{
+  max-width: 100rem;
+}
 .header {
   display: flex;
   justify-content: space-between;

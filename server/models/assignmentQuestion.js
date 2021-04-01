@@ -9,7 +9,7 @@ const WRONG_OPTIONS=3;
   //defining the schema of assignment questions
 const assignmentQnSchema = new Schema({
     questionID:{
-        unique: true,
+       // unique: true,
         type: Number,
         required: true,
         min:1,
