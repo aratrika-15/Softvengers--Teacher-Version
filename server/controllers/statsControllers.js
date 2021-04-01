@@ -240,7 +240,7 @@ const scoresAchieved=async(emailID)=>{
     for (i=0; i < studentProgress.universeDict.length; i++) {
         temp = studentProgress.universeDict[i];
         entry={
-            identifier:parseInt(temp.identifier[1])+1,
+            identifier:(parseInt(temp.identifier[1])+1).toString(),
             totalScore:temp.totalScore
         }
         universeList.push(entry)
