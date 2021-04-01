@@ -32,8 +32,6 @@ const ResponsiveHistogram = withParentSize(({ parentWidth, parentHeight, ...rest
      {...rest}
   />
 ));
- 
-// const rawData = Array(100).fill().map(Math.random);
 
 const Assignmentpage = () => {
   const StyledTableCell = withStyles((theme) => ({
@@ -59,18 +57,6 @@ const Assignmentpage = () => {
       { id: 'name', label: 'Student Name', minWidth: 170, type: 'link' },
       { id: 'scores', label: 'Total Score', minWidth: 100 },{ id: 'attemptStatus', label: 'Status', minWidth: 100 }
       ]
-    
-    //const rawData=[('Arat',10),('Arat',20),('Arat',20),('Arat',30),('Arat',10),('Arat',40)];
-    
-    // const [data, setdata] = useState([
-    //     { NumberOFStudents: '50', score: 10.5 },
-    //     { NumberOFStudents: '30', score: 8.5  },
-    //     { NumberOFStudents: '10', score: 20 },
-    //     { NumberOFStudents: '40', score: 12.5 },
-    //     { NumberOFStudents: '45', score: 15.5 },
-    //     { NumberOFStudents: '25', score: 8 },
-    //     { NumberOFStudents: '35', score: 9 }
-    //   ])
 
       const fetchAssignmentDetails = async (id)=> {
         var myHeaders = new Headers();
@@ -82,7 +68,6 @@ const Assignmentpage = () => {
         })
         const data = await res.json()
         const temp = data;
-       // console.log(temp);
         return temp
         
       };
@@ -92,27 +77,12 @@ const Assignmentpage = () => {
           scoresFromServer = await fetchAssignmentDetails()
           setrows(scoresFromServer.students)
           setdetails(scoresFromServer);
-          //console.log("Hello");
-          //console.log(details.scores);
           }
         getscores()
       },[setrows], [setdetails]);
-    //   console.log(details);
-    //   //console.log(details.maxScore);
-    //   console.log("Hello");
-    //   console.log(details.scores);
-    //   //const rawData=details.scores;
-    // //console.log(rawData);
-    //   const rawData=details.scores;
-    //  // console.log(rawData);
-    //  console.log("Whoo");
-    //   console.log(rawData);
-    // let data = details.scores; 
-    // if (details.scores == undefined){
-    //   data = [0,0,0];
-    // }
     return (
-        <div>
+        <div >
+          <div className='paper'>
         <ResponsiveHistogram 
         ariaLabel="My histogram of ..."
         orientation="vertical"
@@ -131,11 +101,12 @@ const Assignmentpage = () => {
         )}
       >
         <BarSeries
-          rawData={details.scores/* or binnedData={...} */}
+          rawData={details.scores}
         />
         <XAxis label="Assignment Score"/>
         <YAxis label="Count of Students"/>
       </ResponsiveHistogram>
+      </div>
         <div className="score">
         <h5>Max Score : {details.maxScore} Min Score : {details.minScore} </h5>
         <h5>Mean : {details.avgScore}</h5>
@@ -156,10 +127,6 @@ const Assignmentpage = () => {
                 <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                   {columns.map((column) => {
                     const value = row[column.id]; 
-                    // const value = column.id === 'attemptStatus' ==  true ? `Attempted ` :row[column.id] ;
-                    // const rank1 = value[5] === '1'? `Rank 1 🥇` : value;
-                    // const rank2 = value[5] === '2'? `Rank 2 🥈` : rank1;
-                    // const rank3 = value[5] === '3'? `Rank 3 🥉` : rank2;
                     return (
                       <StyledTableCell key={column.id} align={column.align}>{value}</StyledTableCell>
                     );

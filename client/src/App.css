@@ -30,7 +30,9 @@ body {
   border-radius:10px;
 }
 .paper {
-  max-width: 100px;
+  border: 1px solid steelblue;
+  border-radius:10px;
+  max-width: 600px;
   margin: 50px auto;
 }
 .score {
