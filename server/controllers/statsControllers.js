@@ -148,11 +148,14 @@ const groupPercentageCompletion=async(tutID)=>{
         totalStudents=totalStudents+1;
         }
     console.log(typeof counts);
+    let returnArray=[];
     for (const [key, value] of Object.entries(counts)) {
         counts[key]=(counts[key]/totalStudents)*100
+        const obj={"universe":(parseInt(key)+1).toString(),"percentStudents":counts[key]};
+        returnArray.push(obj);
       }
       
-    return counts;
+    return returnArray;
 };
 
 //individual stats function that shows how many universes/solar systems and planets the person has conquered
