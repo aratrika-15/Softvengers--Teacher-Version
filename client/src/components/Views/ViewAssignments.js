@@ -20,7 +20,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Checkbox from '@material-ui/core/Checkbox';
-import { Alert, View, StyleSheet, Linking } from 'react-native';
+import { Alert, View, StyleSheet, Linking, Text, TouchableOpacity } from 'react-native';
+import { TwitterIcon, RedditIcon } from 'react-share';
 
 const ViewAssignments = () => {
     const [assignments, setAssignments] = useState([])
@@ -323,9 +324,42 @@ const ViewAssignments = () => {
   };
 
 
-async function onShare(){
-  await Linking.openURL("https://twitter.com/intent/tweet?text=I+have+shared+assignment+1.+Solve+by+today+.+&amp;lang=en");
+// async function onShare(){
+//   await Linking.openURL("https://twitter.com/intent/tweet?text=I+have+shared+assignment+1.+Solve+by+today+.+&amp;lang=en");
+//   await Linking.openURL("https://www.reddit.com/submit?text=I%20scored%200%20in%20challenge%20Challenge%201.%20Try%20and%20beat%20my%20score.%20&title=Softvengers%20challenge!");
+// }
+
+String.format = function() {
+  var theString = arguments[0];
+  for (var i = 1; i < arguments.length; i++) {
+      var regEx = new RegExp("\\{" + (i - 1) + "\\}", "gm");
+      theString = theString.replace(regEx, arguments[i]);
+  }
+  return theString;
 }
+
+function tweetNow(assignment){
+  let twitterParameters = [];
+  let tweetContent = String.format("Shared Assignment {0}\nName: {1}\nDuration: {2}\nDeadline: {3}", assignment.assignmentID, assignment.assignmentName, assignment.timeLimit, assignment.deadline);
+  twitterParameters.push('text=' + encodeURI(tweetContent));
+  //twitterParameters.push('url=' + encodeURI(twitterShareURL));  
+  //twitterParameters.push('via=' + encodeURI(twitterViaAccount));
+  const url =
+    'https://twitter.com/intent/tweet?'
+    + twitterParameters.join('&');
+  Linking.openURL(url);
+};
+
+function redditNow(assignment){
+  let redditParameters = [];
+  let redditContent = String.format("Shared Assignment {0}\nName: {1}\nDuration: {2}\nDeadline: {3}", assignment.assignmentID, assignment.assignmentName, assignment.timeLimit, assignment.deadline);
+  redditParameters.push('text=' + encodeURI(redditContent));
+  redditParameters.push('title=' + encodeURI("Softvengers assignment"));
+  const url =
+    'http://reddit.com/submit?'
+    + redditParameters.join('&');
+  Linking.openURL(url);
+};
 
     return (
         <div className='assignment-container'>
@@ -341,14 +375,16 @@ async function onShare(){
                     </CardContent>
                 </CardActionArea>
                 <CardActions>
-                  <ColorButton size="large" variant="outlined" onClick={()=>onShare()}>
-                  Share</ColorButton>
-                  
-  
-  <ColorButton size="large" variant="outlined" ><Link href="/Assignmentpage" >
-                  Statistics
-  </Link></ColorButton>
-  </CardActions>
+                    {/* <ColorButton size="large" variant="outlined" onClick={() => tweetNow(assignment)}>
+                    Share on Twitter</ColorButton>
+                     <Button imageUrl="https://w7.pngwing.com/pngs/529/867/png-transparent-computer-icons-logo-twitter-miscellaneous-blue-logo-thumbnail.png" onClick={() => tweetNow(assignment)} ></Button> */}
+                    <ColorButton onClick={() => tweetNow(assignment)} > 
+                    <TwitterIcon size={32} round={true} /> Share on Twitter</ColorButton>
+                    <ColorButton onClick={() => redditNow(assignment)}> 
+                    <RedditIcon size={32} round={true} /> Share on Reddit</ColorButton>
+                    <ColorButton size="large" variant="outlined" ><Link href="/Assignmentpage" >
+                    Statistics</Link></ColorButton>
+                </CardActions>
             </Card>))}
             {/* <Button color="primary" round >Add new assignment</Button> */}
             <Dialog open={AddOpen} onClose={handleAddCancel} aria-labelledby="form-dialog-title" maxWidth='xl'>
