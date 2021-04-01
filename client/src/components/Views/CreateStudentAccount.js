@@ -2,27 +2,6 @@ import {useState} from 'react'
 
 
 const CreateStudentAccount = ({rows}) => {
-    const [students, setStudents] = useState([
-        {
-            id:1,
-            firstName: 'Saiteja',
-            lastName:'reddy',
-            password: '123456',
-            email: 'reddysaiteja5@gmail.com',
-            rank:1,
-            score:25
-        },
-        {
-            id:2,
-            firstName: 'Kondreddy',
-            lastName:'reddy',
-            password: '123456',
-            email: 'reddysaiteja5@gmail.com',
-            rank:3,
-            score:30
-        }
-    
-    ])
 
       
     const [firstName, setFirstName] = useState('')
@@ -97,10 +76,10 @@ const CreateStudentAccount = ({rows}) => {
         setEmail('')
         setTutGrp('')
     }
-    console.log(students.firstName);
     
     return (
         <div className='container'>
+            <h3 >Create Student Account</h3>
         <form className = 'add-form' onSubmit ={onSubmit} >
             <div className = 'form-control'>
                 <label>First Name:</label>

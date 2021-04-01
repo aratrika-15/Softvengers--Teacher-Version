@@ -43,6 +43,7 @@ const Dashboard = () => {
       const getgrpstats = async()=>{
     const studentsFromServer = await fetchAssignmentDetails(`http://localhost:5000/teacher/statistics/group/SCE5`)
     setgrps(studentsFromServer)
+    setdetails(studentsFromServer.attemptedDifficulties)
   }
   getgrpstats()
       
@@ -61,18 +62,21 @@ const Dashboard = () => {
   }
   console.log(indv)
   console.log(grps)
-  
+  console.log(grps.attemptedDifficulties)
  
   const Form = () => {
     setShowForm(!showForm)
   }
+  const [details, setdetails] = useState([
+    { id: 'avgEasyCorrect', title: 'Easy',value: 1,color: '#ff9800'},
+    { id: 'avgHardCorrect', title: 'Hard', value: 55,color: '#4caf50'},
+    { id: 'avgMediumCorrect', title: 'Medium',value: 40,color: '#00acc1' }
+    ])
   const propsData = [
-    //TODO: Hardcoded values for now, extract from DB
-    { title: 'Planning and Defining', value: 80, color: '#ff9800'},
-    { title: 'Design', value: 25, color: '#f44336'},
-    { title: 'Implementation', value: 40, color: '#4caf50'},
-    { title: 'Testing and Maintainance', value: 60, color: '#00acc1'},
-  ]
+    { id: 'avgEasyCorrect', title: 'Rank',value: 80,color: '#ff9800'},
+    { id: 'avgHardCorrect', title: 'Student Name', value: 25,color: '#4caf50'},
+    { id: 'avgMediumCorrect', title: 'Total Score',value: 40,color: '#00acc1' }
+    ]
   const options = {
     animationEnabled: true,
     exportEnabled: true,
@@ -119,6 +123,7 @@ const Dashboard = () => {
       ]
     }]
   }
+  console.log(details);
 
   return (
     <div>
@@ -178,9 +183,9 @@ const Dashboard = () => {
         <PieChart 
             radius={PieChart.defaultProps.radius-10}
               viewBoxSize={[100,100]}
-              data={propsData}
+              data={details}
               segmentsShift={(index) => (index === 0 ? 1 : 0.5)}
-              label={({ dataEntry }) => dataEntry.title }
+              label={({ dataEntry }) => "Avg "+dataEntry.title +":  "+dataEntry.value}
               labelStyle={{
                 fontSize: '3px',
                 labelPosition: 30
