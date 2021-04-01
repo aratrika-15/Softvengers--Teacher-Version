@@ -189,7 +189,8 @@ const changePassword = async (req, res) => {
 
 const getTutStudents = async(req,res) =>{
 
-    const tutgrp = req.query.tutGrp;
+    var tut = req.params.tut_grp;
+    var tutgrp = tut.toUpperCase();
     Student.find({
         tutGrp: tutgrp
     }).then((result)=>{
@@ -197,8 +198,8 @@ const getTutStudents = async(req,res) =>{
 
             let students =result.map((res)=>{
                 let student = {
-                emailID: result.emailID,
-                name: `${result.firstName} ${result.lastName}`
+                emailID: res.emailID,
+                name: `${res.firstName} ${res.lastName}`
                 };
                 return student;
             
@@ -211,7 +212,32 @@ const getTutStudents = async(req,res) =>{
         }
     }
     )
-}
+};
+
+const getAllStudents = async(req,res) =>{
+
+    Student.find().then((result)=>{
+        if(result != null){
+
+            let students =result.map((res)=>{
+                let student = {
+                emailID: res.emailID,
+                name: `${res.firstName} ${res.lastName}`
+                };
+                return student;
+            
+            })
+
+            res.status(200).send(JSON.parse(JSON.stringify(students)));
+        }
+        else{
+            res.status(404).send('Tut Grp does not exist')
+        }
+    }
+    )
+};
+
+
 
 
 
@@ -223,4 +249,5 @@ module.exports={
     updateStudent,
     changePassword,
     getTutStudents,
+    getAllStudents
 };
