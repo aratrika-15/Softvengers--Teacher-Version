@@ -6,6 +6,7 @@ const StudentProgress=require('../models/studentProgress');
 const Student=require('../models/student');
 const Teacher=require('../models/teacher')
 const moment = require('moment');
+const UniSolarCount=require('../models/UniSolarCount');
 
 const groupStats=async(req,res)=>{
     // console.log(req.params);
@@ -157,10 +158,37 @@ const groupPercentageCompletion=async(tutID)=>{
 //individual stats function that shows how many universes/solar systems and planets the person has conquered
 const percentageCompletion=async(emailID)=>{
     const studentProgress=await StudentProgress.findOne({emailID:emailID});
+    const conqUni=studentProgress.conqueredUniverse;
+    const conqSolar=studentProgress.conqueredSolarSystem;
+    const conqPlanet=studentProgress.conqueredPlanet;
+    const barGraphData=[];
+    for(let i=0;i<6;i++)
+    {
+        if(i<conqUni){
+            const uniProgress={"universe":i+1,"percentage":100};
+            barGraphData.push(uniProgress);
+        }
+        else if(i>conqUni){
+            const uniProgress={"universe":i+1,"percentage":0};
+            barGraphData.push(uniProgress);
+        }
+        else
+        {   
+            const noOfSolars=await UniSolarCount.findOne({universeID:i});
+            totalSolarSys=noOfSolars.noOfSolar;
+            const solarCompleted=(conqSolar*100)/totalSolarSys;
+            console.log(solarCompleted);
+            const planetCompleted=(conqPlanet)/((totalSolarSys-conqSolar)*3)*(100-solarCompleted);
+            console.log(planetCompleted);
+            const uniProgress={"universe":i+1,"percentage":solarCompleted+planetCompleted};
+            barGraphData.push(uniProgress);
+        }
+    }
     percentageCompleted={
         conqueredUniverse:studentProgress.conqueredUniverse,
         conqueredSolar:studentProgress.conqueredSolarSystem,
-        conqueredPlanet:studentProgress.conqueredPlanet
+        conqueredPlanet:studentProgress.conqueredPlanet,
+        barGraph:barGraphData
     }
     // console.log(percentageCompleted);
     return percentageCompleted;
