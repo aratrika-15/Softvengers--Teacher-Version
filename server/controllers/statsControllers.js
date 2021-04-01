@@ -315,12 +315,15 @@ const attemptedDifficulties=async(emailID)=>{
             }
         }
     }
-    let questionsCorrect={
-        easyCorrect:easy,
-        mediumCorrect:medium,
-        hardCorrect:hard
-    }
-    return questionsCorrect;
+    let attemptedDifficulties=[];
+    const easyData={ id: 'avgEasyCorrect', title: 'Easy',value: easy,color: '#ff9800'}
+    const hardData={ id: 'avgHardCorrect', title: 'Hard', value: hard,color: '#4caf50'};
+    const mediumData={ id: 'avgMediumCorrect', title: 'Medium',value: medium,color: '#00acc1' };
+    attemptedDifficulties.push(easyData);
+    attemptedDifficulties.push(hardData);
+    attemptedDifficulties.push(mediumData);
+   
+    return attemptedDifficulties;
 };
 
 
