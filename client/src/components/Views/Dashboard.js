@@ -37,13 +37,16 @@ const Dashboard = () => {
       const data = await res.json()
       return data
     }
-
+const [bar1, setbar1] = useState([])
+const [bar2, setbar2] = useState([])
     const Form2 = async (e)=>{
       e.preventDefault()
       const getgrpstats = async()=>{
     const studentsFromServer = await fetchAssignmentDetails(`http://localhost:5000/teacher/statistics/group/SCE5`)
     setgrps(studentsFromServer)
     setdetails(studentsFromServer.attemptedDifficulties)
+    setbar1(studentsFromServer.scoresAchieved.universeTotal)
+    //setbar2(studentsFromServer.percentageCompletion.barGraph)
   }
   getgrpstats()
       
@@ -55,6 +58,9 @@ const Dashboard = () => {
       const getindstats = async()=>{
     const studentsFromServer = await fetchAssignmentDetails(`http://localhost:5000/teacher/statistics/${email}`)
     setinv(studentsFromServer)
+    setdetails(studentsFromServer.attemptedDifficulties)
+    setbar1(studentsFromServer.scoresAchieved.universeTotal)
+    setbar2(studentsFromServer.percentageCompletion.barGraph)
   }
   getindstats()
       
@@ -62,7 +68,6 @@ const Dashboard = () => {
   }
   console.log(indv)
   console.log(grps)
-  console.log(grps.attemptedDifficulties)
  
   const Form = () => {
     setShowForm(!showForm)
@@ -72,15 +77,10 @@ const Dashboard = () => {
     { id: 'avgHardCorrect', title: 'Hard', value: 55,color: '#4caf50'},
     { id: 'avgMediumCorrect', title: 'Medium',value: 40,color: '#00acc1' }
     ])
-  const propsData = [
-    { id: 'avgEasyCorrect', title: 'Rank',value: 80,color: '#ff9800'},
-    { id: 'avgHardCorrect', title: 'Student Name', value: 25,color: '#4caf50'},
-    { id: 'avgMediumCorrect', title: 'Total Score',value: 40,color: '#00acc1' }
-    ]
   const options = {
     animationEnabled: true,
     exportEnabled: true,
-    theme: "light2", // "light1", "dark1", "dark2"
+    theme: "dark1", // "light1", "dark1", "dark2"
     title:{
       text: "Bounce Rate by Week of Year"
     },
@@ -123,8 +123,7 @@ const Dashboard = () => {
       ]
     }]
   }
-  console.log(details);
-
+console.log(bar2);
   return (
     <div>
     <div className = 'button' >
@@ -143,43 +142,37 @@ const Dashboard = () => {
           
       )}
      </div>
-     <div >
-     <div>
-     <Paper className = 'paper'>
+     <div className="bar1">
         <Chart
-          data={data}
+          data={bar1}
         >
           <ArgumentAxis />
           <ValueAxis max={7} />
 
           <BarSeries
-            valueField="population"
-            argumentField="year"
+            valueField="totalScore"
+            argumentField="identifier"
           />
-          <Title text="World population" />
+          <Title text="Scores Achieved in each Universe" />
           <Animation />
         </Chart>
-      </Paper>
-      </div>
-      <div>
-      <Paper className = 'paper'>
+        </div>
+        <div className='bar2'>
         <Chart
-          data={data}
+          data={bar2}
         >
           <ArgumentAxis />
           <ValueAxis max={7} />
 
           <BarSeries
-            valueField="population"
-            argumentField="year"
+            valueField="percentage"
+            argumentField="universe"
           />
-          <Title text="World population" />
+          <Title text="Percentage Completed in each Universe" />
           <Animation />
         </Chart>
-      </Paper>
       </div>
-      <div>
-      <Paper className = 'paper'>
+      <div className='pie'>
         <PieChart 
             radius={PieChart.defaultProps.radius-10}
               viewBoxSize={[100,100]}
@@ -191,14 +184,11 @@ const Dashboard = () => {
                 labelPosition: 30
               }}
             />
-      </Paper>
-      <Paper className = 'paper'>
-      <CanvasJSChart options = {options}
-				/* onRef={ref => this.chart = ref} */
-			/>
-      </Paper>
-      </div>
-            </div>
+          
+          </div>
+            <div className='line'>
+              <CanvasJSChart options = {options}/>
+              </div>
     </div>
   )
 }
