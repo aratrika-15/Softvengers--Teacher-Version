@@ -31,6 +31,98 @@ const ViewAssignments = () => {
     const [optionC,setC] = useState('');
     const [optionD,setD] = useState('');
     const [updated, setUpdate] = useState(true);
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(3);
+    const [oading, setLoading] = useState(false);
+    const [question,setQuestion] = useState({});
+    // const [correct,setCorrect] = useState('');
+    const [currentQID, setCurrentQID]=useState(-1);
+    const getOptionFromIndex = (val) => {
+      switch (val) {
+        case "0": return optionA;
+        case "1": return optionB;
+        case "2": return optionC;
+        case "3": return optionD;
+      }
+      return "";
+    }
+    const handleChangeQuestion = (event) => {
+      console.log('target val',event.target.value);
+        switch(event.target.name){
+          case "OptionA":
+            setA(event.target.value);
+            break;
+          case "OptionB":
+            setB(event.target.value);
+            break;
+          case "OptionC":
+            setC(event.target.value);
+            break;
+          case "OptionD":
+            setD(event.target.value);
+            break;
+          default:
+            if (event.target.name == "body" || event.target.name == "correctOption" )
+              {question[event.target.name] = event.target.value;}
+            else
+              {question[event.target.name] = Number(event.target.value);}
+            break;
+        }
+        
+        setQuestion(question);
+        inputState.push(question);
+
+      };
+  
+    function addQuestion(){
+      return(
+        <form  noValidate autoComplete="off">
+        
+        <TextField name = "questionID" type="number" id="standard-basic" label="QuestionID" required="true" style = {{width: '45%'}} onChange={handleChange}/>
+        <TextField name = "body" id="standard-basic" label="Assignment Question" fullWidth="true" required="true" style = {{width: '91%'}} onChange={handleChange}/>
+        <Typography variant="h7" >
+        <br></br> {"     "}Select the Checkbox with the correct option:
+        </Typography>
+        <div  >
+        <Checkbox
+          color="primary"
+          inputProps={{ 'aria-label': 'secondary checkbox' }}
+          name="0"
+          onChange={checkAns}
+        />
+        <TextField id="standard-basic" label="Option 1" required="true" style = {{width: '90%'}} name = "OptionA" onChange={handleChange}/>
+        </div>
+        <div  >
+        <Checkbox
+          color="primary"
+          inputProps={{ 'aria-label': 'secondary checkbox' }}
+          name="1"
+          onChange={checkAns}
+        />
+        <TextField id="standard-basic" label="Option 2" required="true" style = {{width: '90%'}} name = "OptionB" onChange={handleChange}/>
+        </div>
+        <div >
+        <Checkbox
+          color="primary"
+          inputProps={{ 'aria-label': 'secondary checkbox' }}
+          name="2"
+          onChange={checkAns}
+        />
+        <TextField id="standard-basic" label="Option 3" required="true" style = {{width: '90%'}} name = "OptionC" onChange={handleChange}/>
+        </div>
+        <div  >
+        <Checkbox
+          color="primary"
+          inputProps={{ 'aria-label': 'secondary checkbox' }}
+          name="3"
+          onChange={checkAns}
+        />
+        <TextField id="standard-basic" label="Option 4" required="true" style = {{width: '90%'}} name = "OptionD" onChange={handleChange}/>
+        </div>
+
+      </form>
+      )
+    }
 
     const fetchAssignments = async ()=> {
       var myHeaders = new Headers();
@@ -73,8 +165,7 @@ const ViewAssignments = () => {
           marginLeft:'49rem'
         }
       }))(IconButton);  
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(3);
+
 
   const handleChangePage = (e, newPage) => {
     setPage(newPage);
@@ -84,24 +175,52 @@ const ViewAssignments = () => {
     setRowsPerPage(+e.target.value);
     setPage(0);
   }; 
-  
+
   const toggleAddModal = () => {
-    const newObj = {
-      assignmentID: 1,
-      body: "",
-      correctOption: "A",
-      wrongOptions:[],
+    const newObj = [
+      {
+        assignmentName:"",
+        timeLimit:1,
+        questionIDs:[],
+        deadline:"",
+        tutGrp:""
+      }
+    ]
+    const newQues = {
+      questionID: 1,
+      body:"",
+      correctOption: "0",
+      wrongOptions:["1", "2", "3"],
+      points:1
     }
+      
     setAddOpen(true);
     setInput(newObj);
+    setQuestion(newQues);
     
   };
+
   const checkAns = (event) => {
     const isChecked = event.target.checked;
+    console.log(isChecked)
     if(isChecked){
-      inputState.correctOption = event.target.name;
+      setQuestion({...question, 
+        correctOption: getOptionFromIndex(event.target.name), 
+        wrongOptions: ["0", "1", "2", "3"].filter(val => {
+          return val !== event.target.name;
+        }).map(getOptionFromIndex)
+      });
+      // setCorrect(event.target.name);
     }
+    else {
+      setQuestion({...question, 
+        correctOption: "", 
+        wrongOptions: ["0", "1", "2", "3"].map(getOptionFromIndex)
+      });
+    }
+    
   }
+
   const handleChange = (event) => {
     console.log('target val',event.target.value);
       switch(event.target.name){
@@ -130,34 +249,6 @@ const ViewAssignments = () => {
 
   const handleAddOk = () => {
     console.log('Input',inputState);
-    if (inputState.correctOption == "A")
-      {
-        inputState.correctOption = optionA;
-        inputState.wrongOptions.push(optionB);
-        inputState.wrongOptions.push(optionC);
-        inputState.wrongOptions.push(optionD);
-      }
-    else if (inputState.correctOption == "B")
-    {
-      inputState.correctOption = optionB;
-      inputState.wrongOptions.push(optionB);
-      inputState.wrongOptions.push(optionD);
-      inputState.wrongOptions.push(optionA);
-    }
-    else if (inputState.correctOption == "C")
-    {
-      inputState.correctOption = optionC;
-      inputState.wrongOptions.push(optionA);
-      inputState.wrongOptions.push(optionB);
-      inputState.wrongOptions.push(optionD);
-    }
-    else if (inputState.correctOption == "D")
-    {
-      inputState.correctOption = optionD;
-      inputState.wrongOptions.push(optionA);
-      inputState.wrongOptions.push(optionB);
-      inputState.wrongOptions.push(optionC);
-    }
     setInput(inputState);
     //TODO: Update DB question 
     var myHeaders = new Headers();
@@ -187,7 +278,7 @@ const ViewAssignments = () => {
   };
     return (
         <div className='assignment-container'>
-            <h1>Assignments <IColourButton><Link href="/CreateAssignment"><AddTwoToneIcon/></Link></IColourButton></h1>
+            <h1>Assignments <IColourButton><AddTwoToneIcon onClick={toggleAddModal}/> </IColourButton></h1>
             {assignments.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((assignment)=>(
             <Card>
                 <CardActionArea>
@@ -203,7 +294,7 @@ const ViewAssignments = () => {
                   Statistics
   </Link></ColorButton></CardActions>
             </Card>))}
-            <Button color="primary" round onClick={toggleAddModal}>Add new assignment</Button>
+            {/* <Button color="primary" round >Add new assignment</Button> */}
             <Dialog open={AddOpen} onClose={handleAddCancel} aria-labelledby="form-dialog-title" maxWidth='xl'>
                 <DialogTitle id="form-dialog-title" color='primary'>Add Question</DialogTitle>
                     <DialogContent>
@@ -214,7 +305,7 @@ const ViewAssignments = () => {
                             <TextField name = "timeLimit" type="number" id="standard-basic" label="Time limit" required="true" style = {{width: '45%'}} onChange={handleChange}/>
                             <TextField name = "deadline" type="date" id="standard-basic" label="Deadline" fullWidth="true" required="true" style = {{width: '91%'}} onChange={handleChange}/>
                             <TextField name = "tutGrp"  id="standard-basic" label="Tutorial Group" fullWidth="true" required="true" style = {{width: '91%'}} onChange={handleChange}/>
-                            <TextField name = "questionID"  id="standard-basic" label="Question Ids" fullWidth="true" required="true" style = {{width: '91%'}} onChange={handleChange}/>
+                            <TextField name = "questionIDs"  id="standard-basic" label="Question Ids" fullWidth="true" required="true" style = {{width: '91%'}} onChange={handleChange}/>
                             <Typography variant="h7" >
                             <br></br> {"     "}Select the Checkbox with the correct option:
                             </Typography>
@@ -223,7 +314,7 @@ const ViewAssignments = () => {
                               defaultChecked
                               color="primary"
                               inputProps={{ 'aria-label': 'secondary checkbox' }}
-                              name="A"
+                              name="0"
                               onChange={checkAns}
                             />
                             <TextField id="standard-basic" label="Option 1" required="true" style = {{width: '90%'}} name = "OptionA" onChange={handleChange}/>
@@ -232,7 +323,7 @@ const ViewAssignments = () => {
                             <Checkbox
                               color="primary"
                               inputProps={{ 'aria-label': 'secondary checkbox' }}
-                              name="B"
+                              name="1"
                               onChange={checkAns}
                             />
                             <TextField id="standard-basic" label="Option 2" required="true" style = {{width: '90%'}} name = "OptionB" onChange={handleChange}/>
@@ -241,7 +332,7 @@ const ViewAssignments = () => {
                             <Checkbox
                               color="primary"
                               inputProps={{ 'aria-label': 'secondary checkbox' }}
-                              name="C"
+                              name="2"
                               onChange={checkAns}
                             />
                             <TextField id="standard-basic" label="Option 3" required="true" style = {{width: '90%'}} name = "OptionC" onChange={handleChange}/>
@@ -250,7 +341,7 @@ const ViewAssignments = () => {
                             <Checkbox
                               color="primary"
                               inputProps={{ 'aria-label': 'secondary checkbox' }}
-                              name="D"
+                              name="3"
                               onChange={checkAns}
                             />
                             <TextField id="standard-basic" label="Option 4" required="true" style = {{width: '90%'}} name = "OptionD" onChange={handleChange}/>
@@ -263,7 +354,7 @@ const ViewAssignments = () => {
                               Cancel
                             </Button>
                             <Button onClick={handleAddOk} color="primary">
-                              Update Quiz
+                              Add Assignment
                             </Button>
                         </DialogActions>
             </Dialog>
