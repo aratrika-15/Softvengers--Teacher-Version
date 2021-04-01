@@ -291,8 +291,12 @@ const ViewAssignments = () => {
                 </CardActionArea>
                 <CardActions>
                   <ColorButton size="large" variant="outlined" ><Link href="/Assignmentpage" >
+                  Share
+  </Link></ColorButton>
+  <ColorButton size="large" variant="outlined" ><Link href="/Assignmentpage" >
                   Statistics
-  </Link></ColorButton></CardActions>
+  </Link></ColorButton>
+  </CardActions>
             </Card>))}
             {/* <Button color="primary" round >Add new assignment</Button> */}
             <Dialog open={AddOpen} onClose={handleAddCancel} aria-labelledby="form-dialog-title" maxWidth='xl'>
