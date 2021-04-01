@@ -7,7 +7,7 @@ import {
   ArgumentAxis,
   ValueAxis,
 } from '@devexpress/dx-react-chart-material-ui';
-import CustomPieChart from "../CustomPieChart";
+//import CustomPieChart from "../CustomPieChart";
 import { PieChart } from 'react-minimal-pie-chart';
 import {CanvasJSChart} from 'canvasjs-react-charts'
 

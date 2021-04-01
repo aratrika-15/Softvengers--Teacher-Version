@@ -109,10 +109,13 @@ const ViewLeaderboard = (props) => {
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                   {columns.map((column) => {
+
                     const value = column.id === 'rank' ? `Rank ${index + page * rowsPerPage + 1} ` :row[column.id] ;
-                    const rank1 = value[5] === '1'? `Rank 1 🥇` : value;
-                    const rank2 = value[5] === '2'? `Rank 2 🥈` : rank1;
-                    const rank3 = value[5] === '3'? `Rank 3 🥉` : rank2;
+                    console.log(typeof value);
+                    console.log(value.length);
+                    const rank1 = (value.length===7&&value[5] === '1')? `Rank 1 🥇` : value;
+                    const rank2 = (value.length===7&&value[5] === '2')? `Rank 2 🥈` : rank1;
+                    const rank3 = (value.length===7&&value[5] === '3')? `Rank 3 🥉` : rank2;
                     return (
                       <StyledTableCell key={column.id} align={column.align}>{rank3}</StyledTableCell>
                     );
