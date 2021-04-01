@@ -104,10 +104,10 @@ const groupScoreHistories=async(tutID)=>{
             // console.log(tempScoreDate, dates[i], tempScoreDate == dates[i])
             if (tempScoreDate == dates[i]) scoresOfDate.push(scores[j].dailyScore);
         }
-        console.log(dates[i], scoresOfDate)
+        console.log(i,typeof dates[i], scoresOfDate)
         const temp={
-            date:dates[i],
-            averageScores:scoresOfDate.reduce(function(sum, a) { return sum + a },0)/(scoresOfDate.length||1)
+            x:i+1,
+            y:scoresOfDate.reduce(function(sum, a) { return sum + a },0)/(scoresOfDate.length||1)
         }
         scoresSorted.push(temp);
     }
@@ -118,8 +118,14 @@ const groupScoreHistories=async(tutID)=>{
 const scoreHistories=async(emailID)=>{
     const student=await Student.findOne({emailID:emailID});
     //console.log(student.scoreHistory);
-    return student.scoreHistory;
-    
+    const scoreHist=student.scoreHistory;
+    let pastScores=[];
+    for(let i=0;i<scoreHist.length;i++)
+    {
+        const scoreObj={"x":i+1,"y":scoreHist[i].dailyScore}
+        pastScores.push(scoreObj)
+    }
+    return pastScores;
 };
 
 //group stats function that shows how many universes/solar systems and planets the person has conquered
