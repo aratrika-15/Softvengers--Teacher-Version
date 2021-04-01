@@ -212,7 +212,7 @@ const scoresAchieved=async(emailID)=>{
     for (i=0; i < studentProgress.universeDict.length; i++) {
         temp = studentProgress.universeDict[i];
         entry={
-            identifier:temp.identifier,
+            identifier:parseInt(temp.identifier[1])+1,
             totalScore:temp.totalScore
         }
         universeList.push(entry)
@@ -244,9 +244,9 @@ const groupAttemptedDifficulties=async(tutID)=>{
     {
         const attemptedDifficulty=await attemptedDifficulties(students[i].emailID);
         // console.log(attemptedDifficulty);
-        easy.push(attemptedDifficulty.easyCorrect);
-        medium.push(attemptedDifficulty.mediumCorrect);
-        hard.push(attemptedDifficulty.hardCorrect);
+        easy.push(attemptedDifficulty[0].value);
+        medium.push(attemptedDifficulty[1].value);
+        hard.push(attemptedDifficulty[2].value);
         if(attemptedDifficulty.easyCorrect>maxEasyCorrect)
         {
             maxEasyCorrect=attemptedDifficulty.easyCorrect;
