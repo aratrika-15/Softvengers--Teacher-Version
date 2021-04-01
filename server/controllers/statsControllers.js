@@ -6,6 +6,7 @@ const StudentProgress=require('../models/studentProgress');
 const Student=require('../models/student');
 const Teacher=require('../models/teacher')
 const moment = require('moment');
+const UniSolarCount=require('../models/UniSolarCount');
 
 const groupStats=async(req,res)=>{
     // console.log(req.params);
@@ -103,10 +104,10 @@ const groupScoreHistories=async(tutID)=>{
             // console.log(tempScoreDate, dates[i], tempScoreDate == dates[i])
             if (tempScoreDate == dates[i]) scoresOfDate.push(scores[j].dailyScore);
         }
-        console.log(dates[i], scoresOfDate)
+        console.log(i,typeof dates[i], scoresOfDate)
         const temp={
-            date:dates[i],
-            averageScores:scoresOfDate.reduce(function(sum, a) { return sum + a },0)/(scoresOfDate.length||1)
+            x:i+1,
+            y:scoresOfDate.reduce(function(sum, a) { return sum + a },0)/(scoresOfDate.length||1)
         }
         scoresSorted.push(temp);
     }
@@ -117,8 +118,14 @@ const groupScoreHistories=async(tutID)=>{
 const scoreHistories=async(emailID)=>{
     const student=await Student.findOne({emailID:emailID});
     //console.log(student.scoreHistory);
-    return student.scoreHistory;
-    
+    const scoreHist=student.scoreHistory;
+    let pastScores=[];
+    for(let i=0;i<scoreHist.length;i++)
+    {
+        const scoreObj={"x":i+1,"y":scoreHist[i].dailyScore}
+        pastScores.push(scoreObj)
+    }
+    return pastScores;
 };
 
 //group stats function that shows how many universes/solar systems and planets the person has conquered
@@ -147,20 +154,50 @@ const groupPercentageCompletion=async(tutID)=>{
         totalStudents=totalStudents+1;
         }
     console.log(typeof counts);
+    let returnArray=[];
     for (const [key, value] of Object.entries(counts)) {
         counts[key]=(counts[key]/totalStudents)*100
+        const obj={"universe":(parseInt(key)+1).toString(),"percentage":counts[key]};
+        returnArray.push(obj);
       }
       
-    return counts;
+    return returnArray;
 };
 
 //individual stats function that shows how many universes/solar systems and planets the person has conquered
 const percentageCompletion=async(emailID)=>{
     const studentProgress=await StudentProgress.findOne({emailID:emailID});
+    const conqUni=studentProgress.conqueredUniverse;
+    const conqSolar=studentProgress.conqueredSolarSystem;
+    const conqPlanet=studentProgress.conqueredPlanet;
+    const barGraphData=[];
+    for(let i=0;i<6;i++)
+    {
+        if(i<conqUni){
+            const uniProgress={"universe":(i+1).toString(),"percentage":100};
+            barGraphData.push(uniProgress);
+        }
+        else if(i>conqUni){
+            const uniProgress={"universe":(i+1).toString(),"percentage":0};
+            barGraphData.push(uniProgress);
+        }
+        else
+        {   
+            const noOfSolars=await UniSolarCount.findOne({universeID:i});
+            totalSolarSys=noOfSolars.noOfSolar;
+            const solarCompleted=(conqSolar*100)/totalSolarSys;
+            console.log(solarCompleted);
+            const planetCompleted=(conqPlanet)/((totalSolarSys-conqSolar)*3)*(100-solarCompleted);
+            console.log(planetCompleted);
+            const uniProgress={"universe":(i+1).toString(),"percentage":solarCompleted+planetCompleted};
+            barGraphData.push(uniProgress);
+        }
+    }
     percentageCompleted={
         conqueredUniverse:studentProgress.conqueredUniverse,
         conqueredSolar:studentProgress.conqueredSolarSystem,
-        conqueredPlanet:studentProgress.conqueredPlanet
+        conqueredPlanet:studentProgress.conqueredPlanet,
+        barGraph:barGraphData
     }
     // console.log(percentageCompleted);
     return percentageCompleted;
@@ -212,7 +249,7 @@ const scoresAchieved=async(emailID)=>{
     for (i=0; i < studentProgress.universeDict.length; i++) {
         temp = studentProgress.universeDict[i];
         entry={
-            identifier:temp.identifier,
+            identifier:(parseInt(temp.identifier[1])+1).toString(),
             totalScore:temp.totalScore
         }
         universeList.push(entry)
@@ -244,9 +281,9 @@ const groupAttemptedDifficulties=async(tutID)=>{
     {
         const attemptedDifficulty=await attemptedDifficulties(students[i].emailID);
         // console.log(attemptedDifficulty);
-        easy.push(attemptedDifficulty.easyCorrect);
-        medium.push(attemptedDifficulty.mediumCorrect);
-        hard.push(attemptedDifficulty.hardCorrect);
+        easy.push(attemptedDifficulty[0].value);
+        medium.push(attemptedDifficulty[1].value);
+        hard.push(attemptedDifficulty[2].value);
         if(attemptedDifficulty.easyCorrect>maxEasyCorrect)
         {
             maxEasyCorrect=attemptedDifficulty.easyCorrect;
@@ -267,14 +304,22 @@ const groupAttemptedDifficulties=async(tutID)=>{
     const easyAvg=Avg(easy);
     const mediumAvg=Avg(medium);
     const hardAvg=Avg(hard);
-    const averageAttemptedDifficulties={
-        "avgEasyCorrect":easyAvg,
-        "avgMediumCorrect":mediumAvg,
-        "avgHardCorrect":hardAvg,
-        "maxEasyCorrect":maxEasyCorrect,
-        "maxMediumCorrect":maxMediumCorrect,
-        "maxHardCorrect":maxHardCorrect,
-    }
+    let averageAttemptedDifficulties=[];
+    const easyData={ id: 'avgEasyCorrect', title: 'Easy',value: easyAvg,color: '#ff9800'};
+    const hardData={ id: 'avgHardCorrect', title: 'Hard', value: hardAvg,color: '#4caf50'};
+    const mediumData={ id: 'avgMediumCorrect', title: 'Medium',value: mediumAvg,color: '#00acc1' };
+    averageAttemptedDifficulties.push(easyData);
+    averageAttemptedDifficulties.push(hardData);
+    averageAttemptedDifficulties.push(mediumData);
+    
+    // const averageAttemptedDifficulties={
+    //     "avgEasyCorrect":easyAvg,
+    //     "avgMediumCorrect":mediumAvg,
+    //     "avgHardCorrect":hardAvg,
+    //     "maxEasyCorrect":maxEasyCorrect,
+    //     "maxMediumCorrect":maxMediumCorrect,
+    //     "maxHardCorrect":maxHardCorrect,
+    // }
     // console.log(averageAttemptedDifficulties);
     //returning the average number of easy/medium/hard questions answered by students of this tut group
     //also returning the maximum number of easy/medium/hard questions answered by students of this tut group
@@ -307,12 +352,15 @@ const attemptedDifficulties=async(emailID)=>{
             }
         }
     }
-    let questionsCorrect={
-        easyCorrect:easy,
-        mediumCorrect:medium,
-        hardCorrect:hard
-    }
-    return questionsCorrect;
+    let attemptedDifficulties=[];
+    const easyData={ id: 'avgEasyCorrect', title: 'Easy',value: easy,color: '#ff9800'}
+    const hardData={ id: 'avgHardCorrect', title: 'Hard', value: hard,color: '#4caf50'};
+    const mediumData={ id: 'avgMediumCorrect', title: 'Medium',value: medium,color: '#00acc1' };
+    attemptedDifficulties.push(easyData);
+    attemptedDifficulties.push(hardData);
+    attemptedDifficulties.push(mediumData);
+   
+    return attemptedDifficulties;
 };
 
 

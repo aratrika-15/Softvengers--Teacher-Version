@@ -29,6 +29,41 @@ body {
   padding: 30px;
   border-radius:10px;
 }
+.bar1 {
+  position: relative;
+  right: 20rem;
+  border: 1px solid steelblue;
+  border-radius:10px;
+  max-width: 600px;
+  margin: 50px auto;
+}
+.bar2 {
+  position: relative;
+  bottom: 555px;
+  left: 20rem;
+  border: 1px solid steelblue;
+  border-radius:10px;
+  max-width: 600px;
+  margin: 50px auto;
+}
+.pie {
+  position: relative;
+  bottom: 550px;
+  right: 20rem;
+  border: 1px solid steelblue;
+  border-radius:10px;
+  max-width: 600px;
+  margin: 50px auto;
+}
+.line {
+  position: relative;
+  bottom: 1100px;
+  left: 20rem;
+  border: 1px solid steelblue;
+  border-radius:10px;
+  max-width: 600px;
+  margin: 50px auto;
+}
 .paper {
   border: 1px solid steelblue;
   border-radius:10px;

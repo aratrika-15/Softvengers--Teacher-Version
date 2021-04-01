@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { createMuiTheme, withStyles, makeStyles, ThemeProvider  } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
@@ -20,6 +20,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Checkbox from '@material-ui/core/Checkbox';
+import { Alert, View, StyleSheet, Linking } from 'react-native';
 
 const ViewAssignments = () => {
     const [assignments, setAssignments] = useState([])
@@ -320,6 +321,12 @@ const ViewAssignments = () => {
   const handleAddCancel = () => {
       setAddOpen(false);
   };
+
+
+async function onShare(){
+  await Linking.openURL("https://twitter.com/intent/tweet?text=I+have+shared+assignment+1.+Solve+by+today+.+&amp;lang=en");
+}
+
     return (
         <div className='assignment-container'>
             <h1>Assignments <IColourButton><AddTwoToneIcon onClick={toggleAddModal}/> </IColourButton></h1>
@@ -334,9 +341,14 @@ const ViewAssignments = () => {
                     </CardContent>
                 </CardActionArea>
                 <CardActions>
-                  <ColorButton size="large" variant="outlined" ><Link href="/Assignmentpage" >
+                  <ColorButton size="large" variant="outlined" onClick={()=>onShare()}>
+                  Share</ColorButton>
+                  
+  
+  <ColorButton size="large" variant="outlined" ><Link href="/Assignmentpage" >
                   Statistics
-  </Link></ColorButton></CardActions>
+  </Link></ColorButton>
+  </CardActions>
             </Card>))}
             {/* <Button color="primary" round >Add new assignment</Button> */}
             <Dialog open={AddOpen} onClose={handleAddCancel} aria-labelledby="form-dialog-title" maxWidth='xl'>
