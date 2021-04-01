@@ -82,6 +82,7 @@ const assignmentDetails=(req,res)=>{
                     minScore:Math.min(...scores),
                     maxScore:Math.max(...scores),
                     avgScore:avgScore(scores),
+                    scores:scores,
                 }
                 res.status(200).send(assDetails);//sending back Assignment Scores
             })
@@ -105,7 +106,7 @@ const assignmentDetails=(req,res)=>{
 
 const newAssignment=async(req,res)=>{
     const assignmentID = req.params.a_id;
-    const { assignmentName, timeLimit, questionIDs, deadline, studentIDs, tutGrp } = req.body[0];
+    const { assignmentName, timeLimit, questionIDs, deadline, tutGrp } = req.body[0];
     console.log(req.body[0]);
 
     //Loop 1 to check if there is any error in looping through
@@ -116,7 +117,6 @@ const newAssignment=async(req,res)=>{
             timeLimit:timeLimit,
             questionIDs: questionIDs,
             deadline:deadline,
-            studentIDs:studentIDs,
             tutGrp:tutGrp
         });
         for (i = 0; i < questionIDs.length; i++) {
@@ -160,7 +160,6 @@ const newAssignment=async(req,res)=>{
         timeLimit:timeLimit,
         questionIDs: questionIDs,
         deadline:deadline,
-        studentIDs:studentIDs,
         tutGrp:tutGrp
     });
     assignment.save().then((result)=>{

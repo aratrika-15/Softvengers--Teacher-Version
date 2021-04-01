@@ -28,18 +28,18 @@ const Rough = () => {
         body: "",
         correctOption: ""}
     ]);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const setModalIsOpentoTrue = () => {
-        setIsModalOpen(true);
-    }
-    const setModalIsOpentoFalse = () => {
-        setIsModalOpen(false);
-    }
+    // const [isModalOpen, setIsModalOpen] = useState(false);
+    // const setModalIsOpentoTrue = () => {
+    //     setIsModalOpen(true);
+    // }
+    // const setModalIsOpentoFalse = () => {
+    //     setIsModalOpen(false);
+    // }
 
     return(
         <>
-            <Button onClick = {setModalIsOpentoTrue}> Add Question </Button>
-            <Modal isOpen = {isModalOpen} ariaHideApp={false}>
+            {/* <Button onClick = {setModalIsOpentoTrue}> Add Question </Button>
+            <Modal isOpen = {isModalOpen} ariaHideApp={false}> */}
                     <div style = {{textAlign: "center"}}>
                     
                     <button onClick = {()=> {
@@ -57,7 +57,7 @@ const Rough = () => {
                             correctOption: ""
                             }
                         ])
-                    }}> Add New Question </button>
+                    }}> Add New Assignment </button>
                     {questions.map((q,index) =>{
                         return(
                             <div key = {q.id}>
@@ -109,8 +109,8 @@ const Rough = () => {
                     {JSON.stringify(questions)}
                     </div>
                 </div>
-            </Modal>
-        </>      
+         {/* </Modal> */}
+        </>     
     );
 };
 export default Rough;

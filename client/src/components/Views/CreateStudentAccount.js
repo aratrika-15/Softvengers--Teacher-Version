@@ -1,35 +1,14 @@
 import {useState} from 'react'
 
 
-const CreateStudentAccount = (props) => {
-    const [students, setStudents] = useState([
-        {
-            id:1,
-            firstname: 'Saiteja',
-            lastname:'reddy',
-            password: '123456',
-            email: 'reddysaiteja5@gmail.com',
-            rank:1,
-            score:25
-        },
-        {
-            id:2,
-            firstname: 'Kondreddy',
-            lastname:'reddy',
-            password: '123456',
-            email: 'reddysaiteja5@gmail.com',
-            rank:3,
-            score:30
-        }
-    
-    ])
+const CreateStudentAccount = ({rows}) => {
 
-    // const id =Math.floor(Math.random()*10000)+1
       
-    const [firstname, setFirstName] = useState('')
-    const [lastname, setLastName] = useState('')
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
+    const [matricNo, setmatricnum] = useState('')
     const [password, setPassword] = useState('')
-    const [email, setEmail] = useState('')
+    const [emailID, setEmail] = useState('')
     const [tutGrp, setTutGrp] = useState('')
 
 
@@ -38,16 +17,34 @@ const CreateStudentAccount = (props) => {
     //     username: Yup.string().required('Username is required'),
     //     password: Yup.string().required('Password is required')
     // })}
+    const onCreation = async (student)=>{
+        var myHeaders = new Headers();
+  myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAxQGUubnR1LmVkdS5zZyIsImlkIjoiNjA1MzE2Njk5ZDRhNjI0MmYwZDk5M2RmIiwidHV0R3AiOiJTQ0U0IiwiaWF0IjoxNjE2MDU4MTg2fQ.7LFzy-ecqB89ZNydkPR0LhuM33SV3ciaPJmO_g9oQnc");
+  myHeaders.append('Content-Type', 'application/json');
+  const res = await fetch('http://localhost:5000/teacher/createstudent'
+            ,{
+              method:'POST',
+              headers: myHeaders,
+              body:JSON.stringify(student)
+            }
+            )
+            const data = await res.json()
+            console.log(data);
+            //setTasks([...tasks,data])
+        //const id =Math.floor(Math.random()*10000)+1
+        //const newStudent = {id,...student}
+        //setStudents([...rows,data])
+      }
     const onSubmit = (e)=>{
         e.preventDefault()
         
 
 
-        if(!firstname){
+        if(!firstName){
             alert('please Enter Firstname')
             return
         }
-        else if(!lastname){
+        else if(!lastName){
             alert('please Enter Lastname')
             return
         }
@@ -55,7 +52,7 @@ const CreateStudentAccount = (props) => {
             alert('please Enter Password')
             return
         }
-        else if(!email){
+        else if(!emailID){
             alert('please Enter Email Id ')
             return
         }
@@ -68,37 +65,42 @@ const CreateStudentAccount = (props) => {
             alert('Student Successfully Added')
             
         }
-        const onCreation = (student)=>{
-            const id =Math.floor(Math.random()*10000)+1
-            const newStudent = {id,...student}
-            setStudents([...students,newStudent])
-          }
-        onCreation({firstname,lastname,password,email,tutGrp})
+        
+        
+        onCreation({firstName,lastName,matricNo,password,emailID,tutGrp})
 
         setFirstName('')
         setLastName('')
+        setmatricnum('')
         setPassword('')
         setEmail('')
         setTutGrp('')
     }
+    
     return (
         <div className='container'>
+            <h3 >Create Student Account</h3>
         <form className = 'add-form' onSubmit ={onSubmit} >
             <div className = 'form-control'>
                 <label>First Name:</label>
-                <input type='text' placeholder = 'Enter First Name' value={firstname} required onChange={(e)=> setFirstName(e.target.value)}/>
+                <input type='text' placeholder = 'Enter First Name' value={firstName} required onChange={(e)=> setFirstName(e.target.value)}/>
             </div>
             <div className = 'form-control'>
                 <label>Last Name:</label>
-                <input type='text' placeholder = 'Enter Last Name' value={lastname} required onChange={(e)=> setLastName(e.target.value)}/>
+                <input type='text' placeholder = 'Enter Last Name' value={lastName} required onChange={(e)=> setLastName(e.target.value)}/>
             </div>
             <div className = 'form-control'>
                 <label>Matric Number:</label>
-                <input type='text' placeholder = 'Enter Matric Number' value={password} required onChange={(e)=> setPassword(e.target.value)}/>
+                <input type='text' placeholder = 'Enter Matric Number' value={matricNo} required onChange={(e)=> setmatricnum(e.target.value)}/>
             </div>
             <div className = 'form-control'>
+                <label>Password:</label>
+                <input type='text' placeholder = 'Enter Matric Number' value={password} required onChange={(e)=> setPassword(e.target.value)}/>
+            </div>
+
+            <div className = 'form-control'>
                 <label>Email Address:</label>
-                <input type='text' placeholder = 'Enter Ntu Email address' value={email}required onChange={(e)=> setEmail(e.target.value)}/> 
+                <input type='text' placeholder = 'Enter Ntu Email address' value={emailID}required onChange={(e)=> setEmail(e.target.value)}/> 
             </div>
             <div className = 'form-control'>
                 <label>Tutorial Group :</label>

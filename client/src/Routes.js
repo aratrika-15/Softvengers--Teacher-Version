@@ -24,7 +24,7 @@ const Routes = (props) => {
             
             <Navbar token = {props.token}/>
             
-            <Particles className="particles" 
+            {/* <Particles className="particles" 
     params={{
 	    "particles": {
 	        "number": {
@@ -44,7 +44,7 @@ const Routes = (props) => {
 	            }
 	        }
 	    }
-	}} />
+	}} /> */}
             
             
             <Switch>
