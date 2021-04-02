@@ -13,7 +13,8 @@ router.get('/getStudent',auth,detailsControllers.getStudent);
 //route called for progress bar
 router.get('/getProgress', detailsControllers.getProgress);
 router.get('/getMaxScore', detailsControllers.getMaxScore);
-//
+router.get('/getAllStudents/:tut_grp', detailsControllers.getTutStudents);
+router.get('/getAllStudents', detailsControllers.getAllStudents);
 router.get('/getLeaderboard',detailsControllers.getLeaderboard);
 router.patch('/updateStudent', detailsControllers.updateStudent);
 router.patch('/changePassword', detailsControllers.changePassword);

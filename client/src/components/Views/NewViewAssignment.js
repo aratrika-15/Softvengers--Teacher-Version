@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState,useEffect,useCallback  } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -18,6 +18,7 @@ import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Typography from '@material-ui/core/Typography'
 import {Linking } from 'react-native';
+import { TwitterIcon, RedditIcon } from 'react-share';
 
 const BrandNewQUestion = () => {
     const [assignments, setAssignments] = useState([])
@@ -52,6 +53,15 @@ const BrandNewQUestion = () => {
 
       };
 
+    const handleChangePage = (e, newPage) => {
+        setPage(newPage);
+     };
+
+     const handleChangeRowsPerPage = (e) => {
+            setRowsPerPage(+e.target.value);
+            setPage(0);
+          };
+
     const ColorButton = withStyles((theme) => ({
         root: {
             body :{
@@ -74,10 +84,37 @@ const BrandNewQUestion = () => {
         }
       }))(IconButton);  
 
-    async function onShare(){
-        await Linking.openURL("https://twitter.com/intent/tweet?text=I+have+shared+assignment+1.+Solve+by+today+.+&amp;lang=en");
+    String.format = function() {
+    var theString = arguments[0];
+    for (var i = 1; i < arguments.length; i++) {
+        var regEx = new RegExp("\\{" + (i - 1) + "\\}", "gm");
+        theString = theString.replace(regEx, arguments[i]);
     }
-
+    return theString;
+  }
+  function tweetNow(assignment){
+    let twitterParameters = [];
+    let tweetContent = String.format("Shared Assignment {0}\nName: {1}\nDuration: {2}\nDeadline: {3}", assignment.assignmentID, assignment.assignmentName, assignment.timeLimit, assignment.deadline);
+    twitterParameters.push('text=' + encodeURI(tweetContent));
+    //twitterParameters.push('url=' + encodeURI(twitterShareURL));  
+    //twitterParameters.push('via=' + encodeURI(twitterViaAccount));
+    const url =
+      'https://twitter.com/intent/tweet?'
+      + twitterParameters.join('&');
+    Linking.openURL(url);
+  };
+  
+  function redditNow(assignment){
+    let redditParameters = [];
+    let redditContent = String.format("Shared Assignment {0}\nName: {1}\nDuration: {2}\nDeadline: {3}", assignment.assignmentID, assignment.assignmentName, assignment.timeLimit, assignment.deadline);
+    redditParameters.push('text=' + encodeURI(redditContent));
+    redditParameters.push('title=' + encodeURI("Softvengers assignment"));
+    const url =
+      'http://reddit.com/submit?'
+      + redditParameters.join('&');
+    Linking.openURL(url);
+  };
+  
    
     const handleChange = (event) => {
         console.log('target val', event.target.value);
@@ -160,13 +197,12 @@ const BrandNewQUestion = () => {
                         </CardContent>
                     </CardActionArea>
                     <CardActions>
-                        <ColorButton size="large" variant="outlined" onClick={() => onShare()}>
-                            Share</ColorButton>
-
-
-                        <ColorButton size="large" variant="outlined" ><Link href="/Assignmentpage" >
-                            Statistics
-  </Link></ColorButton>
+                    <ColorButton onClick={() => tweetNow(assignment)} > 
+                    <TwitterIcon size={32} round={true} /> Share on Twitter</ColorButton>
+                    <ColorButton onClick={() => redditNow(assignment)}> 
+                    <RedditIcon size={32} round={true} /> Share on Reddit</ColorButton>
+                    <ColorButton size="large" variant="outlined" ><Link href="/Assignmentpage" >
+                    Statistics</Link></ColorButton>
                     </CardActions>
                 </Card>))}
             <Dialog open={AddOpen} onClose={handleAddCancel} aria-labelledby="form-dialog-title" maxWidth='xl'>
@@ -177,7 +213,7 @@ const BrandNewQUestion = () => {
                         <TextField name="assignmentID" type="number" id="standard-basic" label="Assignment ID" required="true" style={{ width: '45%' }} onChange={handleChange} />
                         <TextField name="assignmentName" id="standard-basic" label="Assignment Name" required="true" style={{ width: '45%' }} onChange={handleChange} />
                         <TextField name="timeLimit" type="number" id="standard-basic" label="Time limit" required="true" style={{ width: '45%' }} onChange={handleChange} />
-                        <TextField name="deadline" type="date" id="standard-basic" label="Deadline" fullWidth="true" required="true" style={{ width: '91%' }} onChange={handleChange} />
+                        <TextField name="deadline" type="date" id="standard-basic" fullWidth="true" required="true" style={{ width: '91%' }} onChange={handleChange} />
                         <TextField name="tutGrp" id="standard-basic" label="Tutorial Group" fullWidth="true" required="true" style={{ width: '91%' }} onChange={handleChange} />
                     </form>
                 </DialogContent>
@@ -284,6 +320,15 @@ const BrandNewQUestion = () => {
                     })}
                 </DialogActions>
             </Dialog>
+            <TablePagination
+        rowsPerPageOptions={[3,5,10,25,100]}
+        component="div"
+        count={assignments.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onChangePage={handleChangePage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+      />
 
 
         </div>

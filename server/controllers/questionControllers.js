@@ -211,10 +211,82 @@ const deleteQuestion=(req,res)=>{
 
 };
 
+
+const populate = async(req, res)=>{
+    console.log('Populating...');
+    var uni;
+    var ss;
+    var planet;
+    var question;
+    let id = 300;
+    var dict = {};
+    console.log('Entering');
+    for (uni = 0; uni < 7; uni++){
+        for (ss = 0; ss < 4; ss++){
+            console.log('Entering');
+            for (planet = 0; planet < 3; planet ++){
+                console.log('Entering');
+                for (question = 0; question < 10; question ++){
+                    console.log('Entering');
+                    
+                    const universeID = uni;
+                    console.log(universeID);
+                    const solarID = ss;
+                    const planetID = planet;
+                    const questionID = id;
+                    let points = 0;
+                    let difficulty = 'None';
+                    const correctOption = 'A';
+                    const wrongOptions = ['B','C','D'];
+                    
+                    if (planet == 0){
+                        points = 5;
+                        difficulty = 'Easy';
+                    }
+                    if (planet == 1){
+                         points = 7;
+                         difficulty = 'Medium';
+                    }
+
+                    if (planet == 2){
+                         points = 10;
+                         difficulty = 'Hard'
+                    }
+
+                    const points_final = points;
+                    const body = `Universe ${universeID}, Solar System ${solarID},${difficulty} Question ${question+1}`;
+                    console.log(body);
+
+                    const planetQ=new PlanetQuestion({
+                        universeID:universeID,
+                        solarID:solarID,
+                        planetID:planetID,
+                        
+                        questionID:questionID,
+                        body:body,
+                        wrongOptions:wrongOptions,
+                        correctOption:correctOption,
+                        points:points_final
+                    });
+                    console.log(planetQ);
+                    planetQ.save().then((result)=>{
+                        console.log('Sucess');
+                    });
+                    id++;
+
+                }
+            }
+        }
+    }   
+    
+    res.status(200).send("Success");
+
+}
 module.exports={
     questionDetails,
     questionList,
     newQuestion,
     deleteQuestion,
     updateQuestion,
+    populate
 };
