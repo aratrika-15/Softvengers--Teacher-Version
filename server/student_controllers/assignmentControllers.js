@@ -79,7 +79,7 @@ const getassignmentList=async (req,res)=>{
 const getAssignmentQuestions = async (req,res) =>{
     try{
     const questions = await AssignmentQn.find({
-        "assignmentID":req.query.assignmentID
+        _id:req.query.assignmentID
         
     });
     console.log(questions);
