@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 //defining constants
-const MAX_SCORE=30;
+const MAX_SCORE=3000;
 const MIN_SCORE=1;
 const WRONG_OPTIONS=3;
 
