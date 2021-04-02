@@ -21,6 +21,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Checkbox from '@material-ui/core/Checkbox';
 import { Alert, View, StyleSheet, Linking } from 'react-native';
+import AssignQues from './AssignQues'
+import {produce} from 'immer';
 
 const ViewAssignments = () => {
     const [assignments, setAssignments] = useState([])
@@ -31,13 +33,29 @@ const ViewAssignments = () => {
     const [optionB,setB] = useState('');
     const [optionC,setC] = useState('');
     const [optionD,setD] = useState('');
+    const [arr, setArr] = useState([0,1,2]);
     const [updated, setUpdate] = useState(true);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(3);
-    const [oading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [question,setQuestion] = useState({});
+    const [questions, setQuestions] = useState([
+      {
+    
+      points: 0,
+      questionID: 0,
+      body: "",
+      correctOption: "",
+      wrongOptions:[]}
+  ]);
+    const [questionCount, setQuestionCount]=useState([1])
+    const [prevCount,setprevCount]=useState([]);
     // const [correct,setCorrect] = useState('');
     const [currentQID, setCurrentQID]=useState(-1);
+    const [plus, setPlus] = useState(false);
+    function handlenewInput(){
+      setPlus(true);
+    }
     const getOptionFromIndex = (val) => {
       switch (val) {
         case "0": return optionA;
@@ -47,6 +65,20 @@ const ViewAssignments = () => {
       }
       return "";
     }
+    const addQuestion=()=>{
+      let tempArr=questionCount;
+      setprevCount(questionCount);
+      console.log("Hello");
+      console.log(prevCount);
+      tempArr.push(1);
+      console.log("Wow");
+      console.log(tempArr);
+      //setprevCount(tempArr);
+      setQuestionCount(tempArr);
+      
+      console.log(questionCount);
+    }
+
     const handleChangeQuestion = (event) => {
       console.log('target val',event.target.value);
         switch(event.target.name){
@@ -100,64 +132,7 @@ const ViewAssignments = () => {
       setInput(inputState);
 
     }
-  
-    function addQuestion(){
-      console.log('add question entered');
-      return(
-        <div>
-        <form  noValidate autoComplete="off">
-        
-        <TextField name = "questionID" type="number" id="standard-basic" label="QuestionID" required="true" style = {{width: '45%'}} onChange={handleChangeQuestion}/>
-        <TextField name = "body" id="standard-basic" label="Assignment Question" fullWidth="true" required="true" style = {{width: '91%'}} onChange={handleChangeQuestion}/>
-        <Typography variant="h7" >
-        <br></br> {"     "}Select the Checkbox with the correct option:
-        </Typography>
-        <div  >
-        <Checkbox
-                              defaultChecked = {true}
-                              color="primary"
-                              inputProps={{ 'aria-label': 'secondary checkbox' }}
-                              name="0"
-                              onChange={checkAns}
-                            />
-                            <TextField name = "OptionA" id="standard-basic" label="Option 1" required="true" style = {{width: '90%'}}  onChange={handleChangeQuestion}/>
-                            </div>
-                            <div >
-                            <Checkbox
-                              
-                              color="primary"
-                              inputProps={{ 'aria-label': 'secondary checkbox' }}
-                              name="1"
-                              onChange={checkAns}
-                            />
-                            <TextField name = "OptionB" id="standard-basic" label="Option 2" required="true" style = {{width: '90%'}}  onChange={handleChangeQuestion}/>
-                            </div>
-                            <div>
-                            <Checkbox
-                              
-                              color="primary"
-                              inputProps={{ 'aria-label': 'secondary checkbox' }}
-                              name="2"
-                              onChange={checkAns}
-                            />
-                            <TextField name = "OptionC" id="standard-basic" label="Option 3" required="true" style = {{width: '90%'}}  onChange={handleChangeQuestion}/>
-                            </div>
-                            <div>
-                            <Checkbox
-                              
-                              color="primary"
-                              inputProps={{ 'aria-label': 'secondary checkbox' }}
-                              name="3"
-                              onChange={checkAns}
-                            />
-                            <TextField name = "OptionD" id="standard-basic" label="Option 4" required="true" style = {{width: '90%'}} onChange={handleChangeQuestion}/>
-      
-        </div>
-        </form>
-        </div>
-
-      );
-    }
+              
 
     const fetchAssignments = async ()=> {
       var myHeaders = new Headers();
@@ -322,6 +297,7 @@ const ViewAssignments = () => {
       setAddOpen(false);
   };
 
+  const [counter,setCounter] = useState([1,2,3,4]);
 
 async function onShare(){
   await Linking.openURL("https://twitter.com/intent/tweet?text=I+have+shared+assignment+1.+Solve+by+today+.+&amp;lang=en");
@@ -364,26 +340,77 @@ async function onShare(){
                             
                           </form>
                           <div>
-        <form  noValidate autoComplete="off">
-        
-        <TextField name = "questionID" type="number" id="standard-basic" label="QuestionID" required="true" style = {{width: '45%'}} onChange={handleChangeQuestion}/>
-        <TextField name = "body" id="standard-basic" label="Assignment Question" fullWidth="true" required="true" style = {{width: '91%'}} onChange={handleChangeQuestion}/>
-        <TextField name = "correctOption" id="standard-basic" label="Correct Option" fullWidth="true" required="true" style = {{width: '91%'}} onChange={handleChangeQuestion}/>
-        <TextField name = "wrongOptions[0]" id="standard-basic" label="Wrong option 1" fullWidth="true" required="true" style = {{width: '91%'}} onChange={handleChangeQuestion}/>
-        <TextField name = "wrongOptions[1]" id="standard-basic" label="Wrong option 2" fullWidth="true" required="true" style = {{width: '91%'}} onChange={handleChangeQuestion}/>
-        <TextField name = "wrongOptions[2]" id="standard-basic" label="Wrong option 3" fullWidth="true" required="true" style = {{width: '91%'}} onChange={handleChangeQuestion}/>
-      </form>
-      
+                          <AssignQues handleChangeQuestion = {handleChangeQuestion} />
+                            {
+                            // questionCount.map(i => {
+                            //   return(
+                            //     <AssignQues handleChangeQuestion = {handleChangeQuestion}/>
+                            //   )
+                            // })
+                            
+                            plus? <AssignQues handleChangeQuestion = {handleChangeQuestion}/>:<div/>
+    
+                            }
       </div>
                     </DialogContent>
                           <DialogActions>
-                            <Button onClick = {() => addQuestion()}> Add Question </Button>
+                            <Button onClick = {addQuestion}> Add Question </Button>
                             <Button onClick={handleAddCancel} color="primary">
                               Cancel
                             </Button>
                             <Button onClick={handleAddOk} color="primary">
                               Add Assignment
                             </Button>
+                            <Button onClick = {()=> {
+                        setQuestions(currQuestions=> [
+                            ...currQuestions,
+                            {
+                                
+                                wrongOptions: [],
+                            points: 0,
+                            questionID: 0,
+                            body: "",
+                            correctOption: ""
+                            }
+                        ])
+                    }}> Add New Assignment </Button>
+                    {questions.map((q,index) =>{
+                        return(
+                            <div key = {q.questionID}>
+                              {
+                                arr.map( (i) => {
+                               
+                                  <TextField onChange = {(e)=>{
+                                   const tempOption = e.target.value;
+                                   setQuestions(currQues => 
+                                       produce(currQues,(v)=>{
+                                               v[index].wrongOptions[i] = tempOption;
+                                                               })
+                                       ); 
+   
+                                 }}
+                                 placeholder = "wrong options"/>
+                               })
+                              }
+                            
+                                
+                                <TextField onChange = {(e)=>{
+                                    const points = e.target.value;
+                                    setQuestions(currPoint => 
+                                        produce(currPoint,(v)=>{
+                                            v[index].points = Number(points);
+                                        })
+                                        );
+                                }}
+                                placeholder = "Points"/>
+                                
+                               
+                                <TextField placeholder = "question ID"/>
+                                <TextField placeholder = "question body"/>
+                                <TextField placeholder = "correct option"/>
+                            </div>
+                        )
+                    })}
                         </DialogActions>
             </Dialog>
 

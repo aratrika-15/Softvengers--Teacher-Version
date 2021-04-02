@@ -31,6 +31,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import { dictOfUniverse, dictOfSolar, dictOfPlanet } from './../../variables/general';
 import Link from '@material-ui/core/Link'
 
+
 // const ViewQuestionbank = (props) => {
 //     return(
 // <div>
@@ -60,6 +61,7 @@ function createData(universe,solar, planet, questionID, question) {
         const [optionC,setC] = useState('');
         const [optionD,setD] = useState('');
         const [page, setPage] = useState(0);
+        
         const [rowsPerPage, setRowsPerPage] = useState(3);
         // const [correct,setCorrect] = useState('');
         const [currentQID, setCurrentQID]=useState(-1);
@@ -523,6 +525,7 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
                             <Button onClick={handleAddOk} color="primary">
                               Update Quiz
                             </Button>
+                            
                           </DialogActions>
                         </Dialog>
                         
