@@ -93,6 +93,7 @@ const getLeaderboard = async(req,res)=>{
 
         }
         let result = {
+            totalScore: student.totalScore,
             firstName: student.firstName,
             lastName: student.lastName,
             emailID: student.emailID,
