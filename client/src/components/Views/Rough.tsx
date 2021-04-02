@@ -3,30 +3,27 @@ import { produce } from 'immer';
 import {generate} from 'shortid';
 import Modal from 'react-modal';
 import {Button} from 'reactstrap';
+import { StringLiteralLike } from 'typescript';
 
 interface QuestionObject {
-    id:string
-    wrongOptions: string,
-    points: Number,
-    universeID: Number,
-    solarID: Number,
-    planetID: Number,
-    questionID: Number,
+    
+    points: number,
+    questionID: number,
     body: string,
     correctOption: string
+    wrongOptions: Array<String>
 }
 
 const Rough = () => {
+    const [arr, setArr] = useState([0,1,2])
     const [questions, setQuestions] = useState<QuestionObject []>([
-        {id:"",
-        wrongOptions: "",
+        {
+      
         points: 0,
-        universeID: 0,
-        solarID: 0,
-        planetID: 0,
         questionID: 0,
         body: "",
-        correctOption: ""}
+        correctOption: "",
+        wrongOptions:[]}
     ]);
     // const [isModalOpen, setIsModalOpen] = useState(false);
     // const setModalIsOpentoTrue = () => {
@@ -46,12 +43,9 @@ const Rough = () => {
                         setQuestions(currQuestions=> [
                             ...currQuestions,
                             {
-                                id: generate(),
-                                wrongOptions: "",
+                                
+                                wrongOptions: [],
                             points: 0,
-                            universeID: 0,
-                            solarID: 0,
-                            planetID: 0,
                             questionID: 0,
                             body: "",
                             correctOption: ""
@@ -60,14 +54,20 @@ const Rough = () => {
                     }}> Add New Assignment </button>
                     {questions.map((q,index) =>{
                         return(
-                            <div key = {q.id}>
+                            <div key = {q.questionID}>
                                 <input onChange = {(e)=>{
-                                    const wrongOptions = e.target.value;
-                                    setQuestions(currQues => 
-                                        produce(currQues,(v)=>{
-                                            v[index].wrongOptions = wrongOptions;
-                                        })
-                                        );
+                                    arr.map(i => {
+                                        const tempOption = e.target.value;
+                                        setQuestions(currQues => 
+                                            produce(currQues,(v)=>{
+                                               
+                                                    v[index].wrongOptions[i] = tempOption;
+                                               
+                                                
+                                            })
+                                            ); 
+                                    })
+                                    
                                 }}
                                 placeholder = "wrong options"></input>
                                 <input onChange = {(e)=>{
@@ -78,27 +78,10 @@ const Rough = () => {
                                         })
                                         );
                                 }}
-                                placeholder = "points"/>
-                                <input onChange = {(e)=>{
-                                    const uid = e.target.value;
-                                    setQuestions(currUid => 
-                                        produce(currUid,(v)=>{
-                                            v[index].universeID = Number(uid);
-                                        })
-                                        );
-                                }}
-                                placeholder = "universe ID"/>
-                                <input onChange = {(e)=>{
-                                    const sid = e.target.value;
-                                    setQuestions(currSid => 
-                                        produce(currSid,(v)=>{
-                                            v[index].solarID = Number(sid);
-                                        })
-                                        );
-                                }}
-                                placeholder = "solarID"/>
-                                <input 
-                                placeholder = "planet ID"/>
+                                
+                                placeholder = "Points"/>
+                                
+                               
                                 <input placeholder = "question ID"/>
                                 <input placeholder = "question body"/>
                                 <input placeholder = "correct option"/>

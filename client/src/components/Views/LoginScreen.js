@@ -3,7 +3,7 @@ import {useState, useEffect} from 'react'
 import Navbar from '../Navbar/Navbar';
 import CreateStudentAccount from './CreateStudentAccount'
 import ViewLeaderboard from './ViewLeaderboard'
-import ViewAssignment from './ViewAssignments'
+import ViewAssignment from './OldViewAssignments'
 import Dashboard from './Dashboard'
 import Questionbank from './ViewQuestionbank'
 import Assignmentpage  from './Assignmentpage'

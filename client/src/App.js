@@ -6,7 +6,7 @@ import Navbar from './components/Navbar/Navbar'
 import CreateStudentAccount from './components/Views/CreateStudentAccount'
 import ViewLeaderboard from './components/Views/ViewLeaderboard'
 import Login from './components/Views/LoginScreen'
-import ViewAssignment from './components/Views/ViewAssignments'
+import ViewAssignment from './components/Views/OldViewAssignments'
 import { BrowserRouter,Route, Switch, Redirect } from 'react-router-dom';
 import Routes from './Routes'
 import Particles from 'react-particles-js';
