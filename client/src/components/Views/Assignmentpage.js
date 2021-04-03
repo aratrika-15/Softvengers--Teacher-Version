@@ -61,7 +61,7 @@ const Assignmentpage = () => {
       const fetchAssignmentDetails = async (id)=> {
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAxQGUubnR1LmVkdS5zZyIsImlkIjoiNjA1MzE2Njk5ZDRhNjI0MmYwZDk5M2RmIiwidHV0R3AiOiJTQ0U0IiwiaWF0IjoxNjE2MDU4MTg2fQ.7LFzy-ecqB89ZNydkPR0LhuM33SV3ciaPJmO_g9oQnc");
-        const res = await fetch(`http://localhost:5000/teacher/assignment/123`,{
+        const res = await fetch(`http://localhost:5000/teacher/assignment/10259871`,{
           method: 'GET',
           headers: myHeaders,
           redirect: 'follow'

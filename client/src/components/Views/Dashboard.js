@@ -22,10 +22,12 @@ const Dashboard = () => {
     { year: '2000', population: 6.127 },
     { year: '2010', population: 6.930 },
   ];
-  const [showForm, setShowForm] = useState(false);
+  const [showForm, setShowForm] = useState(false)
+  const [showForm2, setShowForm2] = useState(false);
   const [indv, setinv] = useState([])
   const [grps, setgrps] = useState([])
   const [email, setemail] = useState('')
+  const [tutGrp, settutGrp] = useState('')
   const fetchAssignmentDetails = async (url)=> {
       var myHeaders = new Headers();
       myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAxQGUubnR1LmVkdS5zZyIsImlkIjoiNjA1MzE2Njk5ZDRhNjI0MmYwZDk5M2RmIiwidHV0R3AiOiJTQ0U0IiwiaWF0IjoxNjE2MDU4MTg2fQ.7LFzy-ecqB89ZNydkPR0LhuM33SV3ciaPJmO_g9oQnc");
@@ -39,10 +41,12 @@ const Dashboard = () => {
     }
 const [bar1, setbar1] = useState([])
 const [bar2, setbar2] = useState([])
-    const Form2 = async (e)=>{
+const onSubmit2 = (e)=>{
+  
+    
       e.preventDefault()
       const getgrpstats = async()=>{
-    const studentsFromServer = await fetchAssignmentDetails(`http://localhost:5000/teacher/statistics/group/SCE5`)
+    const studentsFromServer = await fetchAssignmentDetails(`http://localhost:5000/teacher/statistics/group/${tutGrp}`)
     setgrps(studentsFromServer)
     setdetails(studentsFromServer.attemptedDifficulties)
     setbar1(studentsFromServer.scoresAchieved.universeTotal)
@@ -51,7 +55,7 @@ const [bar2, setbar2] = useState([])
   }
   getgrpstats()
       
-      setemail('')
+  settutGrp('')
   }
   
   const onSubmit =  (e)=>{
@@ -73,6 +77,9 @@ const [bar2, setbar2] = useState([])
  
   const Form = () => {
     setShowForm(!showForm)
+  }
+  const Form2 = () => {
+    setShowForm2(!showForm2)
   }
   const [details, setdetails] = useState([
     { id: 'avgEasyCorrect', title: 'Easy',value: 1,color: '#ff9800'},
@@ -128,9 +135,9 @@ const [bar2, setbar2] = useState([])
 console.log(bar2);
   return (
     <div>
-    <div className = 'button' >
-      <input  type = 'submit' value = 'Group'className ='btn2 btn2-block' onClick={Form2}/>
-      <input type = 'submit' value = 'Individual' className ='btn2 btn2-block' onClick={Form}/>
+    <div className = 'form-control' >
+      <input  type = 'submit' value = 'Statistics by Tutorial Group'className ='btn2 btn2-block' onClick={Form2}/>
+      <input type = 'submit' value = 'Statistics of Individual Student' className ='btn2 btn2-block' onClick={Form}/>
       
       {showForm && (
         
@@ -138,11 +145,14 @@ console.log(bar2);
           <label>Email Address:</label>
                 <input type='text' placeholder = 'Enter Ntu Email address' value={email}required onChange={(e)=> setemail(e.target.value)}/>         
                 <input type = 'submit' value = 'enter' className ='btn2 btn2-block' />
-                
-        </form>
+        </form>)}
+        {showForm2 && (
         
-          
-      )}
+        <form className = 'form' onSubmit={onSubmit2}>
+          <label>Tutorial Group:</label>
+                <input type='text' placeholder = 'Enter Tutorial Group' value={tutGrp}required onChange={(e)=> settutGrp(e.target.value)}/>         
+                <input type = 'submit' value = 'Enter' className ='btn2 btn2-block' />
+        </form>)}
      </div>
      <div className="bar1">
         <Chart
@@ -191,6 +201,10 @@ console.log(bar2);
             <div className='line'>
               <CanvasJSChart options = {options}/>
               </div>
+
+              {/* <div className='pie'>
+      <CustomPieChart stat={details} main={true}/>
+      </div> */}
     </div>
   )
 }
