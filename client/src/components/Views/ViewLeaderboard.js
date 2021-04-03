@@ -13,7 +13,9 @@ import { DataGrid } from '@material-ui/data-grid';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import IconButton from '@material-ui/core/IconButton';
 import Particles from 'react-particles-js';
-const ViewLeaderboard = (props) => {
+const ViewLeaderboard = () => {
+  const token = sessionStorage.getItem('token');
+  console.log("token = view()", token);
   const StyledTableCell = withStyles((theme) => ({
     head: {
       backgroundColor:'#6f7bd9',
@@ -41,7 +43,7 @@ const ViewLeaderboard = (props) => {
 
   const fetchStudents = async (url)=> {
     var myHeaders = new Headers();
-    myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAxQGUubnR1LmVkdS5zZyIsImlkIjoiNjA1MzE2Njk5ZDRhNjI0MmYwZDk5M2RmIiwidHV0R3AiOiJTQ0U0IiwiaWF0IjoxNjE2MDU4MTg2fQ.7LFzy-ecqB89ZNydkPR0LhuM33SV3ciaPJmO_g9oQnc");
+    myHeaders.append("Authorization", "Bearer "+token);
     const res = await fetch(url,{
       method: 'GET',
       headers: myHeaders,

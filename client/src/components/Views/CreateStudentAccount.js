@@ -3,7 +3,8 @@ import {useState} from 'react'
 
 const CreateStudentAccount = ({rows}) => {
 
-      
+    const token = sessionStorage.getItem('token');
+    console.log("token = view()", token);
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [matricNo, setmatricnum] = useState('')
@@ -19,7 +20,7 @@ const CreateStudentAccount = ({rows}) => {
     // })}
     const onCreation = async (student)=>{
         var myHeaders = new Headers();
-  myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAxQGUubnR1LmVkdS5zZyIsImlkIjoiNjA1MzE2Njk5ZDRhNjI0MmYwZDk5M2RmIiwidHV0R3AiOiJTQ0U0IiwiaWF0IjoxNjE2MDU4MTg2fQ.7LFzy-ecqB89ZNydkPR0LhuM33SV3ciaPJmO_g9oQnc");
+        myHeaders.append("Authorization", "Bearer "+token);
   myHeaders.append('Content-Type', 'application/json');
   const res = await fetch('http://localhost:5000/teacher/createstudent'
             ,{

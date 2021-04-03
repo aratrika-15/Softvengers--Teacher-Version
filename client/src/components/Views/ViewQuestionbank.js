@@ -47,7 +47,9 @@ function createData(universe,solar, planet, questionID, question) {
     return { Universe: dictOfUniverse[universe-1], Solar: dictOfSolar[solar-1], Planet: dictOfPlanet[planet-1], QuestionID: questionID, question};
   }
 
-    const ViewQuestionbank = (props) => {
+    const ViewQuestionbank = () => {
+      const token = sessionStorage.getItem('token');
+      console.log("token = view()", token);
         const [fullDataQuestions, setFullData] = React.useState({});
         const [inputState, setInput] = React.useState({});
         useEffect(() => {
@@ -77,7 +79,7 @@ function createData(universe,solar, planet, questionID, question) {
 
         const fetchQuestions = () => {
                 var myHeaders = new Headers();
-                myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAyQGUubnR1LmVkdS5zZyIsImlkIjoiNjA2NjliMzgxNjE4YTA0OWNmOTVjMDIxIiwidHV0R3AiOiJTQ0U1IiwiaWF0IjoxNjE3MzM3MjE2LCJleHAiOjE2MTc0MjM2MTZ9.dx30W8Ta2IW9MrP71YjfIn-vdmcsoAiokocgPXOMdB8");
+                myHeaders.append("Authorization", "Bearer "+token);
                 fetch('http://localhost:5000/teacher/question',{headers: myHeaders})
                 .then(response => response.json())
                 .then(data => setQuestions(data))
@@ -86,7 +88,7 @@ function createData(universe,solar, planet, questionID, question) {
         }
         const fetchFullDataQuestions = (qid) => {
           var myHeaders = new Headers();
-myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAyQGUubnR1LmVkdS5zZyIsImlkIjoiNjA2NjliMzgxNjE4YTA0OWNmOTVjMDIxIiwidHV0R3AiOiJTQ0U1IiwiaWF0IjoxNjE3MzM3MjE2LCJleHAiOjE2MTc0MjM2MTZ9.dx30W8Ta2IW9MrP71YjfIn-vdmcsoAiokocgPXOMdB8");
+          myHeaders.append("Authorization", "Bearer "+token);
 
 var raw = "";
 
@@ -265,7 +267,7 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
              
             //TODO: Update DB question 
             var myHeaders = new Headers();
-            myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAyQGUubnR1LmVkdS5zZyIsImlkIjoiNjA2NjliMzgxNjE4YTA0OWNmOTVjMDIxIiwidHV0R3AiOiJTQ0U1IiwiaWF0IjoxNjE3MzM3MjE2LCJleHAiOjE2MTc0MjM2MTZ9.dx30W8Ta2IW9MrP71YjfIn-vdmcsoAiokocgPXOMdB8");
+            myHeaders.append("Authorization", "Bearer "+token);
             myHeaders.append("Content-Type", "application/json");
             
             var raw = JSON.stringify(inputState);
@@ -317,7 +319,7 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
   
     const handleDeleteOk = () => {
       var myHeaders = new Headers();
-      myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAyQGUubnR1LmVkdS5zZyIsImlkIjoiNjA2NjliMzgxNjE4YTA0OWNmOTVjMDIxIiwidHV0R3AiOiJTQ0U1IiwiaWF0IjoxNjE3MzM3MjE2LCJleHAiOjE2MTc0MjM2MTZ9.dx30W8Ta2IW9MrP71YjfIn-vdmcsoAiokocgPXOMdB8");
+      myHeaders.append("Authorization", "Bearer "+token);
 
 
       var requestOptions = {
@@ -346,7 +348,7 @@ fetch("http://localhost:5000/teacher/question/"+String(qid), requestOptions)
             setInput(inputState);
             
             var myHeaders = new Headers();
-            myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAyQGUubnR1LmVkdS5zZyIsImlkIjoiNjA2NjliMzgxNjE4YTA0OWNmOTVjMDIxIiwidHV0R3AiOiJTQ0U1IiwiaWF0IjoxNjE3MzM3MjE2LCJleHAiOjE2MTc0MjM2MTZ9.dx30W8Ta2IW9MrP71YjfIn-vdmcsoAiokocgPXOMdB8");
+            myHeaders.append("Authorization", "Bearer "+token);
             myHeaders.append("Content-Type", "application/json");
             
             var raw = JSON.stringify(inputState);

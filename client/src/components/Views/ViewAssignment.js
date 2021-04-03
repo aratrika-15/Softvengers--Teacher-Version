@@ -19,8 +19,11 @@ import CardMedia from '@material-ui/core/CardMedia'
 import Typography from '@material-ui/core/Typography'
 import {Linking } from 'react-native';
 import { TwitterIcon, RedditIcon } from 'react-share';
-
-const BrandNewQUestion = () => {
+import useToken from '../../variables/useToken';
+const ViewAssignment = () => {
+    console.log("Entering  view");
+    const token = sessionStorage.getItem('token');
+    console.log("token = view()", token);
     const [assignments, setAssignments] = useState([])
     const [arr, setArr] = useState([0, 1, 2]);
     const [AddOpen, setAddOpen] = React.useState(false);
@@ -126,12 +129,14 @@ const BrandNewQUestion = () => {
 
     const fetchAssignments = async ()=> {
         var myHeaders = new Headers();
-        myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAyQGUubnR1LmVkdS5zZyIsImlkIjoiNjA2NjliMzgxNjE4YTA0OWNmOTVjMDIxIiwidHV0R3AiOiJTQ0U1IiwiaWF0IjoxNjE3MzM3MjE2LCJleHAiOjE2MTc0MjM2MTZ9.dx30W8Ta2IW9MrP71YjfIn-vdmcsoAiokocgPXOMdB8");
+        console.log("token"+token);
+        myHeaders.append("Authorization", "Bearer "+token);
         const res = await fetch('http://localhost:5000/teacher/assignment/list/SCE5',{
           method: 'GET',
           headers: myHeaders,
           redirect: 'follow'
         })
+        .catch(error => console.log('error', error));
         const data = await res.json()
         console.log(data);
         return data
@@ -156,7 +161,7 @@ const BrandNewQUestion = () => {
         setInput(inputState);
         //TODO: Update DB question 
         var myHeaders = new Headers();
-        myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAyQGUubnR1LmVkdS5zZyIsImlkIjoiNjA2NjliMzgxNjE4YTA0OWNmOTVjMDIxIiwidHV0R3AiOiJTQ0U1IiwiaWF0IjoxNjE3MzM3MjE2LCJleHAiOjE2MTc0MjM2MTZ9.dx30W8Ta2IW9MrP71YjfIn-vdmcsoAiokocgPXOMdB8");
+        myHeaders.append("Authorization", "Bearer "+token);
         myHeaders.append("Content-Type", "application/json");
 
         var raw = JSON.stringify(inputState);
@@ -183,8 +188,9 @@ const BrandNewQUestion = () => {
 
 
     return (
-
+        
         <div className='assignment-container'>
+            {console.log('returning ...')}
             <h1>Assignments <IColourButton><AddTwoToneIcon onClick={toggleAddModal} /> </IColourButton></h1>
             {assignments.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((assignment) => (
                 <Card>
@@ -336,4 +342,4 @@ const BrandNewQUestion = () => {
     )
 }
 
-export default BrandNewQUestion;
+export default ViewAssignment;

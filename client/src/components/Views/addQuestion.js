@@ -1,3 +1,4 @@
+//unused component
 import {useState} from 'react';
 import Modal from 'react-modal';
 import {Button, ModalBody, ModalHeader, Label, Row , Col } from 'reactstrap';

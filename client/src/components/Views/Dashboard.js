@@ -13,6 +13,8 @@ import {CanvasJSChart} from 'canvasjs-react-charts'
 
 import { Animation } from '@devexpress/dx-react-chart';
 const Dashboard = () => {
+  const token = sessionStorage.getItem('token');
+  console.log("token = view()", token);
   const data = [
     { year: '1950', population: 2.525 },
     { year: '1960', population: 3.018 },
@@ -30,7 +32,7 @@ const Dashboard = () => {
   const [tutGrp, settutGrp] = useState('')
   const fetchAssignmentDetails = async (url)=> {
       var myHeaders = new Headers();
-      myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAxQGUubnR1LmVkdS5zZyIsImlkIjoiNjA1MzE2Njk5ZDRhNjI0MmYwZDk5M2RmIiwidHV0R3AiOiJTQ0U0IiwiaWF0IjoxNjE2MDU4MTg2fQ.7LFzy-ecqB89ZNydkPR0LhuM33SV3ciaPJmO_g9oQnc");
+      myHeaders.append("Authorization", "Bearer "+token);
       const res = await fetch(url,{
         method: 'GET',
         headers: myHeaders,
