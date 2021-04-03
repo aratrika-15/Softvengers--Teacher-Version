@@ -126,7 +126,7 @@ const BrandNewQUestion = () => {
 
     const fetchAssignments = async ()=> {
         var myHeaders = new Headers();
-        myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAxQGUubnR1LmVkdS5zZyIsImlkIjoiNjA1MzE2Njk5ZDRhNjI0MmYwZDk5M2RmIiwidHV0R3AiOiJTQ0U0IiwiaWF0IjoxNjE2MDU4MTg2fQ.7LFzy-ecqB89ZNydkPR0LhuM33SV3ciaPJmO_g9oQnc");
+        myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAyQGUubnR1LmVkdS5zZyIsImlkIjoiNjA2NjliMzgxNjE4YTA0OWNmOTVjMDIxIiwidHV0R3AiOiJTQ0U1IiwiaWF0IjoxNjE3MzM3MjE2LCJleHAiOjE2MTc0MjM2MTZ9.dx30W8Ta2IW9MrP71YjfIn-vdmcsoAiokocgPXOMdB8");
         const res = await fetch('http://localhost:5000/teacher/assignment/list/SCE5',{
           method: 'GET',
           headers: myHeaders,
@@ -156,7 +156,7 @@ const BrandNewQUestion = () => {
         setInput(inputState);
         //TODO: Update DB question 
         var myHeaders = new Headers();
-        myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAxQGUubnR1LmVkdS5zZyIsImlkIjoiNjA1MzE2Njk5ZDRhNjI0MmYwZDk5M2RmIiwidHV0R3AiOiJTQ0U0IiwiaWF0IjoxNjE2MDU4MTg2fQ.7LFzy-ecqB89ZNydkPR0LhuM33SV3ciaPJmO_g9oQnc");
+        myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNVMDAyQGUubnR1LmVkdS5zZyIsImlkIjoiNjA2NjliMzgxNjE4YTA0OWNmOTVjMDIxIiwidHV0R3AiOiJTQ0U1IiwiaWF0IjoxNjE3MzM3MjE2LCJleHAiOjE2MTc0MjM2MTZ9.dx30W8Ta2IW9MrP71YjfIn-vdmcsoAiokocgPXOMdB8");
         myHeaders.append("Content-Type", "application/json");
 
         var raw = JSON.stringify(inputState);
