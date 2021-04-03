@@ -58,7 +58,8 @@ const challengeSchema=new Schema({
     // },
     challengeName:{
         type:String,
-        required:true,
+        required:false,
+        //default: "Ultimate Challenge"
     },
     questionIds:{
         type:[Number],

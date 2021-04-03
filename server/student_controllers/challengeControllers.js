@@ -8,6 +8,7 @@ const studentTaker = schemas.student;
 
 
 const createChallenge = async (req,res) =>{
+    try{
     const student = new studentTaker({
         emailID: req.body.senderEmailID,
         attempted: false,
@@ -17,7 +18,14 @@ const createChallenge = async (req,res) =>{
     // populate questionIDs
     const questionObj = [];
     const qid = [];
-
+    var name;
+    let username = req.body.senderEmailID.split('@')[0];
+    if (!req.body.challengeName){
+         name = `Challenge by ${username}`
+    }
+    else{
+        name = req.body.challengeName;
+    }
     const topics = req.body.topics;
 
     for (const topic of topics){
@@ -43,7 +51,7 @@ const createChallenge = async (req,res) =>{
     console.log (qid);
 
     const challenge = new challengeSchema({
-        challengeName: req.body.challengeName,
+        challengeName: name,
         sender: student,
         questionIds: qid,
         receivers: [],
@@ -51,7 +59,7 @@ const createChallenge = async (req,res) =>{
 
     });
 
-    try{
+    
         const savedChallenge = await challenge.save();
         res.status(201).json({challengeID: savedChallenge.id,
         questions: questionObj});
@@ -96,7 +104,7 @@ const sendChallenge = async(req,res) =>{
         err,result
     ) {
         if (err) {
-            res.status(500).send(err);
+            res.status(400).send(err);
         }
         else{
             res.status(200).send(result);
@@ -107,25 +115,25 @@ const sendChallenge = async(req,res) =>{
 };
 
 const getReceivedChallenges = async (req, res) =>{
-
+    
     const challenges = await challengeSchema.find({
         'receivers.emailID': req.query.emailID,
         'receivers.attempted': {
-            $in: [0,1]
+            $ne: -1
         }
     });
-
+    console.log(challenges[1].receivers);
     const myDetails =await challengeSchema.find({
         'receivers.emailID': req.query.emailID,
         'receivers.attempted': {
-            $in: [0,1]
+            $ne: -1
         }
     },
     {
         'receivers.$': 1,
         _id: 0
     });
-
+    console.log(myDetails);
     let myDet = JSON.parse(JSON.stringify(myDetails));
 
     console.log(myDet);

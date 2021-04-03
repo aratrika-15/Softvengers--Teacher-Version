@@ -1,6 +1,6 @@
 //importing modules
 const express=require('express');
-
+const auth=require('../controllers/authentication');
 //importing controllers
 const questionControllers=require('../student_controllers/questionController');
 
@@ -8,7 +8,7 @@ const questionControllers=require('../student_controllers/questionController');
 const router=express.Router();
 
 //routing
-router.get('/',questionControllers.getQuestions);
+router.get('/',auth,questionControllers.getQuestions);
 
 //exporting router
 module.exports=router;
