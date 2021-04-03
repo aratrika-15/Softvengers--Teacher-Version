@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button'
 import AddTwoToneIcon from '@material-ui/icons/AddTwoTone'
 import TablePagination from '@material-ui/core/TablePagination'
 import IconButton from '@material-ui/core/IconButton'
-import Link from '@material-ui/core/Link'
+import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
@@ -201,8 +201,7 @@ const BrandNewQUestion = () => {
                     <TwitterIcon size={32} round={true} /> Share on Twitter</ColorButton>
                     <ColorButton onClick={() => redditNow(assignment)}> 
                     <RedditIcon size={32} round={true} /> Share on Reddit</ColorButton>
-                    <ColorButton size="large" variant="outlined" ><Link href="/Assignmentpage" >
-                    Statistics</Link></ColorButton>
+                    <ColorButton size="large" variant="outlined" ><Link to={`route/${assignment.assignmentID}`}>Statistics</Link></ColorButton>
                     </CardActions>
                 </Card>))}
             <Dialog open={AddOpen} onClose={handleAddCancel} aria-labelledby="form-dialog-title" maxWidth='xl'>
