@@ -224,28 +224,13 @@ const ViewAssignment = () => {
                     </form>
                 </DialogContent>
                 <DialogActions>
-                <Button onClick={handleAddCancel} color="primary">
-                              Cancel
-                            </Button>
-                    <Button onClick={handleAddOk} color="primary">
-                        Submit Assignment
-                            </Button>
-                    <Button onClick={() => {
-                        setQuestions(currQuestions => [
-                            ...currQuestions,
-                            {
-                                wrongOptions: [0,1,2],
-                                points: 0,
-                                questionID: 0,
-                                body: "",
-                                correctOption: ""
-                            }
-                        ])
-                    }}> Add New QUES </Button>
+
+
                     {questions.map((q, index) => {
                         return (
+                            
                             <div key={index}>
-
+                                <span>
                                 <TextField onChange = {(e)=>{
                                     const qid = e.target.value;
                                     setQuestions(currQid => 
@@ -319,11 +304,31 @@ const ViewAssignment = () => {
                                         );
                                 }}
                                 placeholder = "wrong3"/>
-
-                                
+                                </span>
+                                                           
                             </div>
+                            
                         )
                     })}
+                        <Button onClick={() => {
+                        setQuestions(currQuestions => [
+                            ...currQuestions,
+                            {
+                                wrongOptions: [0,1,2],
+                                points: 0,
+                                questionID: 0,
+                                body: "",
+                                correctOption: ""
+                            }
+                        ])
+                    }} color="primary"> Add more question </Button>
+                    <Button onClick={handleAddCancel} color="primary">
+                              Cancel
+                            </Button>
+                            <Button onClick={handleAddOk} color="primary">
+                                 Submit Assignment
+                            </Button> 
+                            
                 </DialogActions>
             </Dialog>
             <TablePagination
