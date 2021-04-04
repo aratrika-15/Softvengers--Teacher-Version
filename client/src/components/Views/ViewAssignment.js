@@ -159,6 +159,7 @@ const ViewAssignment = () => {
             inputState[0].questionIDs.push(i.questionID);
         })
         setInput(inputState);
+        assignments.push(inputState[0]);
         //TODO: Update DB question 
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer "+token);
@@ -175,7 +176,7 @@ const ViewAssignment = () => {
 
         fetch("http://localhost:5000/teacher/assignment/" + String(inputState[0].assignmentID), requestOptions)
             .then(response => response.text())
-            .then(result => console.log(result))
+            .then(result => {console.log(result);setQuestions([...assignments,inputState].sort((a, b) => a.assignmentID- b.assignmentID));})
             .catch(error => console.log('error', error));
 
         setUpdate(true);
