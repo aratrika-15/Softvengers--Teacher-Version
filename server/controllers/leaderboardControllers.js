@@ -13,7 +13,7 @@ const fullLeaderboard=async(req,res)=>{
                 let lead={
                     name:leader.firstName + ' ' + leader.lastName,
                     emailID:leader.emailID,
-                    totalScore:leader.totalScore,
+                    totalScore:leader.totalScore.toFixed(2),
                     tutGrp:leader.tutGrp
                 }
                     return lead; });
@@ -48,7 +48,7 @@ const tutLeaderboard=async(req,res)=>{
             let lead={
                 name:leader.firstName + ' ' + leader.lastName,
                 emailID:leader.emailID,
-                totalScore:leader.totalScore,
+                totalScore:leader.totalScore.toFixed(2),
                 tutGrp:tutGrp
             }
                 return lead; });
