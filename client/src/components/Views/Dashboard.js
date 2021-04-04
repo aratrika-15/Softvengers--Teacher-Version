@@ -162,7 +162,6 @@ console.log(bar2);
         >
           <ArgumentAxis />
           <ValueAxis max={7} />
-
           <BarSeries
             valueField="totalScore"
             argumentField="identifier"
@@ -171,6 +170,7 @@ console.log(bar2);
           <Animation />
         </Chart>
         </div>
+        
         <div className='bar2'>
         <Chart
           data={bar2}
@@ -187,6 +187,7 @@ console.log(bar2);
         </Chart>
       </div>
       <div className='pie'>
+        <h2 className="heading">Fractions of Easy/Medium/Hard Questions answered correctly </h2> 
         <PieChart 
             radius={PieChart.defaultProps.radius-10}
               viewBoxSize={[100,100]}
