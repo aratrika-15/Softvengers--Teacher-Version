@@ -19,6 +19,11 @@ const Navbar = () => {
                 </div>
                 <ul className={clicked ? 'nav-menu active' : 'nav-menu'}>
                     {MenuItems.map((item, index) => {
+                        //  console.log(item.title);
+                        // if(item.title==='Logout'){
+                        //  console.log('clearing sessions');
+                        //     sessionStorage.clear();
+                        // }
                         return (
                             <li key={index}>
                                 <a className={item.cName} href={item.url}>
