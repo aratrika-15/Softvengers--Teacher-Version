@@ -301,9 +301,9 @@ const groupAttemptedDifficulties=async(tutID)=>{
     // console.log(medium);
     // console.log(hard);
     const Avg = arr => arr.reduce((a,b) => a + b, 0) / arr.length;
-    const easyAvg=Avg(easy).toFixed(2);
-    const mediumAvg=Avg(medium).toFixed(2);
-    const hardAvg=Avg(hard).toFixed(2);
+    const easyAvg=Avg(easy).toFixed(3);
+    const mediumAvg=Avg(medium).toFixed(3);
+    const hardAvg=Avg(hard).toFixed(3);
     let averageAttemptedDifficulties=[];
     const easyData={ id: 'avgEasyCorrect', title: 'Easy',value: easyAvg,color: '#ff9800'};
     const hardData={ id: 'avgHardCorrect', title: 'Hard', value: hardAvg,color: '#4caf50'};
@@ -353,9 +353,9 @@ const attemptedDifficulties=async(emailID)=>{
         }
     }
     let attemptedDifficulties=[];
-    const easyData={ id: 'avgEasyCorrect', title: 'Easy',value: easy.toFixed(2),color: '#ff9800'}
-    const hardData={ id: 'avgHardCorrect', title: 'Hard', value: hard.toFixed(2),color: '#4caf50'};
-    const mediumData={ id: 'avgMediumCorrect', title: 'Medium',value: medium.toFixed(2),color: '#00acc1' };
+    const easyData={ id: 'avgEasyCorrect', title: 'Easy',value: easy.toFixed(3),color: '#ff9800'}
+    const hardData={ id: 'avgHardCorrect', title: 'Hard', value: hard.toFixed(3),color: '#4caf50'};
+    const mediumData={ id: 'avgMediumCorrect', title: 'Medium',value: medium.toFixed(3),color: '#00acc1' };
     attemptedDifficulties.push(easyData);
     attemptedDifficulties.push(hardData);
     attemptedDifficulties.push(mediumData);
