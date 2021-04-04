@@ -208,7 +208,7 @@ const ViewAssignment = () => {
                     <TwitterIcon size={32} round={true} /> Share on Twitter</ColorButton>
                     <ColorButton onClick={() => redditNow(assignment)}> 
                     <RedditIcon size={32} round={true} /> Share on Reddit</ColorButton>
-                    <ColorButton size="large" variant="outlined" ><Link to={`route/${assignment.assignmentID}`}>Statistics</Link></ColorButton>
+                    <ColorButton size="large" variant="outlined" ><Link style={{ textDecoration: 'none' }}to={`Assignmentpage/${assignment.assignmentID}`}>Statistics</Link></ColorButton>
                     </CardActions>
                 </Card>))}
             <Dialog open={AddOpen} onClose={handleAddCancel} aria-labelledby="form-dialog-title" maxWidth='xl'>

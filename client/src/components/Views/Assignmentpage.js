@@ -24,16 +24,19 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import IconButton from '@material-ui/core/IconButton';
 import Particles from 'react-particles-js';
 
-const ResponsiveHistogram = withParentSize(({ parentWidth, parentHeight, ...rest}) => (
 
-  <Histogram
-    width={parentWidth}
-    height={600}
-     {...rest}
-  />
-));
 
-const Assignmentpage = () => {
+const Assignmentpage = (props) => {
+  const ResponsiveHistogram = withParentSize(({ parentWidth, parentHeight, ...rest}) => (
+
+    <Histogram
+      width={parentWidth}
+      height={600}
+       {...rest}
+    />
+  ));
+  const {id} = props.match.params
+const assID = parseInt(id, 10)
   const token = sessionStorage.getItem('token');
   console.log("token = view()", token);
   const StyledTableCell = withStyles((theme) => ({
@@ -63,7 +66,7 @@ const Assignmentpage = () => {
       const fetchAssignmentDetails = async (id)=> {
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer "+token);
-        const res = await fetch(`http://localhost:5000/teacher/assignment/10259871`,{
+        const res = await fetch(`http://localhost:5000/teacher/assignment/${assID}`,{
           method: 'GET',
           headers: myHeaders,
           redirect: 'follow'

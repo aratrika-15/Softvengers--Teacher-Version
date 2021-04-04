@@ -34,7 +34,8 @@ const Routes = () => {
                 <Route exact path= "/hello" component = {hello}/>
                 <Route exact path="/Statistics" component={Dashboard} />
                 <Route exact path="/Assignments" component={ViewAssignment} />
-                <Route path="/Assignmentpage" component={Assignmentpage}/>
+                {/* <Route path="/Assignmentpage" component={Assignmentpage}/> */}
+                <Route path='/Assignmentpage/:id' exact component={Assignmentpage} />
                 <Route exact path="/QuestionBank" component={Questionbank}/>
                 <Route exact path="/Leaderboard" component={ViewLeaderboard}/>
                 <Route exact path="/CreateStudentAccount" component={CreateStudentAccount}/>
