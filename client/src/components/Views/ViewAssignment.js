@@ -224,24 +224,7 @@ const ViewAssignment = () => {
                     </form>
                 </DialogContent>
                 <DialogActions>
-                <Button onClick={handleAddCancel} color="primary">
-                              Cancel
-                            </Button>
-                    <Button onClick={handleAddOk} color="primary">
-                        Submit Assignment
-                            </Button>
-                    <Button onClick={() => {
-                        setQuestions(currQuestions => [
-                            ...currQuestions,
-                            {
-                                wrongOptions: [0,1,2],
-                                points: 0,
-                                questionID: 0,
-                                body: "",
-                                correctOption: ""
-                            }
-                        ])
-                    }}> Add New QUES </Button>
+                
                     {questions.map((q, index) => {
                         return (
                             <div key={index}>
@@ -324,6 +307,25 @@ const ViewAssignment = () => {
                             </div>
                         )
                     })}
+                    <Button onClick={() => {
+                        setQuestions(currQuestions => [
+                            ...currQuestions,
+                            {
+                                wrongOptions: [0,1,2],
+                                points: 0,
+                                questionID: 0,
+                                body: "",
+                                correctOption: ""
+                            }
+                        ])
+                    }} color = "primary"> Add more ques </Button>
+                    <Button onClick={handleAddCancel} color="primary">
+                              Cancel
+                            </Button>
+                    <Button onClick={handleAddOk} color="primary">
+                        Submit Assignment
+                            </Button>
+                    
                 </DialogActions>
             </Dialog>
             <TablePagination
