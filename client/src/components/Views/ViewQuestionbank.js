@@ -69,10 +69,10 @@ function createData(universe,solar, planet, questionID, question) {
         const [currentQID, setCurrentQID]=useState(-1);
         const getOptionFromIndex = (val) => {
           switch (val) {
-            case "0": return optionA;
-            case "1": return optionB;
-            case "2": return optionC;
-            case "3": return optionD;
+            case "0": console.log(optionA);return optionA;
+            case "1": console.log(optionB);return optionB;
+            case "2": console.log(optionC);return optionC;
+            case "3": console.log(optionD);return optionD;
           }
           return "";
         }

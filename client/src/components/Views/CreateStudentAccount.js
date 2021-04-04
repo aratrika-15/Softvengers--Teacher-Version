@@ -79,7 +79,7 @@ const CreateStudentAccount = ({rows}) => {
     }
     
     return (
-        <div className='container'>
+        <div className='createContainer'>
             <h3 >Create Student Account</h3>
         <form className = 'add-form' onSubmit ={onSubmit} >
             <div className = 'form-control'>

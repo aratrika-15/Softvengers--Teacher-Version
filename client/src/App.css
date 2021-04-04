@@ -29,7 +29,7 @@ body {
   height: 900px;
   overflow: hidden;
   position: relative;
-  left:400px;
+  left:300px;
   bottom: 300px;
 }
 .heading{
@@ -37,9 +37,10 @@ body {
   color: #4B0082;
   font-size: 72px;
   position: relative;
-  left: 650px;
+  left: 550px;
   bottom: 750px;
 }
+
 .container {
   background: rgb(196, 210, 244);
   max-width: 600px;
@@ -47,12 +48,23 @@ body {
   overflow: auto;
   min-height: 300px;
   position: relative;
-  bottom: 800px;
-  right: 80px;
-
+  /* right: 10px; */
+  bottom:800px;
   padding: 30px;
   border-radius: 10px;
 }
+
+.createContainer {
+  background: rgb(196, 210, 244);
+  max-width: 600px;
+  margin: 100px auto;
+  overflow: auto;
+  min-height: 300px;
+  right: 80px;
+  padding: 30px;
+  border-radius: 10px;
+}
+
 .bar1 {
   position: relative;
   right: 20rem;
@@ -60,11 +72,6 @@ body {
   border-radius: 10px;
   max-width: 600px;
   margin: 50px auto;
-}
-.heading{
-  margin-top:10px;
-  margin-left: 50px;
-  margin-bottom:0px;
 }
 .bar2 {
   position: relative;
@@ -106,7 +113,7 @@ body {
   max-width: 600px;
   text-align: center;
   align-items: center;
-  margin-left: 26rem;
+  margin-left: 29rem;
   font-family: "Poppins", sans-serif;
 }
 .piechart {
@@ -153,17 +160,17 @@ body {
   display: block;
   width: 100%;
   position: relative;
-  left: 160px;
+  left: 80px;
 }
 
 .field2{
   position: relative;
-  left: 160px;
+  left: 80px;
 }
 
 .field3{
   position: relative;
-  left: 165px;
+  left: 85px;
 }
 
 .button {
