@@ -15,11 +15,14 @@ import Particles from 'react-particles-js';
 import ViewAssignment from './components/Views/ViewAssignment';
 import useToken from'./variables/useToken';
 import hello from './components/Views/hello'
+import Logout from './components/Views/Logout'
+
 
 const Routes = () => {
     //console.log(props.token);
     const setToken = useToken().setToken;
     const token = useToken().token;
+    const [showNavbar, setShowNavbar] = useState(true);
     console.log("ROUTES"+token);
     return (
         
@@ -27,10 +30,9 @@ const Routes = () => {
         <div>
 
             
-            <Navbar token = {token}/>
+            {showNavbar? <Navbar token = {token}/> : <div/>}
 
             <Switch>
-
                 <Route exact path= "/hello" component = {hello}/>
                 <Route exact path="/Statistics" component={Dashboard} />
                 <Route exact path="/Assignments" component={ViewAssignment} />
@@ -39,8 +41,9 @@ const Routes = () => {
                 <Route exact path="/QuestionBank" component={Questionbank}/>
                 <Route exact path="/Leaderboard" component={ViewLeaderboard}/>
                 <Route exact path="/CreateStudentAccount" component={CreateStudentAccount}/>
+                {/* <Route exact path ="/Logout" component = {Logout}/> */}
             </Switch>
-            {/* <Route exact path="/Logout" component={LoginScreen} /> */}
+            <Route exact path="/Logout" component={() => <Logout setShowNavbar = {setShowNavbar}/>} />
             
             
             
