@@ -16,6 +16,8 @@ body {
   right: 0;
   bottom: 0;
   left: 0;
+  
+  
 }
 .container {
   background: rgb(196, 210, 244);
@@ -25,13 +27,13 @@ body {
   min-height: 300px;
 
   padding: 30px;
-  border-radius: 10px;
+  border-radius:10px;
 }
 .bar1 {
   position: relative;
   right: 20rem;
   border: 1px solid steelblue;
-  border-radius: 10px;
+  border-radius:10px;
   max-width: 600px;
   margin: 50px auto;
 }
@@ -40,7 +42,7 @@ body {
   bottom: 555px;
   left: 20rem;
   border: 1px solid steelblue;
-  border-radius: 10px;
+  border-radius:10px;
   max-width: 600px;
   margin: 50px auto;
 }
@@ -49,7 +51,7 @@ body {
   bottom: 550px;
   right: 20rem;
   border: 1px solid steelblue;
-  border-radius: 10px;
+  border-radius:10px;
   max-width: 600px;
   margin: 50px auto;
 }
@@ -58,19 +60,19 @@ body {
   bottom: 1100px;
   left: 20rem;
   border: 1px solid steelblue;
-  border-radius: 10px;
+  border-radius:10px;
   max-width: 600px;
   margin: 50px auto;
 }
 .paper {
   border: 1px solid steelblue;
-  border-radius: 10px;
+  border-radius:10px;
   max-width: 600px;
   margin: 50px auto;
 }
 .score {
   border: 1px solid steelblue;
-  border-radius: 10px;
+  border-radius:10px;
   justify-content: space-between;
   max-width: 600px;
   text-align: center;
@@ -78,10 +80,10 @@ body {
   margin-left: 26rem;
   font-family: "Poppins", sans-serif;
 }
-.piechart {
+.piechart{
   max-width: 10rem;
 }
-.graphs {
+.graphs{
   max-width: 100rem;
 }
 .header {
@@ -117,10 +119,9 @@ body {
   display: block;
   width: 100%;
 }
-.button {
+.button{
   max-width: 100px;
-}
-.form {
+}.form{
   margin: 20px 0;
 }
 .task {
@@ -218,10 +219,4 @@ body {
 footer {
   margin-top: 30px;
   text-align: center;
-}
-
-.center {
-  margin: auto;
-  width: 50%;
-  padding: 10px;
 }

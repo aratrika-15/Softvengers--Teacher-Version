@@ -136,7 +136,7 @@ const onSubmit2 = (e)=>{
   }
 console.log(bar2);
   return (
-    <div className = "center">
+    <div>
     <div className = 'form-control' >
       <input  type = 'submit' value = 'Statistics by Tutorial Group'className ='btn2 btn2-block' onClick={Form2}/>
       <input type = 'submit' value = 'Statistics of Individual Student' className ='btn2 btn2-block' onClick={Form}/>
