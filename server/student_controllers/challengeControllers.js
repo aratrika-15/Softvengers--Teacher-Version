@@ -122,7 +122,8 @@ const getReceivedChallenges = async (req, res) =>{
             $ne: -1
         }
     });
-    console.log(challenges[1].receivers);
+
+    console.log(challenges);
     const myDetails =await challengeSchema.find({
         'receivers.emailID': req.query.emailID,
         'receivers.attempted': {
