@@ -61,7 +61,11 @@ body {
   max-width: 600px;
   margin: 50px auto;
 }
-
+.heading{
+  margin-top:10px;
+  margin-left: 50px;
+  margin-bottom:0px;
+}
 .bar2 {
   position: relative;
   bottom: 555px;
@@ -78,7 +82,7 @@ body {
   border: 1px solid steelblue;
   border-radius: 10px;
   max-width: 600px;
-  margin: 50px auto;
+  margin: 10px auto;
 }
 .line {
   position: relative;
