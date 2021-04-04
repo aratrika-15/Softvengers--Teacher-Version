@@ -9,7 +9,6 @@ import TablePagination from '@material-ui/core/TablePagination'
 import TableRow from '@material-ui/core/TableRow'
 import {useState,useEffect} from 'react'
 import Tooltip from '@material-ui/core/Tooltip';
-import { DataGrid } from '@material-ui/data-grid';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import IconButton from '@material-ui/core/IconButton';
 import Particles from 'react-particles-js';
@@ -40,6 +39,7 @@ const ViewLeaderboard = () => {
         { id: 'totalScore', label: 'Total Score', minWidth: 100 },{ id: 'tutGrp', label: 'Tutorial Group', minWidth: 100 }
         ]
   const [rows, setData] = useState([])
+  const [tut, settut] = useState('')
 
   const fetchStudents = async (url)=> {
     var myHeaders = new Headers();
@@ -78,8 +78,9 @@ const ViewLeaderboard = () => {
   
   const filterByTutGrp=(e)=>{
     console.log(e);
+    
     const getStudents = async()=>{
-      const studentsFromServer = await fetchStudents('http://localhost:5000/teacher/leaderboard/SCE4')
+      const studentsFromServer = await fetchStudents(`http://localhost:5000/teacher/${tut}`)
       const allStudents = studentsFromServer.sort((a, b) => parseFloat(b.totalScore) - parseFloat(a.totalScore));
       setData(allStudents);
       
@@ -87,8 +88,12 @@ const ViewLeaderboard = () => {
   
   }
   getStudents();
+
   
 }
+const handleChange = async (e) => {
+  settut(e.target.value);
+};
   
     return (
         <div className ='table-container'>
@@ -100,8 +105,17 @@ const ViewLeaderboard = () => {
                     <TableHead>
                         <TableRow>{columns.map((column)=>{
                           const value = column.id === 'tutGrp' ? <>
-                          {column.label} <Tooltip title = 'Fiter By Tutorial Group'><IconButton onClick={filterByTutGrp}> <FilterListIcon/>
-                         </IconButton></Tooltip></>
+                          {column.label} <Tooltip title = 'Fiter By Tutorial Group'><IconButton onClick={filterByTutGrp}><FilterListIcon/>
+                         </IconButton></Tooltip><Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={tut}
+          onClick={handleChange}
+        >
+          <MenuItem value={'leaderboard'} >None</MenuItem>
+          <MenuItem value={'leaderboard/SCE4'} >SCE4</MenuItem>
+          <MenuItem value={'leaderboard/SCE5'}>SCE5</MenuItem>
+        </Select></>
                           : `${column.label}`;
                           return(<StyledTableCell key = {column.id} align ={column.align} style={{minWidth: column.minWidth}} >{value}</StyledTableCell>)})}
                       </TableRow>
@@ -111,10 +125,7 @@ const ViewLeaderboard = () => {
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                   {columns.map((column) => {
-
                     const value = column.id === 'rank' ? `Rank ${index + page * rowsPerPage + 1} ` :row[column.id] ;
-                    console.log(typeof value);
-                    console.log(value.length);
                     const rank1 = (value.length===7&&value[5] === '1')? `Rank 1 🥇` : value;
                     const rank2 = (value.length===7&&value[5] === '2')? `Rank 2 🥈` : rank1;
                     const rank3 = (value.length===7&&value[5] === '3')? `Rank 3 🥉` : rank2;
@@ -144,3 +155,4 @@ const ViewLeaderboard = () => {
 }
 
 export default ViewLeaderboard
+
