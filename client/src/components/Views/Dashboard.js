@@ -138,22 +138,22 @@ console.log(bar2);
   return (
     <div className = "center">
     <div className = 'form-control' >
-      <input  type = 'submit' value = 'Statistics by Tutorial Group'className ='btn2 btn2-block' onClick={Form2}/>
-      <input type = 'submit' value = 'Statistics of Individual Student' className ='btn2 btn2-block' onClick={Form}/>
+      <input  type = 'submit' value = 'Statistics by Tutorial Group'className ='btn2 btn2-block-stats' onClick={Form2}/>
+      <input type = 'submit' value = 'Statistics of Individual Student' className ='btn2 btn2-block-stats' onClick={Form}/>
       
       {showForm && (
         
         <form className = 'form' onSubmit={onSubmit}>
-          <label>Email Address:</label>
-                <input type='text' placeholder = 'Enter Ntu Email address' value={email}required onChange={(e)=> setemail(e.target.value)}/>         
-                <input type = 'submit' value = 'enter' className ='btn2 btn2-block' />
+          <label className = 'field3'>Email Address:</label>
+                <input type='text' placeholder = 'Enter Ntu Email address' className = 'field2' value={email}required onChange={(e)=> setemail(e.target.value)}/>         
+                <input type = 'submit' value = 'enter' className ='btn2 btn2-block-stats' />
         </form>)}
         {showForm2 && (
         
         <form className = 'form' onSubmit={onSubmit2}>
-          <label>Tutorial Group:</label>
-                <input type='text' placeholder = 'Enter Tutorial Group' value={tutGrp}required onChange={(e)=> settutGrp(e.target.value)}/>         
-                <input type = 'submit' value = 'Enter' className ='btn2 btn2-block' />
+          <label className = 'field3'>Tutorial Group:</label>
+                <input type='text' placeholder = 'Enter Tutorial Group' className = 'field2' value={tutGrp}required onChange={(e)=> settutGrp(e.target.value)}/>         
+                <input type = 'submit' value = 'Enter' className ='btn2 btn2-block-stats' />
         </form>)}
      </div>
      <div className="bar1">

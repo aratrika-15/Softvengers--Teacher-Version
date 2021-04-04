@@ -55,7 +55,10 @@ const handleSubmit = async e => {
   
 
     return(<div>
-        
+        <div className='logoParent'>
+        <img src={logo} className="logoChild"/>
+        <h1 className="heading" >Softvengers</h1>
+        </div>
         <div className='container'>
         <h1>Please Log In</h1>
         <form onSubmit={handleSubmit}>
@@ -79,8 +82,6 @@ const handleSubmit = async e => {
 
   }
 
-    
-  
   export default LoginScreen;
 
   LoginScreen.propTypes ={
