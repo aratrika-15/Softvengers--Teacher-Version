@@ -14,7 +14,7 @@ const AssignmentScore = schemas.AssignmentScore;
 const assignmentList=(req,res)=>{
     console.log(req.params);
     const tutGrp=req.params.tut_grp;
-    Assignment.find({ tutGrp: { $eq: tutGrp } } ).sort({assignmentID:1})
+    Assignment.find({ tutGrp:tutGrp} ).sort({assignmentID:1})
     .then((result)=>{
         console.log(result);
         if(result!=null)
@@ -73,6 +73,7 @@ const assignmentDetails=(req,res)=>{
                         attemptStatus: scoresResult[0].studentScoreDict[i].attemptStatus ===false? 'Not Attempted':'Attempted',
                     }
                     tempList.push(temp)
+                    tempList.sort((b,a) => a.scores - b.scores)
                 }
                 console.log(scores);
                 let assDetails={
