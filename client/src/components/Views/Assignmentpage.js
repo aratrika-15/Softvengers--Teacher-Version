@@ -113,8 +113,8 @@ const assID = parseInt(id, 10)
       </ResponsiveHistogram>
       </div>
         <div className="score">
-        <h5>Max Score : {details.maxScore} Min Score : {details.minScore} </h5>
-        <h5>Mean : {details.avgScore}</h5>
+        <h3>Max Score : {details.maxScore} Min Score : {details.minScore} </h3>
+        <h3>Mean : {details.avgScore}</h3>
         </div>
         <TableContainer className ='table-container'> 
         <Table stickyHeader aria-label="sticky table">

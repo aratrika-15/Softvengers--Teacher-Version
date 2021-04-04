@@ -71,7 +71,14 @@ body {
   margin: 50px auto;
 }
 .score {
+  border: 1px solid steelblue;
+  border-radius:10px;
+  justify-content: space-between;
+  max-width: 600px;
   text-align: center;
+  align-items: center;
+  margin-left: 26rem;
+  font-family: "Poppins", sans-serif;
 }
 .piechart{
   max-width: 10rem;

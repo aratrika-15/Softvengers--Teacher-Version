@@ -12,6 +12,7 @@ import Routes from '../../Routes';
 import {Link, Redirect} from 'react-router-dom'
 import PropTypes from 'prop-types';
 import {withRouter} from 'react-router'
+import Background from '../assets/imgs/3.jpg'
 
 
 // async function verify({Email, Password}){
@@ -124,9 +125,17 @@ const handleSubmit = async e => {
     window.location.reload();
     
   }
+  var sectionStyle = {
+    backgroundImage: `url(${Background})`,
+    backgroundPosition: 'center',
+  backgroundSize: 'cover',
+  backgroundRepeat: 'no-repeat'
+  };
 
     return(
-        <div className="login-wrapper">
+        
+        <div  style={sectionStyle}>
+            <div className='container'>
         <h1>Please Log In</h1>
         <form onSubmit={handleSubmit}>
             <label>
@@ -141,6 +150,7 @@ const handleSubmit = async e => {
             <button type="submit">Submit</button>
             </div>
         </form>
+        </div>
         </div>
     )
 
