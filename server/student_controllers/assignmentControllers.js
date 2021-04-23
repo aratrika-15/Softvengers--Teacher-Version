@@ -8,13 +8,7 @@ const AssignmentScore = schemas.AssignmentScore;
 
 //function to send back a list of assignments
 const getassignmentList=async (req,res)=>{
-    const assign = await AssignmentScore.find({
-        'studentScoreDict.matricNo': req.query.matricNo
-    })
-    let assignments = assign.map((res)=>{
-        return res.assignmentID
-    });
-    console.log(assignments);
+    
     const myDetails = await AssignmentScore.find({
         'studentScoreDict.matricNo': req.query.matricNo
     },
@@ -22,58 +16,41 @@ const getassignmentList=async (req,res)=>{
         'studentScoreDict.$':1,
         _id : 0
     });
-    console.log(assign);
-    //console.log(myDetails[2])//.studentScoreDict.scores);
 
-    const assigndetails = await Assignment.find({
-        'assignmentID':{
-            $in: assignments
-        }
-    });
-    let finalMessage = JSON.parse(JSON.stringify(assigndetails));
+    const merge = await Assignment.aggregate([
+        {
+            $lookup:
+            {
+                from: AssignmentScore.collection.name,
+                localField: "assignmentID",
+                foreignField: "assignmentID",
+                as: "fromScores"
+            }
+        },
+            {
+                $replaceRoot: { newRoot: { $mergeObjects: [ { $arrayElemAt: [ "$fromScores", 0 ] }, "$$ROOT" ] } }
+             },
+             { $project: { fromScores: 0 } },
+             { "$match": {'studentScoreDict.matricNo': req.query.matricNo}}
+            
+        
+    ])
+    console.log (merge);
+    //console.log(assigndetails);
+
+    let finalMessage = JSON.parse(JSON.stringify(merge));
     finalMessage.map((assign, row)=>{
-        console.log(myDetails[row].studentScoreDict[0].scores);
-        console.log(myDetails[row].studentScoreDict[0].attemptStatus);
+        //console.log(myDetails[row].studentScoreDict[0].scores);
+        //console.log(myDetails[row].studentScoreDict[0].attemptStatus);
         assign['myScore'] = myDetails[row].studentScoreDict[0].scores;
         assign['myStatus'] = myDetails[row].studentScoreDict[0].attemptStatus;
         delete assign['questionIDs'];
+        delete assign['studentScoreDict'];
         delete assign['__v'];
 
     })
-    console.log(finalMessage);
+    //console.log(finalMessage);
     res.status(200).send(finalMessage);
-//     Assignment.find({ tutGrp: req.query.tutGrp } ).sort({assignmentID:1})
-//     .then((result)=>{
-//         console.log(result);
-//         if(result!=null)
-//         { 
-//             let assignmentsList=result.map(assignment=>{ 
-//             let assignmentInfo={
-//                 assignmentID:assignment.assignmentID,
-//                 assignmentName:assignment.assignmentName,
-//                 timeLimit: assignment.timeLimit,
-//                 deadline:assignment.deadline,
-//             }
-//              return assignmentInfo; });
-//              if("[]"=== JSON.stringify(assignmentsList))
-//              {
-//                  res.status(400).send('There are currently no assignments in the database');
-//              }
-//              else{
-//         res.status(200).send(assignmentsList);
-//              }
-//         }
-//         else
-//         {  
-//             res.status(400).send('There are currently no assignments set by this teacher');
-//         }
-//     })
-//     .catch((err)=>{
-//         console.log(err);
-//         console.log('Hello');
-//         res.status(400).json(err);
-//     });
-
 }
 
 const getAssignmentQuestions = async (req,res) =>{

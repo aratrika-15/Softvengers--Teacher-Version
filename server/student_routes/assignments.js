@@ -9,7 +9,7 @@ const router=express.Router();
 
 //routing
 router.patch('/assignmentComplete',auth, assignmentControllers.assignmentComplete);
-router.get('/getassignmentList',auth, assignmentControllers.getassignmentList);
+router.get('/getassignmentList', assignmentControllers.getassignmentList);
 router.get('/getAssignmentQuestions',auth, assignmentControllers.getAssignmentQuestions);
 //exporting router
 module.exports=router;
