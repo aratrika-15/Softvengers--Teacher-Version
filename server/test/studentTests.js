@@ -369,4 +369,30 @@ describe('Student API',()=>{
 
 
     })
+
+    describe('JWT Authentication', ()=>{
+        it ("No header - Unauthorized", async()=>{
+
+            chai.request(server)
+                .get("/student/posts/getPosts")
+                .end((err, response)=>{
+                    response.should.have.status(401);
+                    response.text.should.be.eq('Unauthorized');
+                })
+
+        })
+
+        it ("Incorrect token", async()=>{
+
+            chai.request(server)
+                .get("/student/posts/getPosts")
+                .set("Authorization", "Bearer "+token+"f")
+                .end((err, response)=>{
+                    response.should.have.status(403);
+                    response.text.should.be.eq('Forbidden');
+                })
+
+        })
+
+    })
 })

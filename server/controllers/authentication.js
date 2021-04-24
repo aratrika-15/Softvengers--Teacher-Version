@@ -15,7 +15,7 @@ const authenticateJWT = (req, res, next) => {
         //console.log(token);
         jwt.verify(token, accessTokenSecret, (err, user) => {
             if (err) {
-                console.log(err);
+                //console.log(err);
                 return res.sendStatus(403);//forbidden access
             }
 

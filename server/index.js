@@ -31,14 +31,14 @@ const app= express();
 const dbConnection=process.env.DBURL;
 const port=process.env.PORT;
 mongoose.connect(dbConnection, {useNewUrlParser:true, useUnifiedTopology:true})
-// .then(result=>{
-//     //console.log(result);
+.then(result=>{
+    console.log(result);
 //     // var server = app.listen(port);
-//     // console.log('listening at port'+port);
-// })
+    console.log('listening at port'+port);
+})
 .catch(err=>console.log(err));
 var server = app.listen(port);
-console.log('listening at port'+port);
+//console.log('listening at port'+port);
 //identifies incoming request as a json object
 app.use(express.json());
 app.use(cors());
