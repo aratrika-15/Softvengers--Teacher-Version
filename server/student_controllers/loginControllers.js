@@ -14,7 +14,7 @@ const accessTokenSecret=process.env.TOKEN;
 //logic for teacher login
 const studentLogin=async(req,res)=>{
     try{
-        console.log('Student login in progress');
+        //console.log('Student login in progress');
         var emailId=req.body.emailID;
         const password = req.body.password;
         let [username, domain] = emailId.split("@");

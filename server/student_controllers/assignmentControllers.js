@@ -35,7 +35,7 @@ const getassignmentList=async (req,res)=>{
             
         
     ])
-    console.log (merge);
+    //console.log (merge);
     //console.log(assigndetails);
 
     let finalMessage = JSON.parse(JSON.stringify(merge));

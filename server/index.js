@@ -31,13 +31,14 @@ const app= express();
 const dbConnection=process.env.DBURL;
 const port=process.env.PORT;
 mongoose.connect(dbConnection, {useNewUrlParser:true, useUnifiedTopology:true})
-.then(result=>{
-    console.log(result);
-    app.listen(port);
-    console.log('listening at port'+port);
-})
+// .then(result=>{
+//     //console.log(result);
+//     // var server = app.listen(port);
+//     // console.log('listening at port'+port);
+// })
 .catch(err=>console.log(err));
-
+var server = app.listen(port);
+console.log('listening at port'+port);
 //identifies incoming request as a json object
 app.use(express.json());
 app.use(cors());
@@ -62,6 +63,8 @@ app.use('/teacher',loginRoutes);
 
 //handling 404
 app.use((req,res)=>{
-    console.log("User requested a resource which is unavailable");
+    //console.log("User requested a resource which is unavailable");
     res.status(404).send('Resource not found');
 });
+
+module.exports = server;

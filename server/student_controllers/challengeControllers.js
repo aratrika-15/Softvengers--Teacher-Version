@@ -6,6 +6,8 @@ const challengeSchema = schemas.Challenge;
 
 const studentTaker = schemas.student;
 
+const Student = require('../models/student');
+
 
 const createChallenge = async (req,res) =>{
     try{
@@ -154,7 +156,8 @@ const getReceivedChallenges = async (req, res) =>{
 }
 
 const getSentChallenges = async (req, res) =>{
-
+    
+    //console.log(req.query.emailID);
     const challenges = await challengeSchema.find({
         'sender.emailID': req.query.emailID
     }).sort({'sender.score':-1});
@@ -182,6 +185,7 @@ const getSentChallenges = async (req, res) =>{
     });
 
     res.status(200).send(finalMessages);
+
 };
 
 const getQuestions = async(req,res)=>{

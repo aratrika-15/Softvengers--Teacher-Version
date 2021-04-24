@@ -9,7 +9,7 @@ const auth=require('../controllers/authentication');
 const router=express.Router();
 
 //routing
-router.get('/', auth, questionControllers.questionList);
+router.get('/',auth, questionControllers.questionList);
 router.patch('/populate',auth,questionControllers.populate);
 router.get('/:q_id', auth, questionControllers.questionDetails);
 router.post('/:q_id', questionControllers.newQuestion);

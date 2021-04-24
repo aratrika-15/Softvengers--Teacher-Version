@@ -9,8 +9,8 @@ const auth=require('../controllers/authentication');
 const router=express.Router();
 
 //routing
-router.get('/group/:tut_id', auth, statsControllers.groupStats);
-router.get('/:student_id', auth, statsControllers.indivStats);
+router.get('/group/:tut_id',auth, statsControllers.groupStats);
+router.get('/:student_id',auth, statsControllers.indivStats);
 
 //exporting router
 module.exports=router;

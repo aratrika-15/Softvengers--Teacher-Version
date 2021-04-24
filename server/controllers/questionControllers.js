@@ -8,7 +8,7 @@ const PlanetQuestion=require('../models/planetQuestion');
 const questionList=(req,res)=>{
     PlanetQuestion.find().sort({questionID:1})
     .then((result)=>{
-        console.log(result);
+        //console.log(result);
         if(result!=null)
         {   console.log('Yay');
             let planetQuestions=result.map(planetQ=>{ 
